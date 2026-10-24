@@ -1,0 +1,8 @@
+roadmap.md
+.env
+.venv/
+__pycache__/
+index/
+eval/runs/
+.cache/
+*.log
