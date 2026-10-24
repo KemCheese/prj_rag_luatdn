@@ -1,0 +1,91 @@
+corpus_version: "2026-10-24"
+
+documents:
+  - doc_id: luat_dn_2020
+    ten_vb: "Luật Doanh nghiệp số 59/2020/QH14 (văn bản hợp nhất)"
+    ten_ngan: "Luật Doanh nghiệp"
+    so_hieu: "59/2020/QH14"
+    loai_vb: luat
+    vai_tro: chinh
+    hop_nhat: true
+    hop_nhat_den: ["03/2022/QH15", "76/2025/QH15"]
+    ngay_ban_hanh: "2020-06-17"
+    ngay_hieu_luc: "2021-01-01"
+    trang_thai: con_hieu_luc
+    so_dieu: 218
+    file: data/raw/luat_dn_2020_hn.pdf
+    sha256: ""
+    nguon_url: ""
+    ngay_tai: "2026-10-24"
+
+  - doc_id: nd_168_2025
+    ten_vb: "Nghị định 168/2025/NĐ-CP về đăng ký doanh nghiệp (văn bản hợp nhất)"
+    ten_ngan: "Nghị định 168/2025/NĐ-CP"
+    so_hieu: "168/2025/NĐ-CP"
+    loai_vb: nghi_dinh
+    vai_tro: chinh
+    hop_nhat: true
+    hop_nhat_den: ["296/2026/NĐ-CP"]
+    thay_the: ["01/2021/NĐ-CP"]
+    ngay_ban_hanh: "2025-06-30"
+    ngay_hieu_luc: "2025-07-01"
+    trang_thai: con_hieu_luc
+    so_dieu: 124
+    doi_tuong: [doanh_nghiep, ho_kinh_doanh]
+    file: data/raw/nd_168_2025_hn.pdf
+    sha256: ""
+    nguon_url: ""
+    ngay_tai: "2026-10-24"
+
+  - doc_id: nd_47_2021
+    ten_vb: "Nghị định 47/2021/NĐ-CP quy định chi tiết một số điều của Luật Doanh nghiệp (văn bản hợp nhất)"
+    ten_ngan: "Nghị định 47/2021/NĐ-CP"
+    so_hieu: "47/2021/NĐ-CP"
+    loai_vb: nghi_dinh
+    vai_tro: chinh
+    hop_nhat: true
+    hop_nhat_den: ["16/2023/NĐ-CP"]
+    ngay_ban_hanh: "2021-04-01"
+    ngay_hieu_luc: "2021-04-01"
+    trang_thai: con_hieu_luc
+    so_dieu: 35
+    file: data/raw/nd_47_2021_hn.pdf
+    sha256: ""
+    nguon_url: ""
+    ngay_tai: "2026-10-24"
+
+  - doc_id: nd_122_2021
+    ten_vb: "Nghị định 122/2021/NĐ-CP quy định về xử phạt vi phạm hành chính trong lĩnh vực kế hoạch và đầu tư (văn bản hợp nhất)"
+    ten_ngan: "Nghị định 122/2021/NĐ-CP"
+    so_hieu: "122/2021/NĐ-CP"
+    loai_vb: nghi_dinh
+    vai_tro: chinh
+    linh_vuc: xu_phat_vphc
+    hop_nhat: true
+    hop_nhat_den: ["288/2026/NĐ-CP"]
+    ngay_ban_hanh: "2021-12-28"
+    ngay_hieu_luc: "2022-01-01"
+    trang_thai: con_hieu_luc
+    so_dieu: 82
+    file: data/raw/nd_122_2021_hn.pdf
+    sha256: ""
+    nguon_url: ""
+    ngay_tai: "2026-10-24"
+
+  - doc_id: luat_76_2025
+    ten_vb: "Luật số 76/2025/QH15 sửa đổi, bổ sung một số điều của Luật Doanh nghiệp"
+    ten_ngan: "Luật số 76/2025/QH15"
+    so_hieu: "76/2025/QH15"
+    loai_vb: luat
+    vai_tro: sua_doi
+    sua_doi_cho: luat_dn_2020
+    ngay_ban_hanh: "2025-06-17"
+    ngay_hieu_luc: "2025-07-01"
+    trang_thai: con_hieu_luc
+    so_dieu: 3
+    parse:
+      track_quotes: true
+    file: data/raw/luat_76_2025.pdf
+    sha256: ""
+    nguon_url: ""
+    ngay_tai: "2026-10-24"
