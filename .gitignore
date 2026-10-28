@@ -1,8 +1,41 @@
-roadmap.md
+# Environment & Secrets (Không bao giờ commit API keys / thông tin nhạy cảm)
 .env
+.env.*
+!.env.example
+
+# Virtual Environment
 .venv/
+venv/
+env/
+ENV/
+
+# Python & Package Build Cache
 __pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+build/
+dist/
+.eggs/
+
+# Linter & Testing Caches
+.ruff_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Model Weights, Vector Index & Run Logs (Tự sinh bằng script, không đẩy lên Git)
 index/
 eval/runs/
 .cache/
 *.log
+
+# IDE & Hệ điều hành
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini
+.DS_Store
+
+
+

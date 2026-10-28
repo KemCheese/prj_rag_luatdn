@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ragdn"
+version = "0.1.0"
+description = "RAG Chatbot Luật Doanh nghiệp Việt Nam"
+requires-python = ">=3.11"
+dependencies = [
+    "torch",
+    "pymupdf",
+    "python-docx",
+    "sentence-transformers",
+    "rank_bm25",
+    "underthesea",
+    "fastapi",
+    "uvicorn[standard]",
+    "pydantic",
+    "pyyaml",
+    "numpy",
+    "python-dotenv",
+    "openai",
+    "slowapi"
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]

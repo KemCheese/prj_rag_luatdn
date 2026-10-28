@@ -1,0 +1,11 @@
+aliases:
+  - pattern: '\b(nghi dinh|nd)\s*(so\s*)?168\b'
+    doc_id: "nd_168_2025"
+  - pattern: '\b(nghi dinh|nd)\s*(so\s*)?47\b'
+    doc_id: "nd_47_2021"
+  - pattern: '\b(nghi dinh|nd)\s*(so\s*)?122\b'
+    doc_id: "nd_122_2021"
+  - pattern: '\bluat\s*(so\s*)?76\b'
+    doc_id: "luat_76_2025"
+  - pattern: '\bluat (doanh nghiep|dn)\b|\bluat\s*(so\s*)?59\b'
+    doc_id: "luat_dn_2020"
