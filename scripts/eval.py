@@ -1,6 +1,12 @@
 # scripts/eval.py
 import json
+import pathlib
+import sys
 from collections import defaultdict
+
+# Đảm bảo terminal Windows không bị lỗi font khi in ký tự tiếng Việt
+if sys.platform == "win32":
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 from ragdn.pipeline import RAG
 
@@ -31,14 +37,32 @@ def eval_retrieval(golden: list[dict], rag: RAG, k: int = 5):
         for b, a in agg.items()
     }
 
+
 if __name__ == "__main__":
-    import pathlib
-    golden_path = pathlib.Path("eval/golden_dev.jsonl")
+    golden_path = pathlib.Path("eval/golden_dev_test_retrieval.jsonl.jsonl")
+    output_path = pathlib.Path("eval/golden_check.jsonl")
+
     if not golden_path.exists():
-        print("Chưa có file eval/golden_dev.jsonl để đánh giá.")
+        print("Chưa có file eval/golden_dev_test_retrieval.jsonl.jsonl để đánh giá.")
     else:
         rag = RAG.load()
         with open(golden_path, encoding="utf-8") as f:
             golden = [json.loads(line) for line in f]
+
+        print(f"Đang chạy đánh giá {len(golden)} câu hỏi...")
         res = eval_retrieval(golden, rag)
-        print(json.dumps(res, indent=2, ensure_ascii=False))
+
+        tmp_output_path = output_path.with_suffix(".tmp")
+        with open(tmp_output_path, "w", encoding="utf-8") as f:
+            json.dump(res, f, indent=2, ensure_ascii=False)
+
+        tmp_output_path.replace(output_path)
+
+        print(f"\n[DONE] Đã lưu kết quả đánh giá vào: {output_path}")
+        if "ALL" in res:
+            all_m = res["ALL"]
+            print(
+                f"Tóm tắt (ALL): Hit@5 = {all_m['hit@5']:.2%} | "
+                f"Recall@5 = {all_m['recall@5']:.2%} | "
+                f"MRR@5 = {all_m['mrr@5']:.4f} (N={all_m['n']})"
+            )
