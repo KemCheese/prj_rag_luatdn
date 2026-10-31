@@ -15,7 +15,7 @@ LLM_TIMEOUT = float(os.getenv("LLM_TIMEOUT", "200"))
 LLM_MAX_RETRIES = int(os.getenv("LLM_MAX_RETRIES", "1"))
 LLM_TEMPERATURE = float(os.getenv("LLM_TEMPERATURE", "0.15"))
 LLM_TOP_P = float(os.getenv("LLM_TOP_P", "0.9"))
-LLM_MAX_TOKENS = int(os.getenv("LLM_MAX_TOKENS", "1536"))
+LLM_MAX_TOKENS = int(os.getenv("LLM_MAX_TOKENS", "2000"))
 LLM_SEED = os.getenv("LLM_SEED") 
 
 _client = OpenAI(
