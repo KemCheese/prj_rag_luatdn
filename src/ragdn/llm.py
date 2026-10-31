@@ -7,7 +7,7 @@ import httpx
 # Đảm bảo biến môi trường từ .env luôn được nạp trước khi khởi tạo client
 load_dotenv()
 
-LLM_TIMEOUT = float(os.getenv("LLM_TIMEOUT", "60.0"))
+LLM_TIMEOUT = float(os.getenv("LLM_TIMEOUT", "200.0"))
 
 _client = OpenAI(
     base_url=os.getenv("LLM_BASE_URL", "http://localhost:11434/v1"),

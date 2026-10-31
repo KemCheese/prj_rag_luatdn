@@ -10,6 +10,15 @@ RE_NOTE   = re.compile(
     r"\s+bởi\s+(?P<source>.+?\d+/\d{4}/(?:QH\d+|NĐ-CP|TT-[A-ZĐ]+))\s*$")
 RE_END    = re.compile(r"^(Nơi nhận:|TM\.\s*CHÍNH PHỦ|Luật này được Quốc hội|CHỦ TỊCH QUỐC HỘI)")
 
+_SUFFIX_ORDER = "aăâbcdđeêfghijklmnoôơpqrstuưvwxyz"
+
+
+def _order_key(num: str | int, suffix: str = "") -> tuple[int, int]:
+    if not suffix:
+        return (int(num), 0)
+    idx = _SUFFIX_ORDER.find(suffix.lower())
+    return (int(num), idx + 1 if idx != -1 else 999)
+
 
 def read_pdf(path):
     lines = []
@@ -24,7 +33,7 @@ def read_pdf(path):
 
 
 def parse(lines, doc_id, track_quotes=False):
-    articles, cur, chuong, last_dieu, depth = [], None, None, 0, 0
+    articles, cur, chuong, last_dieu, depth = [], None, None, (0, 0), 0
     for t, p in lines:
         in_quote = track_quotes and (depth > 0 or t.startswith("“"))
         depth = max(0, depth + t.count("“") - t.count("”"))
@@ -40,8 +49,8 @@ def parse(lines, doc_id, track_quotes=False):
             chuong = m.group(1)
             continue
         m = None if in_quote else RE_DIEU.match(t)
-        if m and int(m.group(1)) > last_dieu:    
-            last_dieu = int(m.group(1))
+        if m and (dieu_k := _order_key(m.group(1), m.group(2))) > last_dieu:
+            last_dieu = dieu_k
             cur = {"doc_id": doc_id, "dieu": m.group(1) + m.group(2),
                    "tieu_de": (m.group(3) or "").rstrip("."), "chuong": chuong,
                    "page": p, "intro": [], "khoans": [], "notes": []}
@@ -50,8 +59,12 @@ def parse(lines, doc_id, track_quotes=False):
         if cur is None:
             continue                               
         m = None if in_quote else RE_KHOAN.match(t)
-        last_k = int(re.match(r"\d+", cur["khoans"][-1]["k"]).group()) if cur["khoans"] else 0
-        if m and last_k <= int(m.group(1)) <= last_k + 3 and not (int(m.group(1)) == last_k and not m.group(2)):
+        if cur["khoans"]:
+            km = re.match(r"^(\d+)([a-zđ]?)$", cur["khoans"][-1]["k"])
+            last_k, last_k_key = int(km.group(1)), _order_key(km.group(1), km.group(2))
+        else:
+            last_k, last_k_key = 0, (0, 0)
+        if m and last_k <= int(m.group(1)) <= last_k + 3 and _order_key(m.group(1), m.group(2)) > last_k_key:
             cur["khoans"].append({"k": m.group(1) + m.group(2), "lines": [t], "notes": []})
         elif cur["khoans"]:
             cur["khoans"][-1]["lines"].append(t)   

@@ -3,6 +3,8 @@ import collections
 import re
 
 RE_REF = re.compile(r"Điều\s+(\d+[a-zđ]?)\b")
+RE_SWALLOWED_DIEU = re.compile(r"(?<!“)\bĐiều\s+(\d+[a-zđ]?)\s*[.:]\s+[A-ZĐÀ-Ỹ]")
+_LEGAL_SUFFIXES = tuple("abcdđeghiklmnopqrstuvxy")
 
 
 def is_repealed(notes):
@@ -46,17 +48,37 @@ def chunk(articles, meta, max_chars=1800):
 
 def check_corpus(chunks, manifest_docs):
     """Trả về danh sách lỗi; rỗng mới được build index."""
-    errors, by_doc = [], collections.defaultdict(set)
+    errors, by_doc, dieus_by_doc = [], collections.defaultdict(set), collections.defaultdict(set)
     for c in chunks:
         by_doc[c["doc_id"]].add(int(re.match(r"\d+", c["dieu"]).group()))
+        dieus_by_doc[c["doc_id"]].add(c["dieu"])
+        body = c["text"].split("\n", 1)[1] if "\n" in c["text"] else ""
+        for m in RE_SWALLOWED_DIEU.finditer(body):
+            if m.group(1) != c["dieu"]:
+                errors.append(f"{c['chunk_id']}: phát hiện Điều {m.group(1)} bị gộp nhầm vào nội dung")
     for d in manifest_docs:
-        nums = by_doc.get(d["doc_id"], set())
+        doc_id = d["doc_id"]
+        nums = by_doc.get(doc_id, set())
+        dieus = dieus_by_doc.get(doc_id, set())
         if not nums:
-            errors.append(f"{d['doc_id']}: không có chunk nào"); continue
+            errors.append(f"{doc_id}: không có chunk nào"); continue
         if miss := [n for n in range(1, max(nums) + 1) if n not in nums]:
-            errors.append(f"{d['doc_id']}: thiếu Điều {miss}")
+            errors.append(f"{doc_id}: thiếu Điều {miss}")
         if d.get("so_dieu") and max(nums) != d["so_dieu"]:
-            errors.append(f"{d['doc_id']}: Điều cuối {max(nums)} ≠ so_dieu {d['so_dieu']}")
+            errors.append(f"{doc_id}: Điều cuối {max(nums)} ≠ so_dieu {d['so_dieu']}")
+        for dieu in sorted(dieus):
+            m = re.match(r"^(\d+)([a-zđ]+)$", dieu)
+            if not m:
+                continue
+            base, suf = m.group(1), m.group(2)
+            if base not in dieus:
+                errors.append(f"{doc_id}: có Điều {dieu} nhưng thiếu Điều gốc {base}")
+            if suf not in _LEGAL_SUFFIXES:
+                errors.append(f"{doc_id}: Điều {dieu} có hậu tố không hợp lệ '{suf}'")
+            elif _LEGAL_SUFFIXES.index(suf) > 0:
+                prev_dieu = base + _LEGAL_SUFFIXES[_LEGAL_SUFFIXES.index(suf) - 1]
+                if prev_dieu not in dieus:
+                    errors.append(f"{doc_id}: có Điều {dieu} nhưng thiếu Điều {prev_dieu}")
     ids = [c["chunk_id"] for c in chunks]
     if dup := [i for i, n in collections.Counter(ids).items() if n > 1]:
         errors.append(f"chunk_id trùng: {dup[:5]}")

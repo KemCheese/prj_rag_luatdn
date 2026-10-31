@@ -10,7 +10,7 @@ from sentence_transformers import CrossEncoder, SentenceTransformer
 from ragdn.config import ALIASES_PATH, GLOSSARY_PATH
 from ragdn.index import strip_accents, tok, tok_noacc
 
-RE_Q_DIEU = re.compile(r"\bdieu\s+(\d+[a-z]?)\b")
+RE_Q_DIEU = re.compile(r"\b(?:điều|dieu)\s+(\d+(?:[a-zđ]|dd)?)\b")
 
 class Retriever:
     def __init__(
@@ -56,12 +56,17 @@ class Retriever:
 
     def article_lookup(self, q: str):
         qa = strip_accents(q).lower()
-        m = RE_Q_DIEU.search(qa)
+        m = RE_Q_DIEU.search(q.lower())
         if not m:
             return [], None
+        target = m.group(1).replace("dd", "đ")
         doc = next((d for pat, d in self.doc_aliases if re.search(pat, qa)), None)
         hits = [i for (d, dieu), idx in self.by_article.items()
-                if dieu == m.group(1) and (doc is None or d == doc) for i in idx]
+                if dieu == target and (doc is None or d == doc) for i in idx]
+        if not hits:
+            target_na = strip_accents(target)
+            hits = [i for (d, dieu), idx in self.by_article.items()
+                    if strip_accents(dieu) == target_na and (doc is None or d == doc) for i in idx]
         ambiguous = doc is None and len({self.chunks[i]["doc_id"] for i in hits}) > 1
         return hits, ("ambiguous" if ambiguous else None)
 
