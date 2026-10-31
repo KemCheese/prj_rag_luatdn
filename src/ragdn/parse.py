@@ -1,7 +1,19 @@
 import re, unicodedata
 import pymupdf
 
-RE_CHUONG = re.compile(r"^Chương\s+([IVXLCDM]+)\b")
+_ROMAN_VALS = {"I": 1, "V": 5, "X": 10, "L": 50, "C": 100, "D": 500, "M": 1000}
+
+
+def _roman_to_int(s: str) -> int:
+    res, prev = 0, 0
+    for c in reversed(s.upper()):
+        val = _ROMAN_VALS.get(c, 0)
+        res += val if val >= prev else -val
+        prev = val
+    return res
+
+
+RE_CHUONG = re.compile(r"^Chương\s+([IVXLCDM]+)(?:\s+(.*))?$", re.IGNORECASE)
 RE_DIEU   = re.compile(r"^Điều\s+(\d+)([a-zđ]?)\s*[.,:](?:\s+(?=[A-ZĐÀ-Ỹ])(.*))?$")
 RE_KHOAN  = re.compile(r"^(\d+)([a-zđ]?)\.\s+\S")
 RE_NOTE   = re.compile(
@@ -33,7 +45,7 @@ def read_pdf(path):
 
 
 def parse(lines, doc_id, track_quotes=False):
-    articles, cur, chuong, last_dieu, depth = [], None, None, (0, 0), 0
+    articles, cur, chuong, last_dieu, depth, last_chuong_val = [], None, None, (0, 0), 0, 0
     for t, p in lines:
         in_quote = track_quotes and (depth > 0 or t.startswith("“"))
         depth = max(0, depth + t.count("“") - t.count("”"))
@@ -46,8 +58,13 @@ def parse(lines, doc_id, track_quotes=False):
                     tgt["notes"].append(m.groupdict())
             continue
         if m := RE_CHUONG.match(t):
-            chuong = m.group(1)
-            continue
+            ch_str = m.group(1).upper()
+            val = _roman_to_int(ch_str)
+            rest = (m.group(2) or "").strip()
+            if not any(c.islower() for c in rest) and val >= last_chuong_val:
+                chuong = ch_str
+                last_chuong_val = val
+                continue
         m = None if in_quote else RE_DIEU.match(t)
         if m and (dieu_k := _order_key(m.group(1), m.group(2))) > last_dieu:
             last_dieu = dieu_k
