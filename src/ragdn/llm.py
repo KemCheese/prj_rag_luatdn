@@ -16,7 +16,7 @@ _client = OpenAI(
 def call_llm(system: str, user: str, model: str | None = None) -> str:
     r = _client.chat.completions.create(
         model=model or os.environ.get("LLM_MODEL", "qwen2.5:3b"),
-        temperature=0,
+        temperature=0.3,
         max_tokens=1024,
         messages=[
             {"role": "system", "content": system},

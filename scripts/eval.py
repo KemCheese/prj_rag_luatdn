@@ -39,11 +39,11 @@ def eval_retrieval(golden: list[dict], rag: RAG, k: int = 5):
 
 
 if __name__ == "__main__":
-    golden_path = pathlib.Path("eval/golden_dev_test_retrieval.jsonl.jsonl")
+    golden_path = pathlib.Path("eval/golden_dev_test_retrieval.jsonl")
     output_path = pathlib.Path("eval/golden_check.jsonl")
 
     if not golden_path.exists():
-        print("Chưa có file eval/golden_dev_test_retrieval.jsonl.jsonl để đánh giá.")
+        print("Chưa có file eval/golden_dev_test_retrieval.jsonl để đánh giá.")
     else:
         rag = RAG.load()
         with open(golden_path, encoding="utf-8") as f:

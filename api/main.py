@@ -11,6 +11,7 @@ from slowapi.util import get_remote_address
 
 from ragdn.pipeline import RAG  # load chunks, index, embedder, reranker, manifest
 
+from openai import APITimeoutError, APIConnectionError
 limiter = Limiter(key_func=get_remote_address)
 
 @asynccontextmanager
@@ -40,8 +41,10 @@ def documents(request: Request):        # danh sách văn bản đã nạp cho U
 def chat(request: Request, q: Q):
     try:
         r = request.app.state.rag.answer(q.question)
-    except TimeoutError:
+    except (TimeoutError, APITimeoutError):
         raise HTTPException(503, "Dịch vụ LLM quá thời gian, vui lòng thử lại.")
+    except APIConnectionError:
+        raise HTTPException(503, "Không thể kết nối tới dịch vụ LLM, vui lòng kiểm tra lại.")
     return {
         "answer": r["answer"], "refused": r["refused"], "disclaimer": r.get("disclaimer"),
         "sources": [{"chunk_id": c["chunk_id"], "ten_vb": c["ten_vb"], "dieu": c["dieu"],
