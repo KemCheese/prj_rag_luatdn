@@ -14,6 +14,7 @@ def _roman_to_int(s: str) -> int:
 
 
 RE_CHUONG = re.compile(r"^Chương\s+([IVXLCDM]+)(?:\s+(.*))?$", re.IGNORECASE)
+RE_MUC    = re.compile(r"^Mục\s+(\d+)(?:\s+(.*))?$", re.IGNORECASE)
 RE_DIEU   = re.compile(r"^Điều\s+(\d+)([a-zđ]?)\s*[.,:](?:\s+(?=[A-ZĐÀ-Ỹ])(.*))?$")
 RE_KHOAN  = re.compile(r"^(\d+)([a-zđ]?)\.\s+\S")
 RE_NOTE   = re.compile(
@@ -23,6 +24,11 @@ RE_NOTE   = re.compile(
 RE_END    = re.compile(r"^(Nơi nhận:|TM\.\s*CHÍNH PHỦ|Luật này được Quốc hội|CHỦ TỊCH QUỐC HỘI)")
 
 _SUFFIX_ORDER = "aăâbcdđeêfghijklmnoôơpqrstuưvwxyz"
+
+
+def _is_heading_tail(rest: str) -> bool:
+    """Phần đứng sau 'Chương X' hoặc 'Mục n' của một đề mục thật: rỗng hoặc không có chữ thường."""
+    return not any(c.islower() for c in rest)
 
 
 def _order_key(num: str | int, suffix: str = "") -> tuple[int, int]:
@@ -45,10 +51,11 @@ def read_pdf(path):
 
 
 def parse(lines, doc_id, track_quotes=False):
-    articles, cur, chuong, last_dieu, depth, last_chuong_val = [], None, None, (0, 0), 0, 0
+    articles, cur, chuong, muc = [], None, None, None
+    last_dieu, depth, last_chuong_val, last_muc_val = (0, 0), 0, 0, 0
     for t, p in lines:
-        in_quote = track_quotes and (depth > 0 or t.startswith("“"))
-        depth = max(0, depth + t.count("“") - t.count("”"))
+        in_quote = track_quotes and (depth > 0 or t.startswith("\u201c"))
+        depth = max(0, depth + t.count("\u201c") - t.count("\u201d"))
         if RE_END.match(t):
             break
         if m := RE_NOTE.match(t):                
@@ -57,19 +64,27 @@ def parse(lines, doc_id, track_quotes=False):
                 if m.groupdict() not in tgt["notes"]:
                     tgt["notes"].append(m.groupdict())
             continue
-        if m := RE_CHUONG.match(t):
+        if not in_quote and (m := RE_CHUONG.match(t)):
             ch_str = m.group(1).upper()
             val = _roman_to_int(ch_str)
             rest = (m.group(2) or "").strip()
-            if not any(c.islower() for c in rest) and val >= last_chuong_val:
+            if _is_heading_tail(rest) and val >= last_chuong_val:
                 chuong = ch_str
                 last_chuong_val = val
+                muc, last_muc_val = None, 0   # Mục đánh số lại từ đầu trong mỗi Chương
+                continue
+        if not in_quote and (m := RE_MUC.match(t)):
+            val = int(m.group(1))
+            rest = (m.group(2) or "").strip()
+            if _is_heading_tail(rest) and val > last_muc_val:
+                muc, last_muc_val = m.group(1), val
                 continue
         m = None if in_quote else RE_DIEU.match(t)
         if m and (dieu_k := _order_key(m.group(1), m.group(2))) > last_dieu:
             last_dieu = dieu_k
             cur = {"doc_id": doc_id, "dieu": m.group(1) + m.group(2),
                    "tieu_de": (m.group(3) or "").rstrip("."), "chuong": chuong,
+                   "muc": muc,
                    "page": p, "intro": [], "khoans": [], "notes": []}
             articles.append(cur)
             continue
