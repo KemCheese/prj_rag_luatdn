@@ -209,7 +209,8 @@ def test_existing_corpus_integrity_unchanged():
     manifest = load_manifest(MANIFEST_PATH)
     with open(CHUNKS_PATH, encoding="utf-8") as f:
         chunks = [json.loads(line) for line in f]
-    errors = check_corpus(chunks, [d.model_dump() for d in manifest.documents])
+    # Corpus lưu trên đĩa được tạo trước khi có metadata Chương/Mục của T2.
+    errors = check_corpus(chunks, [d.model_dump(exclude={"cau_truc"}) for d in manifest.documents])
     assert errors == []
 
     meta = json.loads(META_PATH.read_text(encoding="utf-8"))

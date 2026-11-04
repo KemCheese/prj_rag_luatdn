@@ -12,10 +12,16 @@ def is_repealed(notes):
 
 
 def chunk(articles, meta, max_chars=1800):
+    lh_by_section = {
+        (section["chuong"], section.get("muc")): section.get("loai_hinh")
+        for section in meta.get("cau_truc", [])
+    }
     chunks = []
     for a in articles:
         a_repealed = is_repealed(a["notes"]) or bool(a["khoans"]) and all(is_repealed(k["notes"]) for k in a["khoans"])
-        header = f"{meta['ten_ngan']} | Chương {a['chuong'] or '-'} | Điều {a['dieu']}. {a['tieu_de']}"
+        chuong, muc = a["chuong"], a.get("muc")
+        muc_part = f" | Mục {muc}" if muc else ""
+        header = f"{meta['ten_ngan']} | Chương {chuong or '-'}{muc_part} | Điều {a['dieu']}. {a['tieu_de']}"
         pieces = [(None, " ".join(a["intro"]), [])] if a["intro"] else []
         for k in a["khoans"]:
             txt = " ".join(k["lines"])
@@ -35,7 +41,8 @@ def chunk(articles, meta, max_chars=1800):
             chunks.append({
                 "chunk_id": f"{meta['doc_id']}:d{a['dieu']}:p{part}",
                 "doc_id": meta["doc_id"], "ten_vb": meta["ten_ngan"], "vai_tro": meta["vai_tro"],
-                "dieu": a["dieu"], "tieu_de": a["tieu_de"], "chuong": a["chuong"],
+                "dieu": a["dieu"], "tieu_de": a["tieu_de"], "chuong": chuong, "muc": muc,
+                "loai_hinh": lh_by_section.get((chuong, muc)),
                 "khoan": [k for k, _, _ in g if k], "page": a["page"],
                 "hieu_luc": not a_repealed,
                 "sua_doi": list(dict.fromkeys(f"{n['target']} {n['verb']} bởi {n['source']}" for n in notes)),
@@ -46,12 +53,28 @@ def chunk(articles, meta, max_chars=1800):
     return chunks
 
 
+def _section_of(dieu: int, cau_truc: list[dict]) -> dict | None:
+    return next((section for section in cau_truc if section["dieu"][0] <= dieu <= section["dieu"][1]), None)
+
+
 def check_corpus(chunks, manifest_docs):
     """Trả về danh sách lỗi; rỗng mới được build index."""
     errors, by_doc, dieus_by_doc = [], collections.defaultdict(set), collections.defaultdict(set)
+    structures = {d["doc_id"]: d["cau_truc"] for d in manifest_docs if d.get("cau_truc")}
     for c in chunks:
-        by_doc[c["doc_id"]].add(int(re.match(r"\d+", c["dieu"]).group()))
-        dieus_by_doc[c["doc_id"]].add(c["dieu"])
+        doc_id, dieu = c["doc_id"], c["dieu"]
+        dieu_num = int(re.match(r"\d+", dieu).group())
+        by_doc[doc_id].add(dieu_num)
+        dieus_by_doc[doc_id].add(dieu)
+        if cau_truc := structures.get(doc_id):
+            section = _section_of(dieu_num, cau_truc)
+            if section is None:
+                errors.append(f"{c['chunk_id']}: Điều {dieu} nằm ngoài cau_truc")
+            elif (c.get("chuong"), c.get("muc")) != (section["chuong"], section.get("muc")):
+                errors.append(
+                    f"{c['chunk_id']}: parse ra Chương {c.get('chuong')}/Mục {c.get('muc')}, "
+                    f"manifest khai báo Chương {section['chuong']}/Mục {section.get('muc')}"
+                )
         body = c["text"].split("\n", 1)[1] if "\n" in c["text"] else ""
         for m in RE_SWALLOWED_DIEU.finditer(body):
             if m.group(1) != c["dieu"]:

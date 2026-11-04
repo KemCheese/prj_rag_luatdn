@@ -13,6 +13,19 @@ documents:
     ngay_hieu_luc: "2021-01-01"
     trang_thai: con_hieu_luc
     so_dieu: 218
+    # Cấu trúc kỳ vọng để gán loại hình và đối chiếu kết quả parse.
+    cau_truc:
+      - {chuong: "I", dieu: [1, 16]}
+      - {chuong: "II", dieu: [17, 45]}
+      - {chuong: "III", muc: "1", dieu: [46, 73], loai_hinh: tnhh_2tv}
+      - {chuong: "III", muc: "2", dieu: [74, 87], loai_hinh: tnhh_mtv}
+      - {chuong: "IV", dieu: [88, 110], loai_hinh: dnnn}
+      - {chuong: "V", dieu: [111, 176], loai_hinh: ctcp}
+      - {chuong: "VI", dieu: [177, 187], loai_hinh: hop_danh}
+      - {chuong: "VII", dieu: [188, 193], loai_hinh: dntn}
+      - {chuong: "VIII", dieu: [194, 197], loai_hinh: nhom_cty}
+      - {chuong: "IX", dieu: [198, 214]}
+      - {chuong: "X", dieu: [215, 218]}
     file: data/raw/luat_dn_2020_hn.pdf
     sha256: ""
     nguon_url: ""
