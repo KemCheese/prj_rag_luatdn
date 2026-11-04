@@ -2,6 +2,8 @@
 import collections
 import re
 
+from ragdn.loai_hinh import LABELS
+
 RE_REF = re.compile(r"Điều\s+(\d+[a-zđ]?)\b")
 RE_SWALLOWED_DIEU = re.compile(r"(?<!“)\bĐiều\s+(\d+[a-zđ]?)\s*[.:]\s+[A-ZĐÀ-Ỹ]")
 _LEGAL_SUFFIXES = tuple("abcdđeghiklmnopqrstuvxy")
@@ -20,8 +22,13 @@ def chunk(articles, meta, max_chars=1800):
     for a in articles:
         a_repealed = is_repealed(a["notes"]) or bool(a["khoans"]) and all(is_repealed(k["notes"]) for k in a["khoans"])
         chuong, muc = a["chuong"], a.get("muc")
+        loai_hinh = lh_by_section.get((chuong, muc))
         muc_part = f" | Mục {muc}" if muc else ""
-        header = f"{meta['ten_ngan']} | Chương {chuong or '-'}{muc_part} | Điều {a['dieu']}. {a['tieu_de']}"
+        label = f" ({LABELS[loai_hinh]})" if loai_hinh is not None else ""
+        header = (
+            f"{meta['ten_ngan']} | Chương {chuong or '-'}{muc_part}{label}"
+            f" | Điều {a['dieu']}. {a['tieu_de']}"
+        )
         pieces = [(None, " ".join(a["intro"]), [])] if a["intro"] else []
         for k in a["khoans"]:
             txt = " ".join(k["lines"])
@@ -42,7 +49,7 @@ def chunk(articles, meta, max_chars=1800):
                 "chunk_id": f"{meta['doc_id']}:d{a['dieu']}:p{part}",
                 "doc_id": meta["doc_id"], "ten_vb": meta["ten_ngan"], "vai_tro": meta["vai_tro"],
                 "dieu": a["dieu"], "tieu_de": a["tieu_de"], "chuong": chuong, "muc": muc,
-                "loai_hinh": lh_by_section.get((chuong, muc)),
+                "loai_hinh": loai_hinh,
                 "khoan": [k for k, _, _ in g if k], "page": a["page"],
                 "hieu_luc": not a_repealed,
                 "sua_doi": list(dict.fromkeys(f"{n['target']} {n['verb']} bởi {n['source']}" for n in notes)),

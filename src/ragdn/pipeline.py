@@ -1,5 +1,4 @@
 # src/ragdn/pipeline.py
-import hashlib
 import json
 
 import numpy as np
@@ -14,7 +13,7 @@ from ragdn.config import (
     MODEL_RERANKER,
 )
 from ragdn.generate import generate_answer
-from ragdn.index import build_bm25_indices
+from ragdn.index import build_bm25_indices, chunks_sha256
 from ragdn.manifest import load_manifest
 from ragdn.retrieval import Retriever
 
@@ -39,13 +38,24 @@ class RAG:
         # 3. Load embeddings & meta
         if not EMB_PATH.exists() or not META_PATH.exists():
             raise FileNotFoundError("Chưa tìm thấy index vector. Hãy chạy scripts/build_index.py trước.")
-        emb = np.load(EMB_PATH)
         meta = json.loads(META_PATH.read_text(encoding="utf-8"))
 
-        ids = [c["chunk_id"] for c in chunks]
-        cur_hash = hashlib.sha256("\n".join(ids).encode()).hexdigest()
-        assert meta["n"] == len(chunks), f"Số chunk ({len(chunks)}) khác số vector ({meta['n']})"
-        assert meta["ids_sha256"] == cur_hash, "Dữ liệu chunk đã thay đổi, cần chạy lại scripts/build_index.py"
+        content_hash = meta.get("content_sha256")
+        if content_hash is None:
+            raise ValueError("Index dùng định dạng cũ, cần chạy lại scripts/build_index.py.")
+        if meta["n"] != len(chunks):
+            raise ValueError(
+                f"Số chunk ({len(chunks)}) khác số vector trong metadata ({meta['n']}), "
+                "cần chạy lại scripts/build_index.py."
+            )
+        if content_hash != chunks_sha256(chunks):
+            raise ValueError("Dữ liệu chunk đã thay đổi, cần chạy lại scripts/build_index.py.")
+        emb = np.load(EMB_PATH)
+        if emb.shape[0] != len(chunks):
+            raise ValueError(
+                f"Số chunk ({len(chunks)}) khác số vector ({emb.shape[0]}), "
+                "cần chạy lại scripts/build_index.py."
+            )
 
         # 4. Load Models
         embedder = SentenceTransformer(MODEL_EMBEDDING)

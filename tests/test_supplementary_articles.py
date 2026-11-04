@@ -4,10 +4,12 @@ import json
 from types import SimpleNamespace
 
 import numpy as np
+import pytest
 
+import ragdn.pipeline as pipeline
 from ragdn.chunk import check_corpus, chunk
 from ragdn.config import CHUNKS_PATH, MANIFEST_PATH, META_PATH
-from ragdn.index import build_bm25_indices
+from ragdn.index import build_bm25_indices, chunks_sha256
 from ragdn.manifest import load_manifest
 from ragdn.parse import parse
 from ragdn.retrieval import Retriever
@@ -205,19 +207,76 @@ def test_article_lookup_supplementary_including_dd():
 
 
 def test_existing_corpus_integrity_unchanged():
-    """Đảm bảo kho dữ liệu thật hiện tại (676 chunks) đạt chuẩn check_corpus và giữ nguyên SHA-256."""
+    """Kiểm tra corpus và hash trên đĩa cả trước và sau khi người dùng chạy T3."""
     manifest = load_manifest(MANIFEST_PATH)
     with open(CHUNKS_PATH, encoding="utf-8") as f:
         chunks = [json.loads(line) for line in f]
-    # Corpus lưu trên đĩa được tạo trước khi có metadata Chương/Mục của T2.
-    errors = check_corpus(chunks, [d.model_dump(exclude={"cau_truc"}) for d in manifest.documents])
-    assert errors == []
+    legacy_corpus = all("muc" not in c and "loai_hinh" not in c for c in chunks)
+    exclude = {"cau_truc"} if legacy_corpus else set()
+    assert check_corpus(chunks, [d.model_dump(exclude=exclude) for d in manifest.documents]) == []
 
     meta = json.loads(META_PATH.read_text(encoding="utf-8"))
-    ids = [c["chunk_id"] for c in chunks]
-    cur_hash = hashlib.sha256("\n".join(ids).encode()).hexdigest()
-    assert len(chunks) == meta["n"] == 676
-    assert cur_hash == meta["ids_sha256"]
+    assert len(chunks) == meta["n"]
+    if legacy_corpus and "content_sha256" not in meta:
+        ids = [c["chunk_id"] for c in chunks]
+        assert len(chunks) == 676
+        assert hashlib.sha256("\n".join(ids).encode("utf-8")).hexdigest() == meta["ids_sha256"]
+    else:
+        assert meta.get("content_sha256") == chunks_sha256(chunks)
+
+
+def test_chunks_sha256_depends_on_id_and_row_order():
+    chunks = [{"chunk_id": "a", "text": "Nội dung"}, {"chunk_id": "b", "text": "Nội dung"}]
+    digest = chunks_sha256(chunks)
+    assert chunks_sha256(chunks[::-1]) != digest
+    chunks[0]["chunk_id"] = "c"
+    assert chunks_sha256(chunks) != digest
+
+
+@pytest.mark.parametrize(
+    ("state", "error"),
+    [
+        ("legacy", "Index dùng định dạng cũ"),
+        ("changed_text", "Dữ liệu chunk đã thay đổi"),
+        ("wrong_rows", "khác số vector"),
+        ("matching", None),
+    ],
+)
+def test_rag_load_checks_index_content(tmp_path, monkeypatch, state, error):
+    chunks = [{"chunk_id": "luat_dn_2020:d90:p0", "text": "Chương IV\nĐiều 90"}]
+    meta = {"n": len(chunks), "content_sha256": chunks_sha256(chunks)}
+    if state == "legacy":
+        meta = {"n": len(chunks), "ids_sha256": "old"}
+    elif state == "changed_text":
+        chunks[0]["text"] = "Chương III\nĐiều 90"
+
+    chunks_path = tmp_path / "chunks.jsonl"
+    meta_path = tmp_path / "meta.json"
+    emb_path = tmp_path / "emb.npy"
+    chunks_path.write_text(json.dumps(chunks[0], ensure_ascii=False) + "\n", encoding="utf-8")
+    meta_path.write_text(json.dumps(meta), encoding="utf-8")
+    np.save(emb_path, np.zeros((2 if state == "wrong_rows" else 1, 4)))
+    monkeypatch.setattr(pipeline, "CHUNKS_PATH", chunks_path)
+    monkeypatch.setattr(pipeline, "META_PATH", meta_path)
+    monkeypatch.setattr(pipeline, "EMB_PATH", emb_path)
+
+    model_calls = []
+
+    def load_model(name, **kwargs):
+        model_calls.append(name)
+
+    monkeypatch.setattr(pipeline, "SentenceTransformer", load_model)
+    monkeypatch.setattr(pipeline, "CrossEncoder", load_model)
+    if error:
+        with pytest.raises(ValueError, match=error) as exc:
+            pipeline.RAG.load()
+        assert "scripts/build_index.py" in str(exc.value)
+        assert model_calls == []
+    else:
+        monkeypatch.setattr(pipeline, "build_bm25_indices", lambda chunks: (None, None))
+        monkeypatch.setattr(pipeline, "Retriever", SimpleNamespace)
+        assert pipeline.RAG.load().retriever.chunks == chunks
+        assert model_calls == [pipeline.MODEL_EMBEDDING, pipeline.MODEL_RERANKER]
 
 
 if __name__ == "__main__":

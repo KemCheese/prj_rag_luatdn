@@ -31,7 +31,7 @@ class Retriever:
         self.bm25_noacc = bm25_noacc
         self.rerank_min = rerank_min
 
-        self.valid = np.array([c["hieu_luc"] and c["vai_tro"] == "chinh" for c in chunks])
+        self.valid = np.array([c["hieu_luc"] and c["vai_tro"] in {"chinh", "sua_doi"} for c in chunks])
         self.by_article = {}
         for i, c in enumerate(chunks):
             self.by_article.setdefault((c["doc_id"], c["dieu"]), []).append(i)

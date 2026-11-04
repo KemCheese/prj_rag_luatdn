@@ -3,6 +3,7 @@ from pydantic import ValidationError
 
 from ragdn.chunk import check_corpus, chunk
 from ragdn.config import MANIFEST_PATH
+from ragdn.index import chunks_sha256
 from ragdn.manifest import load_manifest
 from ragdn.parse import parse
 
@@ -37,12 +38,46 @@ def test_chunk_uses_manifest_section_labels(document):
         ("74", "III", "2", "tnhh_mtv"),
         ("90", "IV", None, "dnnn"),
     ]
-    assert chunks[1]["chunk_id"] == "luat_dn_2020:d59:p0"
-    assert chunks[1]["text"].splitlines() == [
-        "Luật Doanh nghiệp | Chương III | Mục 1 | Điều 59. Nghị quyết",
-        "1. Nội dung nghị quyết.",
+    assert [c["text"].split("\n", 1)[0] for c in chunks] == [
+        "Luật Doanh nghiệp | Chương II | Điều 17a. Điều bổ sung",
+        "Luật Doanh nghiệp | Chương III | Mục 1 (Công ty TNHH hai thành viên trở lên) | Điều 59. Nghị quyết",
+        "Luật Doanh nghiệp | Chương III | Mục 2 (Công ty TNHH một thành viên) | Điều 74. Công ty một thành viên",
+        "Luật Doanh nghiệp | Chương IV (Doanh nghiệp nhà nước) | Điều 90. Quyền của thành viên",
     ]
-    assert "| Mục " not in chunks[3]["text"]
+
+
+def test_chunk_label_changes_hash_but_preserves_parts_and_body(document):
+    lines = [
+        "Chương III",
+        "Mục 1",
+        "Điều 59. Nghị quyết",
+        "1. Áp dụng Điều 58.",
+        "2. Nội dung khác.",
+    ]
+    articles = parse([(line, 1) for line in lines], document.doc_id)
+    chunks = chunk(articles, document.model_dump(), max_chars=20)
+    header_without_label = "Luật Doanh nghiệp | Chương III | Mục 1 | Điều 59. Nghị quyết"
+
+    assert [c["chunk_id"] for c in chunks] == ["luat_dn_2020:d59:p0", "luat_dn_2020:d59:p1"]
+    assert [c["khoan"] for c in chunks] == [["1"], ["2"]]
+    assert [c["refs"] for c in chunks] == [["58"], []]
+    headers, bodies = zip(*(c["text"].split("\n", 1) for c in chunks))
+    assert bodies == ("1. Áp dụng Điều 58.", "2. Nội dung khác.")
+    assert all("Mục 1 (Công ty TNHH hai thành viên trở lên)" in header for header in headers)
+    without_label = [
+        {**c, "text": f"{header_without_label}\n{body}"}
+        for c, body in zip(chunks, bodies)
+    ]
+    assert chunks_sha256(chunks) != chunks_sha256(without_label)
+
+
+def test_amendment_without_company_type_keeps_original_header():
+    document = next(doc for doc in load_manifest(MANIFEST_PATH).documents if doc.doc_id == "luat_76_2025")
+    lines = [("Điều 3. Điều khoản chuyển tiếp", 1), ("1. Nội dung.", 1)]
+    chunks = chunk(parse(lines, document.doc_id), document.model_dump())
+
+    assert chunks[0]["loai_hinh"] is None
+    assert chunks[0]["text"] == "Luật số 76/2025/QH15 | Chương - | Điều 3. Điều khoản chuyển tiếp\n1. Nội dung."
 
 
 def test_check_corpus_detects_wrong_chapter(document):

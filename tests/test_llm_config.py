@@ -1,5 +1,8 @@
 # tests/test_llm_config.py
+import runpy
 from types import SimpleNamespace
+
+import dotenv
 
 import ragdn.llm as llm_mod
 
@@ -17,18 +20,23 @@ def _fake_response(content: str, finish_reason: str = "stop", prompt_tokens: int
 
 
 def test_call_llm_passes_history_and_Sampling_params(monkeypatch):
+    monkeypatch.setattr(dotenv, "load_dotenv", lambda: None)
+    for name in ("LLM_TEMPERATURE", "LLM_TOP_P", "LLM_MAX_TOKENS", "LLM_SEED"):
+        monkeypatch.delenv(name, raising=False)
+    # Nạp cấu hình mặc định vào namespace riêng để giữ nguyên module của các test khác.
+    llm = SimpleNamespace(**runpy.run_path(llm_mod.__file__))
     captured = {}
 
     def fake_create(**kwargs):
         captured.update(kwargs)
         return _fake_response("Câu trả lời hoàn chỉnh [1].")
 
-    monkeypatch.setattr(llm_mod._client.chat.completions, "create", fake_create)
+    monkeypatch.setattr(llm._client.chat.completions, "create", fake_create)
     history = [
         {"role": "user", "content": "<context>...</context>\n\n<question>Hỏi?</question>"},
         {"role": "assistant", "content": "Bản nháp 1 có lỗi [9]."},
     ]
-    out = llm_mod.call_llm("SYS", "Hãy sửa lỗi.", history=history)
+    out = llm.call_llm("SYS", "Hãy sửa lỗi.", history=history)
 
     assert out == "Câu trả lời hoàn chỉnh [1]."
     assert captured["messages"] == [
@@ -36,9 +44,9 @@ def test_call_llm_passes_history_and_Sampling_params(monkeypatch):
         *history,
         {"role": "user", "content": "Hãy sửa lỗi."},
     ]
-    assert captured["temperature"] == llm_mod.LLM_TEMPERATURE == 0.2
-    assert captured["top_p"] == llm_mod.LLM_TOP_P == 0.9
-    assert captured["max_tokens"] == llm_mod.LLM_MAX_TOKENS == 1536
+    assert captured["temperature"] == 0.15
+    assert captured["top_p"] == 0.9
+    assert captured["max_tokens"] == 2000
     assert "seed" not in captured
 
 
