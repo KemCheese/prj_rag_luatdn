@@ -22,6 +22,7 @@ class DocumentMeta(BaseModel):
     so_hieu: str
     loai_vb: str
     vai_tro: str = "chinh"
+    sua_doi_cho: str | None = None
     hop_nhat: bool = False
     hop_nhat_den: list[str] = Field(default_factory=list)
     ngay_ban_hanh: str | None = None
