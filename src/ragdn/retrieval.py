@@ -9,6 +9,7 @@ from sentence_transformers import CrossEncoder, SentenceTransformer
 
 from ragdn.config import ALIASES_PATH, GLOSSARY_PATH
 from ragdn.index import strip_accents, tok, tok_noacc
+from ragdn.loai_hinh import detect_loai_hinh, is_conflict
 
 RE_Q_DIEU = re.compile(r"\b(?:điều|dieu)\s+(\d+(?:[a-zđ]|dd)?)\b")
 
@@ -32,6 +33,7 @@ class Retriever:
         self.rerank_min = rerank_min
 
         self.valid = np.array([c["hieu_luc"] and c["vai_tro"] in {"chinh", "sua_doi"} for c in chunks])
+        self.lh = np.array([c.get("loai_hinh") or "" for c in chunks])
         self.by_article = {}
         for i, c in enumerate(chunks):
             self.by_article.setdefault((c["doc_id"], c["dieu"]), []).append(i)
@@ -83,22 +85,36 @@ class Retriever:
         return sorted(s, key=s.get, reverse=True)
 
     def retrieve(self, q: str, n_cand: int = 20, n_rerank: int = 8, top: int = 5):
+        q_lh = detect_loai_hinh(q)
         qn = self.norm_query(q)
         qv = self.embedder.encode(qn, normalize_embeddings=True)
-        cand = self.rrf([
-            self.topk(self.emb @ qv, n_cand),
+        dense = self.emb @ qv
+        lists = [
+            self.topk(dense, n_cand),
             self.topk(self.bm25.get_scores(tok(qn)), n_cand),
             self.topk(self.bm25_noacc.get_scores(tok_noacc(qn)), n_cand),
-        ])[:n_rerank]
+        ]
+        if q_lh:
+            lists.append(self.topk(np.where(self.lh == q_lh, dense, -np.inf), n_cand))
+        cand = self.rrf(lists)[:n_rerank]
 
         sc = self.reranker.predict([(qn, self.chunks[i]["text"]) for i in cand]) if cand else np.array([])
-        ranked = [(cand[j], float(sc[j])) for j in np.argsort(-sc)[:top]]
+        order = np.argsort(-sc)
+        if q_lh:
+            # Nguồn đạt ngưỡng luôn được xét trước, rồi mới ưu tiên loại hình.
+            order = sorted(order, key=lambda j: (
+                sc[j] < self.rerank_min,
+                is_conflict(self.chunks[cand[j]].get("loai_hinh"), q_lh),
+            ))
+        ranked = [(cand[j], float(sc[j])) for j in order[:top]]
+        max_score = max((s for _, s in ranked), default=0.0)
         direct, flag = self.article_lookup(qn)
         hits = list(dict.fromkeys([i for i in direct[:4]] + [i for i, s in ranked if s >= self.rerank_min]))
 
         return {
             "hits": hits,
-            "max_score": max((s for _, s in ranked), default=0.0),
-            "low_confidence": not direct and (not ranked or ranked[0][1] < self.rerank_min),
+            "max_score": max_score,
+            "low_confidence": not direct and (not ranked or max_score < self.rerank_min),
             "flag": flag,
+            "loai_hinh": q_lh,
         }
