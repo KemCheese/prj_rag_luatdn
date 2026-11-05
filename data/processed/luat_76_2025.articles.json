@@ -4,6 +4,7 @@
     "dieu": "1",
     "tieu_de": "Sửa đổi, bổ sung Luật Doanh nghiệp",
     "chuong": null,
+    "muc": null,
     "page": 1,
     "intro": [],
     "khoans": [
@@ -394,6 +395,7 @@
     "dieu": "2",
     "tieu_de": "Hiệu lực thi hành",
     "chuong": null,
+    "muc": null,
     "page": 7,
     "intro": [
       "Luật này có hiệu lực thi hành từ ngày 01 tháng 7 năm 2025."
@@ -406,6 +408,7 @@
     "dieu": "3",
     "tieu_de": "Điều khoản chuyển tiếp",
     "chuong": null,
+    "muc": null,
     "page": 7,
     "intro": [],
     "khoans": [

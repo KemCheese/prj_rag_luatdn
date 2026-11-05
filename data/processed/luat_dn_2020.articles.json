@@ -4,6 +4,7 @@
     "dieu": "1",
     "tieu_de": "Phạm vi điều chỉnh",
     "chuong": "I",
+    "muc": null,
     "page": 1,
     "intro": [
       "Luật này quy định về việc thành lập, tổ chức quản lý, tổ chức lại, giải thể và hoạt động có liên quan của doanh nghiệp,",
@@ -18,6 +19,7 @@
     "dieu": "2",
     "tieu_de": "Đối tượng áp dụng",
     "chuong": "I",
+    "muc": null,
     "page": 1,
     "intro": [],
     "khoans": [
@@ -44,6 +46,7 @@
     "dieu": "3",
     "tieu_de": "Áp dụng Luật Doanh nghiệp và luật khác",
     "chuong": "I",
+    "muc": null,
     "page": 1,
     "intro": [
       "Trường hợp luật khác có quy định đặc thù về việc thành lập, tổ chức quản lý, tổ chức lại, giải thể và hoạt động có liên",
@@ -57,6 +60,7 @@
     "dieu": "4",
     "tieu_de": "Giải thích từ ngữ",
     "chuong": "I",
+    "muc": null,
     "page": 1,
     "intro": [
       "Trong Luật này, các từ ngữ dưới đây được hiểu như sau:"
@@ -389,6 +393,7 @@
     "dieu": "5",
     "tieu_de": "Bảo đảm của Nhà nước đối với doanh nghiệp và chủ sở hữu doanh nghiệp",
     "chuong": "I",
+    "muc": null,
     "page": 3,
     "intro": [],
     "khoans": [
@@ -427,6 +432,7 @@
     "dieu": "6",
     "tieu_de": "Tổ chức chính trị, tổ chức chính trị - xã hội và tổ chức đại diện người lao động tại cơ sở trong doanh nghiệp",
     "chuong": "I",
+    "muc": null,
     "page": 4,
     "intro": [],
     "khoans": [
@@ -455,6 +461,7 @@
     "dieu": "7",
     "tieu_de": "Quyền của doanh nghiệp",
     "chuong": "I",
+    "muc": null,
     "page": 4,
     "intro": [],
     "khoans": [
@@ -545,6 +552,7 @@
     "dieu": "8",
     "tieu_de": "Nghĩa vụ của doanh nghiệp",
     "chuong": "I",
+    "muc": null,
     "page": 4,
     "intro": [],
     "khoans": [
@@ -621,6 +629,7 @@
     "dieu": "9",
     "tieu_de": "Quyền và nghĩa vụ của doanh nghiệp cung ứng sản phẩm, dịch vụ công ích",
     "chuong": "I",
+    "muc": null,
     "page": 5,
     "intro": [],
     "khoans": [
@@ -677,6 +686,7 @@
     "dieu": "10",
     "tieu_de": "Tiêu chí, quyền và nghĩa vụ của doanh nghiệp xã hội",
     "chuong": "I",
+    "muc": null,
     "page": 5,
     "intro": [],
     "khoans": [
@@ -739,6 +749,7 @@
     "dieu": "11",
     "tieu_de": "Chế độ lưu giữ tài liệu của doanh nghiệp",
     "chuong": "I",
+    "muc": null,
     "page": 5,
     "intro": [],
     "khoans": [
@@ -781,6 +792,7 @@
     "dieu": "12",
     "tieu_de": "Người đại diện theo pháp luật của doanh nghiệp",
     "chuong": "I",
+    "muc": null,
     "page": 6,
     "intro": [],
     "khoans": [
@@ -873,6 +885,7 @@
     "dieu": "13",
     "tieu_de": "Trách nhiệm của người đại diện theo pháp luật của doanh nghiệp",
     "chuong": "I",
+    "muc": null,
     "page": 7,
     "intro": [],
     "khoans": [
@@ -911,6 +924,7 @@
     "dieu": "14",
     "tieu_de": "Người đại diện theo ủy quyền của chủ sở hữu, thành viên, cổ đông công ty là tổ chức",
     "chuong": "I",
+    "muc": null,
     "page": 7,
     "intro": [],
     "khoans": [
@@ -980,6 +994,7 @@
     "dieu": "15",
     "tieu_de": "Trách nhiệm của người đại diện theo ủy quyền của chủ sở hữu, thành viên, cổ đông công ty là tổ chức",
     "chuong": "I",
+    "muc": null,
     "page": 8,
     "intro": [],
     "khoans": [
@@ -1020,6 +1035,7 @@
     "dieu": "16",
     "tieu_de": "Các hành vi bị nghiêm cấm",
     "chuong": "I",
+    "muc": null,
     "page": 8,
     "intro": [],
     "khoans": [
@@ -1101,6 +1117,7 @@
     "dieu": "17",
     "tieu_de": "Quyền thành lập, góp vốn, mua cổ phần, mua phần vốn góp và quản lý doanh nghiệp",
     "chuong": "II",
+    "muc": null,
     "page": 8,
     "intro": [],
     "khoans": [
@@ -1187,6 +1204,7 @@
     "dieu": "18",
     "tieu_de": "Hợp đồng trước đăng ký doanh nghiệp",
     "chuong": "II",
+    "muc": null,
     "page": 9,
     "intro": [],
     "khoans": [
@@ -1224,6 +1242,7 @@
     "dieu": "19",
     "tieu_de": "Hồ sơ đăng ký doanh nghiệp tư nhân",
     "chuong": "II",
+    "muc": null,
     "page": 10,
     "intro": [],
     "khoans": [
@@ -1249,6 +1268,7 @@
     "dieu": "20",
     "tieu_de": "Hồ sơ đăng ký công ty hợp danh",
     "chuong": "II",
+    "muc": null,
     "page": 10,
     "intro": [],
     "khoans": [
@@ -1301,6 +1321,7 @@
     "dieu": "21",
     "tieu_de": "Hồ sơ đăng ký công ty trách nhiệm hữu hạn",
     "chuong": "II",
+    "muc": null,
     "page": 10,
     "intro": [],
     "khoans": [
@@ -1351,6 +1372,7 @@
     "dieu": "22",
     "tieu_de": "Hồ sơ đăng ký công ty cổ phần",
     "chuong": "II",
+    "muc": null,
     "page": 10,
     "intro": [],
     "khoans": [
@@ -1403,6 +1425,7 @@
     "dieu": "23",
     "tieu_de": "Nội dung giấy đề nghị đăng ký doanh nghiệp",
     "chuong": "II",
+    "muc": null,
     "page": 11,
     "intro": [
       "Giấy đề nghị đăng ký doanh nghiệp bao gồm các nội dung chủ yếu sau đây:"
@@ -1495,6 +1518,7 @@
     "dieu": "24",
     "tieu_de": "Điều lệ công ty",
     "chuong": "II",
+    "muc": null,
     "page": 11,
     "intro": [],
     "khoans": [
@@ -1565,6 +1589,7 @@
     "dieu": "25",
     "tieu_de": "Danh sách thành viên công ty trách nhiệm hữu hạn, công ty hợp danh, danh sách cổ đông sáng lập và cổ đông là nhà đầu tư nước ngoài đối với công ty cổ phần, danh sách chủ sở hữu hưởng lợi của doanh nghiệp",
     "chuong": "II",
+    "muc": null,
     "page": 12,
     "intro": [
       "Danh sách thành viên công ty trách nhiệm hữu hạn, công ty hợp danh, danh sách cổ đông sáng lập và cổ đông là nhà",
@@ -1631,6 +1656,7 @@
     "dieu": "26",
     "tieu_de": "Trình tự, thủ tục đăng ký doanh nghiệp",
     "chuong": "II",
+    "muc": null,
     "page": 13,
     "intro": [],
     "khoans": [
@@ -1718,6 +1744,7 @@
     "dieu": "27",
     "tieu_de": "Cấp Giấy chứng nhận đăng ký doanh nghiệp",
     "chuong": "II",
+    "muc": null,
     "page": 13,
     "intro": [],
     "khoans": [
@@ -1748,6 +1775,7 @@
     "dieu": "28",
     "tieu_de": "Nội dung Giấy chứng nhận đăng ký doanh nghiệp",
     "chuong": "II",
+    "muc": null,
     "page": 13,
     "intro": [
       "Giấy chứng nhận đăng ký doanh nghiệp bao gồm các nội dung chủ yếu sau đây:"
@@ -1792,6 +1820,7 @@
     "dieu": "29",
     "tieu_de": "Mã số doanh nghiệp",
     "chuong": "II",
+    "muc": null,
     "page": 14,
     "intro": [],
     "khoans": [
@@ -1819,6 +1848,7 @@
     "dieu": "30",
     "tieu_de": "Đăng ký thay đổi nội dung Giấy chứng nhận đăng ký doanh nghiệp",
     "chuong": "II",
+    "muc": null,
     "page": 14,
     "intro": [],
     "khoans": [
@@ -1881,6 +1911,7 @@
     "dieu": "31",
     "tieu_de": "Thông báo thay đổi nội dung đăng ký doanh nghiệp",
     "chuong": "II",
+    "muc": null,
     "page": 14,
     "intro": [],
     "khoans": [
@@ -1965,6 +1996,7 @@
     "dieu": "32",
     "tieu_de": "Công bố nội dung đăng ký doanh nghiệp",
     "chuong": "II",
+    "muc": null,
     "page": 15,
     "intro": [],
     "khoans": [
@@ -2003,6 +2035,7 @@
     "dieu": "33",
     "tieu_de": "Cung cấp thông tin về nội dung đăng ký doanh nghiệp",
     "chuong": "II",
+    "muc": null,
     "page": 16,
     "intro": [],
     "khoans": [
@@ -2053,6 +2086,7 @@
     "dieu": "34",
     "tieu_de": "Tài sản góp vốn",
     "chuong": "II",
+    "muc": null,
     "page": 16,
     "intro": [],
     "khoans": [
@@ -2080,6 +2114,7 @@
     "dieu": "35",
     "tieu_de": "Chuyển quyền sở hữu tài sản góp vốn",
     "chuong": "II",
+    "muc": null,
     "page": 16,
     "intro": [],
     "khoans": [
@@ -2142,6 +2177,7 @@
     "dieu": "36",
     "tieu_de": "Định giá tài sản góp vốn",
     "chuong": "II",
+    "muc": null,
     "page": 17,
     "intro": [],
     "khoans": [
@@ -2189,6 +2225,7 @@
     "dieu": "37",
     "tieu_de": "Tên doanh nghiệp",
     "chuong": "II",
+    "muc": null,
     "page": 17,
     "intro": [],
     "khoans": [
@@ -2243,6 +2280,7 @@
     "dieu": "38",
     "tieu_de": "Những điều cấm trong đặt tên doanh nghiệp",
     "chuong": "II",
+    "muc": null,
     "page": 17,
     "intro": [],
     "khoans": [
@@ -2277,6 +2315,7 @@
     "dieu": "39",
     "tieu_de": "Tên doanh nghiệp bằng tiếng nước ngoài và tên viết tắt của doanh nghiệp",
     "chuong": "II",
+    "muc": null,
     "page": 17,
     "intro": [],
     "khoans": [
@@ -2313,6 +2352,7 @@
     "dieu": "40",
     "tieu_de": "Tên chi nhánh, văn phòng đại diện và địa điểm kinh doanh",
     "chuong": "II",
+    "muc": null,
     "page": 18,
     "intro": [],
     "khoans": [
@@ -2350,6 +2390,7 @@
     "dieu": "41",
     "tieu_de": "Tên trùng và tên gây nhầm lẫn",
     "chuong": "II",
+    "muc": null,
     "page": 18,
     "intro": [],
     "khoans": [
@@ -2398,6 +2439,7 @@
     "dieu": "42",
     "tieu_de": "Trụ sở chính của doanh nghiệp",
     "chuong": "II",
+    "muc": null,
     "page": 18,
     "intro": [
       "Trụ sở chính của doanh nghiệp đặt trên lãnh thổ Việt Nam, là địa chỉ liên lạc của doanh nghiệp và được xác định theo",
@@ -2411,6 +2453,7 @@
     "dieu": "43",
     "tieu_de": "Dấu của doanh nghiệp",
     "chuong": "II",
+    "muc": null,
     "page": 18,
     "intro": [],
     "khoans": [
@@ -2447,6 +2490,7 @@
     "dieu": "44",
     "tieu_de": "Chi nhánh, văn phòng đại diện và địa điểm kinh doanh của doanh nghiệp",
     "chuong": "II",
+    "muc": null,
     "page": 19,
     "intro": [],
     "khoans": [
@@ -2482,6 +2526,7 @@
     "dieu": "45",
     "tieu_de": "Đăng ký hoạt động chi nhánh, văn phòng đại diện của doanh nghiệp; thông báo địa điểm kinh doanh",
     "chuong": "II",
+    "muc": null,
     "page": 19,
     "intro": [],
     "khoans": [
@@ -2537,7 +2582,6 @@
         "lines": [
           "6. Chính phủ quy định chi tiết Điều này.",
           "CÔNG TY TRÁCH NHIỆM HỮU HẠN",
-          "Mục 1",
           "CÔNG TY TRÁCH NHIỆM HỮU HẠN HAI THÀNH VIÊN TRỞ LÊN"
         ],
         "notes": []
@@ -2550,6 +2594,7 @@
     "dieu": "46",
     "tieu_de": "Công ty trách nhiệm hữu hạn hai thành viên trở lên",
     "chuong": "III",
+    "muc": "1",
     "page": 19,
     "intro": [],
     "khoans": [
@@ -2596,6 +2641,7 @@
     "dieu": "47",
     "tieu_de": "Góp vốn thành lập công ty và cấp giấy chứng nhận phần vốn góp",
     "chuong": "III",
+    "muc": "1",
     "page": 20,
     "intro": [],
     "khoans": [
@@ -2680,6 +2726,7 @@
     "dieu": "48",
     "tieu_de": "Sổ đăng ký thành viên",
     "chuong": "III",
+    "muc": "1",
     "page": 20,
     "intro": [],
     "khoans": [
@@ -2729,6 +2776,7 @@
     "dieu": "49",
     "tieu_de": "Quyền của thành viên công ty",
     "chuong": "III",
+    "muc": "1",
     "page": 21,
     "intro": [],
     "khoans": [
@@ -2784,6 +2832,7 @@
     "dieu": "50",
     "tieu_de": "Nghĩa vụ của thành viên công ty",
     "chuong": "III",
+    "muc": "1",
     "page": 21,
     "intro": [],
     "khoans": [
@@ -2842,6 +2891,7 @@
     "dieu": "51",
     "tieu_de": "Mua lại phần vốn góp",
     "chuong": "III",
+    "muc": "1",
     "page": 22,
     "intro": [],
     "khoans": [
@@ -2892,6 +2942,7 @@
     "dieu": "52",
     "tieu_de": "Chuyển nhượng phần vốn góp",
     "chuong": "III",
+    "muc": "1",
     "page": 22,
     "intro": [],
     "khoans": [
@@ -2941,6 +2992,7 @@
     "dieu": "53",
     "tieu_de": "Xử lý phần vốn góp trong một số trường hợp đặc biệt",
     "chuong": "III",
+    "muc": "1",
     "page": 23,
     "intro": [],
     "khoans": [
@@ -3037,6 +3089,7 @@
     "dieu": "54",
     "tieu_de": "Cơ cấu tổ chức quản lý công ty",
     "chuong": "III",
+    "muc": "1",
     "page": 23,
     "intro": [],
     "khoans": [
@@ -3074,6 +3127,7 @@
     "dieu": "55",
     "tieu_de": "Hội đồng thành viên",
     "chuong": "III",
+    "muc": "1",
     "page": 24,
     "intro": [],
     "khoans": [
@@ -3121,6 +3175,7 @@
     "dieu": "56",
     "tieu_de": "Chủ tịch Hội đồng thành viên",
     "chuong": "III",
+    "muc": "1",
     "page": 24,
     "intro": [],
     "khoans": [
@@ -3176,6 +3231,7 @@
     "dieu": "57",
     "tieu_de": "Triệu tập họp Hội đồng thành viên",
     "chuong": "III",
+    "muc": "1",
     "page": 25,
     "intro": [],
     "khoans": [
@@ -3290,6 +3346,7 @@
     "dieu": "58",
     "tieu_de": "Điều kiện và thể thức tiến hành họp Hội đồng thành viên",
     "chuong": "III",
+    "muc": "1",
     "page": 26,
     "intro": [],
     "khoans": [
@@ -3339,6 +3396,7 @@
     "dieu": "59",
     "tieu_de": "Nghị quyết, quyết định của Hội đồng thành viên",
     "chuong": "III",
+    "muc": "1",
     "page": 26,
     "intro": [],
     "khoans": [
@@ -3405,6 +3463,7 @@
     "dieu": "60",
     "tieu_de": "Biên bản họp Hội đồng thành viên",
     "chuong": "III",
+    "muc": "1",
     "page": 27,
     "intro": [],
     "khoans": [
@@ -3466,6 +3525,7 @@
     "dieu": "61",
     "tieu_de": "Thủ tục thông qua nghị quyết, quyết định của Hội đồng thành viên theo hình thức lấy ý kiến bằng văn bản",
     "chuong": "III",
+    "muc": "1",
     "page": 27,
     "intro": [
       "Trường hợp Điều lệ công ty không có quy định khác thì thẩm quyền và thể thức lấy ý kiến thành viên bằng văn bản để",
@@ -3530,6 +3590,7 @@
     "dieu": "62",
     "tieu_de": "Hiệu lực nghị quyết, quyết định của Hội đồng thành viên",
     "chuong": "III",
+    "muc": "1",
     "page": 28,
     "intro": [],
     "khoans": [
@@ -3568,6 +3629,7 @@
     "dieu": "63",
     "tieu_de": "Giám đốc, Tổng giám đốc",
     "chuong": "III",
+    "muc": "1",
     "page": 28,
     "intro": [],
     "khoans": [
@@ -3607,6 +3669,7 @@
     "dieu": "64",
     "tieu_de": "Tiêu chuẩn và điều kiện làm Giám đốc, Tổng giám đốc",
     "chuong": "III",
+    "muc": "1",
     "page": 29,
     "intro": [],
     "khoans": [
@@ -3644,6 +3707,7 @@
     "dieu": "65",
     "tieu_de": "Ban kiểm soát, Kiểm soát viên",
     "chuong": "III",
+    "muc": "1",
     "page": 29,
     "intro": [],
     "khoans": [
@@ -3687,6 +3751,7 @@
     "dieu": "66",
     "tieu_de": "Tiền lương, thù lao, thưởng và lợi ích khác của Chủ tịch Hội đồng thành viên, Giám đốc, Tổng giám đốc và người quản lý khác",
     "chuong": "III",
+    "muc": "1",
     "page": 29,
     "intro": [],
     "khoans": [
@@ -3715,6 +3780,7 @@
     "dieu": "67",
     "tieu_de": "Hợp đồng, giao dịch phải được Hội đồng thành viên chấp thuận",
     "chuong": "III",
+    "muc": "1",
     "page": 29,
     "intro": [],
     "khoans": [
@@ -3760,6 +3826,7 @@
     "dieu": "68",
     "tieu_de": "Tăng, giảm vốn điều lệ",
     "chuong": "III",
+    "muc": "1",
     "page": 30,
     "intro": [],
     "khoans": [
@@ -3833,6 +3900,7 @@
     "dieu": "69",
     "tieu_de": "Điều kiện để chia lợi nhuận",
     "chuong": "III",
+    "muc": "1",
     "page": 30,
     "intro": [
       "Công ty chỉ được chia lợi nhuận cho các thành viên sau khi đã hoàn thành nghĩa vụ thuế và các nghĩa vụ tài chính khác",
@@ -3847,6 +3915,7 @@
     "dieu": "70",
     "tieu_de": "Thu hồi phần vốn góp đã hoàn trả hoặc lợi nhuận đã chia",
     "chuong": "III",
+    "muc": "1",
     "page": 31,
     "intro": [
       "Trường hợp hoàn trả một phần vốn góp do giảm vốn điều lệ trái với quy định tại khoản 3 Điều 68 của Luật này hoặc",
@@ -3862,6 +3931,7 @@
     "dieu": "71",
     "tieu_de": "Trách nhiệm của Chủ tịch Hội đồng thành viên, Giám đốc, Tổng giám đốc và người quản lý khác, người đại diện theo pháp luật, Kiểm soát viên",
     "chuong": "III",
+    "muc": "1",
     "page": 31,
     "intro": [],
     "khoans": [
@@ -3920,6 +3990,7 @@
     "dieu": "72",
     "tieu_de": "Khởi kiện người quản lý",
     "chuong": "III",
+    "muc": "1",
     "page": 31,
     "intro": [],
     "khoans": [
@@ -3959,11 +4030,11 @@
     "dieu": "73",
     "tieu_de": "Công bố thông tin",
     "chuong": "III",
+    "muc": "1",
     "page": 32,
     "intro": [
       "Công ty trách nhiệm hữu hạn hai thành viên trở lên theo quy định tại điểm b khoản 1 Điều 88 của Luật này thực hiện",
       "công bố thông tin theo quy định tại các điểm a, c, đ, g khoản 1 Điều 109 và Điều 110 của Luật này.",
-      "Mục 2",
       "CÔNG TY TRÁCH NHIỆM HỮU HẠN MỘT THÀNH VIÊN"
     ],
     "khoans": [],
@@ -3974,6 +4045,7 @@
     "dieu": "74",
     "tieu_de": "Công ty trách nhiệm hữu hạn một thành viên",
     "chuong": "III",
+    "muc": "2",
     "page": 32,
     "intro": [],
     "khoans": [
@@ -4018,6 +4090,7 @@
     "dieu": "75",
     "tieu_de": "Góp vốn thành lập công ty",
     "chuong": "III",
+    "muc": "2",
     "page": 32,
     "intro": [],
     "khoans": [
@@ -4066,6 +4139,7 @@
     "dieu": "76",
     "tieu_de": "Quyền của chủ sở hữu công ty",
     "chuong": "III",
+    "muc": "2",
     "page": 32,
     "intro": [],
     "khoans": [
@@ -4110,6 +4184,7 @@
     "dieu": "77",
     "tieu_de": "Nghĩa vụ của chủ sở hữu công ty",
     "chuong": "III",
+    "muc": "2",
     "page": 33,
     "intro": [],
     "khoans": [
@@ -4176,6 +4251,7 @@
     "dieu": "78",
     "tieu_de": "Thực hiện quyền của chủ sở hữu công ty trong một số trường hợp đặc biệt",
     "chuong": "III",
+    "muc": "2",
     "page": 33,
     "intro": [],
     "khoans": [
@@ -4253,6 +4329,7 @@
     "dieu": "79",
     "tieu_de": "Cơ cấu tổ chức quản lý của công ty trách nhiệm hữu hạn một thành viên do tổ chức làm chủ sở hữu",
     "chuong": "III",
+    "muc": "2",
     "page": 34,
     "intro": [],
     "khoans": [
@@ -4301,6 +4378,7 @@
     "dieu": "80",
     "tieu_de": "Hội đồng thành viên",
     "chuong": "III",
+    "muc": "2",
     "page": 34,
     "intro": [],
     "khoans": [
@@ -4378,6 +4456,7 @@
     "dieu": "81",
     "tieu_de": "Chủ tịch công ty",
     "chuong": "III",
+    "muc": "2",
     "page": 35,
     "intro": [],
     "khoans": [
@@ -4415,6 +4494,7 @@
     "dieu": "82",
     "tieu_de": "Giám đốc, Tổng giám đốc",
     "chuong": "III",
+    "muc": "2",
     "page": 35,
     "intro": [],
     "khoans": [
@@ -4467,6 +4547,7 @@
     "dieu": "83",
     "tieu_de": "Trách nhiệm của thành viên Hội đồng thành viên, Chủ tịch công ty, Giám đốc, Tổng giám đốc và người quản lý khác, Kiểm soát viên",
     "chuong": "III",
+    "muc": "2",
     "page": 35,
     "intro": [],
     "khoans": [
@@ -4518,6 +4599,7 @@
     "dieu": "84",
     "tieu_de": "Tiền lương, thù lao, thưởng và lợi ích khác của người quản lý công ty và Kiểm soát viên",
     "chuong": "III",
+    "muc": "2",
     "page": 36,
     "intro": [],
     "khoans": [
@@ -4555,6 +4637,7 @@
     "dieu": "85",
     "tieu_de": "Cơ cấu tổ chức quản lý công ty trách nhiệm hữu hạn một thành viên do cá nhân làm chủ sở hữu",
     "chuong": "III",
+    "muc": "2",
     "page": 36,
     "intro": [],
     "khoans": [
@@ -4588,6 +4671,7 @@
     "dieu": "86",
     "tieu_de": "Hợp đồng, giao dịch của công ty với những người có liên quan",
     "chuong": "III",
+    "muc": "2",
     "page": 36,
     "intro": [],
     "khoans": [
@@ -4662,6 +4746,7 @@
     "dieu": "87",
     "tieu_de": "Tăng, giảm vốn điều lệ",
     "chuong": "III",
+    "muc": "2",
     "page": 37,
     "intro": [],
     "khoans": [
@@ -4705,6 +4790,7 @@
     "dieu": "88",
     "tieu_de": "Doanh nghiệp nhà nước",
     "chuong": "IV",
+    "muc": null,
     "page": 37,
     "intro": [],
     "khoans": [
@@ -4756,6 +4842,7 @@
     "dieu": "89",
     "tieu_de": "Áp dụng quy định đối với doanh nghiệp nhà nước",
     "chuong": "IV",
+    "muc": null,
     "page": 38,
     "intro": [],
     "khoans": [
@@ -4773,7 +4860,8 @@
         "k": "2",
         "lines": [
           "2. Doanh nghiệp do Nhà nước nắm giữ trên 50% vốn điều lệ theo quy định tại điểm b khoản 1 Điều 88 của Luật này",
-          "được tổ chức quản lý dưới hình thức công ty trách nhiệm hữu hạn hai thành viên trở lên theo các quy định tại Mục 1"
+          "được tổ chức quản lý dưới hình thức công ty trách nhiệm hữu hạn hai thành viên trở lên theo các quy định tại Mục 1",
+          "Chương III hoặc công ty cổ phần theo các quy định tại Chương V của Luật này."
         ],
         "notes": []
       }
@@ -4784,7 +4872,8 @@
     "doc_id": "luat_dn_2020",
     "dieu": "90",
     "tieu_de": "Cơ cấu tổ chức quản lý",
-    "chuong": "III",
+    "chuong": "IV",
+    "muc": null,
     "page": 38,
     "intro": [
       "Cơ quan đại diện chủ sở hữu quyết định tổ chức quản lý doanh nghiệp nhà nước dưới hình thức công ty trách nhiệm hữu",
@@ -4812,7 +4901,8 @@
     "doc_id": "luat_dn_2020",
     "dieu": "91",
     "tieu_de": "Hội đồng thành viên",
-    "chuong": "III",
+    "chuong": "IV",
+    "muc": null,
     "page": 38,
     "intro": [],
     "khoans": [
@@ -4848,7 +4938,8 @@
     "doc_id": "luat_dn_2020",
     "dieu": "92",
     "tieu_de": "Quyền và nghĩa vụ của Hội đồng thành viên",
-    "chuong": "III",
+    "chuong": "IV",
+    "muc": null,
     "page": 38,
     "intro": [],
     "khoans": [
@@ -4881,7 +4972,8 @@
     "doc_id": "luat_dn_2020",
     "dieu": "93",
     "tieu_de": "Tiêu chuẩn và điều kiện của thành viên Hội đồng thành viên",
-    "chuong": "III",
+    "chuong": "IV",
+    "muc": null,
     "page": 38,
     "intro": [],
     "khoans": [
@@ -4946,7 +5038,8 @@
     "doc_id": "luat_dn_2020",
     "dieu": "94",
     "tieu_de": "Miễn nhiệm, cách chức thành viên Hội đồng thành viên",
-    "chuong": "III",
+    "chuong": "IV",
+    "muc": null,
     "page": 39,
     "intro": [],
     "khoans": [
@@ -4991,7 +5084,8 @@
     "doc_id": "luat_dn_2020",
     "dieu": "95",
     "tieu_de": "Chủ tịch Hội đồng thành viên",
-    "chuong": "III",
+    "chuong": "IV",
+    "muc": null,
     "page": 39,
     "intro": [],
     "khoans": [
@@ -5035,7 +5129,8 @@
     "doc_id": "luat_dn_2020",
     "dieu": "96",
     "tieu_de": "Quyền và nghĩa vụ của thành viên Hội đồng thành viên",
-    "chuong": "III",
+    "chuong": "IV",
+    "muc": null,
     "page": 40,
     "intro": [],
     "khoans": [
@@ -5069,7 +5164,8 @@
     "doc_id": "luat_dn_2020",
     "dieu": "97",
     "tieu_de": "Trách nhiệm của Chủ tịch và thành viên khác của Hội đồng thành viên",
-    "chuong": "III",
+    "chuong": "IV",
+    "muc": null,
     "page": 40,
     "intro": [],
     "khoans": [
@@ -5139,7 +5235,8 @@
     "doc_id": "luat_dn_2020",
     "dieu": "98",
     "tieu_de": "Chế độ làm việc, điều kiện và thể thức tiến hành họp Hội đồng thành viên",
-    "chuong": "III",
+    "chuong": "IV",
+    "muc": null,
     "page": 40,
     "intro": [],
     "khoans": [
@@ -5276,7 +5373,8 @@
     "doc_id": "luat_dn_2020",
     "dieu": "99",
     "tieu_de": "Chủ tịch công ty",
-    "chuong": "III",
+    "chuong": "IV",
+    "muc": null,
     "page": 41,
     "intro": [],
     "khoans": [
@@ -5349,7 +5447,8 @@
     "doc_id": "luat_dn_2020",
     "dieu": "100",
     "tieu_de": "Giám đốc, Tổng giám đốc và Phó giám đốc, Phó Tổng giám đốc",
-    "chuong": "III",
+    "chuong": "IV",
+    "muc": null,
     "page": 42,
     "intro": [],
     "khoans": [
@@ -5400,7 +5499,8 @@
     "doc_id": "luat_dn_2020",
     "dieu": "101",
     "tieu_de": "Tiêu chuẩn, điều kiện của Giám đốc, Tổng giám đốc",
-    "chuong": "III",
+    "chuong": "IV",
+    "muc": null,
     "page": 42,
     "intro": [],
     "khoans": [
@@ -5457,7 +5557,8 @@
     "doc_id": "luat_dn_2020",
     "dieu": "102",
     "tieu_de": "Miễn nhiệm, cách chức đối với Giám đốc, Tổng giám đốc và người quản lý khác của công ty, Kế toán trưởng",
-    "chuong": "III",
+    "chuong": "IV",
+    "muc": null,
     "page": 43,
     "intro": [],
     "khoans": [
@@ -5508,7 +5609,8 @@
     "doc_id": "luat_dn_2020",
     "dieu": "103",
     "tieu_de": "Ban kiểm soát, Kiểm soát viên",
-    "chuong": "III",
+    "chuong": "IV",
+    "muc": null,
     "page": 43,
     "intro": [],
     "khoans": [
@@ -5560,7 +5662,8 @@
     "doc_id": "luat_dn_2020",
     "dieu": "104",
     "tieu_de": "Nghĩa vụ của Ban kiểm soát",
-    "chuong": "III",
+    "chuong": "IV",
+    "muc": null,
     "page": 44,
     "intro": [],
     "khoans": [
@@ -5606,7 +5709,8 @@
     "doc_id": "luat_dn_2020",
     "dieu": "105",
     "tieu_de": "Quyền của Ban kiểm soát",
-    "chuong": "III",
+    "chuong": "IV",
+    "muc": null,
     "page": 44,
     "intro": [],
     "khoans": [
@@ -5668,7 +5772,8 @@
     "doc_id": "luat_dn_2020",
     "dieu": "106",
     "tieu_de": "Chế độ làm việc của Ban kiểm soát",
-    "chuong": "III",
+    "chuong": "IV",
+    "muc": null,
     "page": 44,
     "intro": [],
     "khoans": [
@@ -5711,7 +5816,8 @@
     "doc_id": "luat_dn_2020",
     "dieu": "107",
     "tieu_de": "Trách nhiệm của Kiểm soát viên",
-    "chuong": "III",
+    "chuong": "IV",
+    "muc": null,
     "page": 45,
     "intro": [],
     "khoans": [
@@ -5782,7 +5888,8 @@
     "doc_id": "luat_dn_2020",
     "dieu": "108",
     "tieu_de": "Miễn nhiệm, cách chức Trưởng Ban kiểm soát, Kiểm soát viên",
-    "chuong": "III",
+    "chuong": "IV",
+    "muc": null,
     "page": 45,
     "intro": [],
     "khoans": [
@@ -5818,7 +5925,8 @@
     "doc_id": "luat_dn_2020",
     "dieu": "109",
     "tieu_de": "Công bố thông tin định kỳ",
-    "chuong": "III",
+    "chuong": "IV",
+    "muc": null,
     "page": 45,
     "intro": [],
     "khoans": [
@@ -5894,7 +6002,8 @@
     "doc_id": "luat_dn_2020",
     "dieu": "110",
     "tieu_de": "Công bố thông tin bất thường",
-    "chuong": "III",
+    "chuong": "IV",
+    "muc": null,
     "page": 46,
     "intro": [],
     "khoans": [
@@ -5935,6 +6044,7 @@
     "dieu": "111",
     "tieu_de": "Công ty cổ phần",
     "chuong": "V",
+    "muc": null,
     "page": 47,
     "intro": [],
     "khoans": [
@@ -5973,6 +6083,7 @@
     "dieu": "112",
     "tieu_de": "Vốn của công ty cổ phần",
     "chuong": "V",
+    "muc": null,
     "page": 47,
     "intro": [],
     "khoans": [
@@ -6044,6 +6155,7 @@
     "dieu": "113",
     "tieu_de": "Thanh toán cổ phần đã đăng ký mua khi đăng ký thành lập doanh nghiệp",
     "chuong": "V",
+    "muc": null,
     "page": 48,
     "intro": [],
     "khoans": [
@@ -6112,6 +6224,7 @@
     "dieu": "114",
     "tieu_de": "Các loại cổ phần",
     "chuong": "V",
+    "muc": null,
     "page": 48,
     "intro": [],
     "khoans": [
@@ -6181,6 +6294,7 @@
     "dieu": "115",
     "tieu_de": "Quyền của cổ đông phổ thông",
     "chuong": "V",
+    "muc": null,
     "page": 49,
     "intro": [],
     "khoans": [
@@ -6284,6 +6398,7 @@
     "dieu": "116",
     "tieu_de": "Cổ phần ưu đãi biểu quyết và quyền của cổ đông sở hữu cổ phần ưu đãi biểu quyết",
     "chuong": "V",
+    "muc": null,
     "page": 50,
     "intro": [],
     "khoans": [
@@ -6332,6 +6447,7 @@
     "dieu": "117",
     "tieu_de": "Cổ phần ưu đãi cổ tức và quyền của cổ đông sở hữu cổ phần ưu đãi cổ tức",
     "chuong": "V",
+    "muc": null,
     "page": 50,
     "intro": [],
     "khoans": [
@@ -6372,6 +6488,7 @@
     "dieu": "118",
     "tieu_de": "Cổ phần ưu đãi hoàn lại và quyền của cổ đông sở hữu cổ phần ưu đãi hoàn lại",
     "chuong": "V",
+    "muc": null,
     "page": 50,
     "intro": [],
     "khoans": [
@@ -6407,6 +6524,7 @@
     "dieu": "119",
     "tieu_de": "Nghĩa vụ của cổ đông",
     "chuong": "V",
+    "muc": null,
     "page": 51,
     "intro": [],
     "khoans": [
@@ -6465,6 +6583,7 @@
     "dieu": "120",
     "tieu_de": "Cổ phần phổ thông của cổ đông sáng lập",
     "chuong": "V",
+    "muc": null,
     "page": 51,
     "intro": [],
     "khoans": [
@@ -6513,6 +6632,7 @@
     "dieu": "121",
     "tieu_de": "Cổ phiếu",
     "chuong": "V",
+    "muc": null,
     "page": 51,
     "intro": [],
     "khoans": [
@@ -6559,6 +6679,7 @@
     "dieu": "122",
     "tieu_de": "Sổ đăng ký cổ đông",
     "chuong": "V",
+    "muc": null,
     "page": 52,
     "intro": [],
     "khoans": [
@@ -6619,6 +6740,7 @@
     "dieu": "123",
     "tieu_de": "Chào bán cổ phần",
     "chuong": "V",
+    "muc": null,
     "page": 52,
     "intro": [],
     "khoans": [
@@ -6662,6 +6784,7 @@
     "dieu": "124",
     "tieu_de": "Chào bán cổ phần cho cổ đông hiện hữu",
     "chuong": "V",
+    "muc": null,
     "page": 52,
     "intro": [],
     "khoans": [
@@ -6726,6 +6849,7 @@
     "dieu": "125",
     "tieu_de": "Chào bán cổ phần riêng lẻ",
     "chuong": "V",
+    "muc": null,
     "page": 53,
     "intro": [],
     "khoans": [
@@ -6768,6 +6892,7 @@
     "dieu": "126",
     "tieu_de": "Bán cổ phần",
     "chuong": "V",
+    "muc": null,
     "page": 53,
     "intro": [
       "Hội đồng quản trị quyết định thời điểm, phương thức và giá bán cổ phần. Giá bán cổ phần không được thấp hơn giá thị",
@@ -6812,6 +6937,7 @@
     "dieu": "127",
     "tieu_de": "Chuyển nhượng cổ phần",
     "chuong": "V",
+    "muc": null,
     "page": 54,
     "intro": [],
     "khoans": [
@@ -6882,6 +7008,7 @@
     "dieu": "128",
     "tieu_de": "Chào bán trái phiếu riêng lẻ",
     "chuong": "V",
+    "muc": null,
     "page": 54,
     "intro": [],
     "khoans": [
@@ -6944,6 +7071,7 @@
     "dieu": "129",
     "tieu_de": "Trình tự, thủ tục chào bán và chuyển nhượng trái phiếu riêng lẻ",
     "chuong": "V",
+    "muc": null,
     "page": 55,
     "intro": [],
     "khoans": [
@@ -6995,6 +7123,7 @@
     "dieu": "130",
     "tieu_de": "Quyết định chào bán trái phiếu riêng lẻ",
     "chuong": "V",
+    "muc": null,
     "page": 55,
     "intro": [],
     "khoans": [
@@ -7027,6 +7156,7 @@
     "dieu": "131",
     "tieu_de": "Mua cổ phần, trái phiếu",
     "chuong": "V",
+    "muc": null,
     "page": 55,
     "intro": [
       "Cổ phần, trái phiếu của công ty cổ phần có thể được mua bằng Đồng Việt Nam, ngoại tệ tự do chuyển đổi, vàng, quyền",
@@ -7041,6 +7171,7 @@
     "dieu": "132",
     "tieu_de": "Mua lại cổ phần theo yêu cầu của cổ đông",
     "chuong": "V",
+    "muc": null,
     "page": 55,
     "intro": [],
     "khoans": [
@@ -7073,6 +7204,7 @@
     "dieu": "133",
     "tieu_de": "Mua lại cổ phần theo quyết định của công ty",
     "chuong": "V",
+    "muc": null,
     "page": 55,
     "intro": [
       "Công ty có quyền mua lại không quá 30% tổng số cổ phần phổ thông đã bán, một phần hoặc toàn bộ cổ phần ưu đãi cổ",
@@ -7123,6 +7255,7 @@
     "dieu": "134",
     "tieu_de": "Điều kiện thanh toán và xử lý các cổ phần được mua lại",
     "chuong": "V",
+    "muc": null,
     "page": 56,
     "intro": [],
     "khoans": [
@@ -7171,6 +7304,7 @@
     "dieu": "135",
     "tieu_de": "Trả cổ tức",
     "chuong": "V",
+    "muc": null,
     "page": 56,
     "intro": [],
     "khoans": [
@@ -7245,6 +7379,7 @@
     "dieu": "136",
     "tieu_de": "Thu hồi tiền thanh toán cổ phần được mua lại hoặc cổ tức",
     "chuong": "V",
+    "muc": null,
     "page": 57,
     "intro": [
       "Trường hợp việc thanh toán cổ phần được mua lại trái với quy định tại khoản 1 Điều 134 của Luật này hoặc trả cổ tức",
@@ -7261,6 +7396,7 @@
     "dieu": "137",
     "tieu_de": "Cơ cấu tổ chức quản lý công ty cổ phần",
     "chuong": "V",
+    "muc": null,
     "page": 57,
     "intro": [],
     "khoans": [
@@ -7298,6 +7434,7 @@
     "dieu": "138",
     "tieu_de": "Quyền và nghĩa vụ của Đại hội đồng cổ đông",
     "chuong": "V",
+    "muc": null,
     "page": 57,
     "intro": [],
     "khoans": [
@@ -7340,6 +7477,7 @@
     "dieu": "139",
     "tieu_de": "Cuộc họp Đại hội đồng cổ đông",
     "chuong": "V",
+    "muc": null,
     "page": 58,
     "intro": [],
     "khoans": [
@@ -7385,6 +7523,7 @@
     "dieu": "140",
     "tieu_de": "Triệu tập họp Đại hội đồng cổ đông",
     "chuong": "V",
+    "muc": null,
     "page": 58,
     "intro": [],
     "khoans": [
@@ -7481,6 +7620,7 @@
     "dieu": "141",
     "tieu_de": "Danh sách cổ đông có quyền dự họp Đại hội đồng cổ đông",
     "chuong": "V",
+    "muc": null,
     "page": 59,
     "intro": [],
     "khoans": [
@@ -7528,6 +7668,7 @@
     "dieu": "142",
     "tieu_de": "Chương trình và nội dung họp Đại hội đồng cổ đông",
     "chuong": "V",
+    "muc": null,
     "page": 60,
     "intro": [],
     "khoans": [
@@ -7577,6 +7718,7 @@
     "dieu": "143",
     "tieu_de": "Mời họp Đại hội đồng cổ đông",
     "chuong": "V",
+    "muc": null,
     "page": 60,
     "intro": [],
     "khoans": [
@@ -7626,6 +7768,7 @@
     "dieu": "144",
     "tieu_de": "Thực hiện quyền dự họp Đại hội đồng cổ đông",
     "chuong": "V",
+    "muc": null,
     "page": 60,
     "intro": [],
     "khoans": [
@@ -7668,6 +7811,7 @@
     "dieu": "145",
     "tieu_de": "Điều kiện tiến hành họp Đại hội đồng cổ đông",
     "chuong": "V",
+    "muc": null,
     "page": 61,
     "intro": [],
     "khoans": [
@@ -7715,6 +7859,7 @@
     "dieu": "146",
     "tieu_de": "Thể thức tiến hành họp và biểu quyết tại cuộc họp Đại hội đồng cổ đông",
     "chuong": "V",
+    "muc": null,
     "page": 61,
     "intro": [
       "Trong trường hợp Điều lệ công ty không có quy định khác thì thể thức họp và biểu quyết tại cuộc họp Đại hội đồng cổ",
@@ -7819,6 +7964,7 @@
     "dieu": "147",
     "tieu_de": "Hình thức thông qua nghị quyết Đại hội đồng cổ đông",
     "chuong": "V",
+    "muc": null,
     "page": 62,
     "intro": [],
     "khoans": [
@@ -7854,6 +8000,7 @@
     "dieu": "148",
     "tieu_de": "Điều kiện để nghị quyết Đại hội đồng cổ đông được thông qua",
     "chuong": "V",
+    "muc": null,
     "page": 62,
     "intro": [],
     "khoans": [
@@ -7945,6 +8092,7 @@
     "dieu": "149",
     "tieu_de": "Thẩm quyền và thể thức lấy ý kiến cổ đông bằng văn bản để thông qua nghị quyết Đại hội đồng cổ đông",
     "chuong": "V",
+    "muc": null,
     "page": 63,
     "intro": [
       "Trường hợp Điều lệ công ty không có quy định khác thì thẩm quyền và thể thức lấy ý kiến cổ đông bằng văn bản để",
@@ -8055,6 +8203,7 @@
     "dieu": "150",
     "tieu_de": "Biên bản họp Đại hội đồng cổ đông",
     "chuong": "V",
+    "muc": null,
     "page": 64,
     "intro": [],
     "khoans": [
@@ -8130,6 +8279,7 @@
     "dieu": "151",
     "tieu_de": "Yêu cầu hủy bỏ nghị quyết Đại hội đồng cổ đông",
     "chuong": "V",
+    "muc": null,
     "page": 65,
     "intro": [
       "Trong thời hạn 90 ngày kể từ ngày nhận được nghị quyết hoặc biên bản họp Đại hội đồng cổ đông hoặc biên bản kết",
@@ -8161,6 +8311,7 @@
     "dieu": "152",
     "tieu_de": "Hiệu lực của nghị quyết Đại hội đồng cổ đông",
     "chuong": "V",
+    "muc": null,
     "page": 65,
     "intro": [],
     "khoans": [
@@ -8199,6 +8350,7 @@
     "dieu": "153",
     "tieu_de": "Hội đồng quản trị",
     "chuong": "V",
+    "muc": null,
     "page": 65,
     "intro": [],
     "khoans": [
@@ -8271,6 +8423,7 @@
     "dieu": "154",
     "tieu_de": "Nhiệm kỳ và số lượng thành viên Hội đồng quản trị",
     "chuong": "V",
+    "muc": null,
     "page": 66,
     "intro": [],
     "khoans": [
@@ -8314,6 +8467,7 @@
     "dieu": "155",
     "tieu_de": "Cơ cấu tổ chức, tiêu chuẩn và điều kiện làm thành viên Hội đồng quản trị",
     "chuong": "V",
+    "muc": null,
     "page": 67,
     "intro": [],
     "khoans": [
@@ -8369,6 +8523,7 @@
     "dieu": "156",
     "tieu_de": "Chủ tịch Hội đồng quản trị",
     "chuong": "V",
+    "muc": null,
     "page": 67,
     "intro": [],
     "khoans": [
@@ -8438,6 +8593,7 @@
     "dieu": "157",
     "tieu_de": "Cuộc họp Hội đồng quản trị",
     "chuong": "V",
+    "muc": null,
     "page": 68,
     "intro": [],
     "khoans": [
@@ -8566,6 +8722,7 @@
     "dieu": "158",
     "tieu_de": "Biên bản họp Hội đồng quản trị",
     "chuong": "V",
+    "muc": null,
     "page": 69,
     "intro": [],
     "khoans": [
@@ -8637,6 +8794,7 @@
     "dieu": "159",
     "tieu_de": "Quyền được cung cấp thông tin của thành viên Hội đồng quản trị",
     "chuong": "V",
+    "muc": null,
     "page": 70,
     "intro": [],
     "khoans": [
@@ -8665,6 +8823,7 @@
     "dieu": "160",
     "tieu_de": "Miễn nhiệm, bãi nhiệm, thay thế và bổ sung thành viên Hội đồng quản trị",
     "chuong": "V",
+    "muc": null,
     "page": 70,
     "intro": [],
     "khoans": [
@@ -8718,6 +8877,7 @@
     "dieu": "161",
     "tieu_de": "Ủy ban kiểm toán",
     "chuong": "V",
+    "muc": null,
     "page": 70,
     "intro": [],
     "khoans": [
@@ -8768,6 +8928,7 @@
     "dieu": "162",
     "tieu_de": "Giám đốc, Tổng giám đốc công ty",
     "chuong": "V",
+    "muc": null,
     "page": 71,
     "intro": [],
     "khoans": [
@@ -8840,6 +9001,7 @@
     "dieu": "163",
     "tieu_de": "Tiền lương, thù lao, thưởng và lợi ích khác của thành viên Hội đồng quản trị, Giám đốc, Tổng",
     "chuong": "V",
+    "muc": null,
     "page": 72,
     "intro": [
       "Giám đốc"
@@ -8887,6 +9049,7 @@
     "dieu": "164",
     "tieu_de": "Công khai các lợi ích liên quan",
     "chuong": "V",
+    "muc": null,
     "page": 72,
     "intro": [
       "Trường hợp Điều lệ công ty không có quy định khác chặt chẽ hơn, việc công khai lợi ích và người có liên quan của công",
@@ -8959,6 +9122,7 @@
     "dieu": "165",
     "tieu_de": "Trách nhiệm của người quản lý công ty",
     "chuong": "V",
+    "muc": null,
     "page": 73,
     "intro": [],
     "khoans": [
@@ -8994,6 +9158,7 @@
     "dieu": "166",
     "tieu_de": "Quyền khởi kiện đối với thành viên Hội đồng quản trị, Giám đốc, Tổng giám đốc",
     "chuong": "V",
+    "muc": null,
     "page": 73,
     "intro": [],
     "khoans": [
@@ -9037,6 +9202,7 @@
     "dieu": "167",
     "tieu_de": "Chấp thuận hợp đồng, giao dịch giữa công ty với người có liên quan",
     "chuong": "V",
+    "muc": null,
     "page": 73,
     "intro": [],
     "khoans": [
@@ -9115,6 +9281,7 @@
     "dieu": "168",
     "tieu_de": "Ban kiểm soát",
     "chuong": "V",
+    "muc": null,
     "page": 74,
     "intro": [],
     "khoans": [
@@ -9155,6 +9322,7 @@
     "dieu": "169",
     "tieu_de": "Tiêu chuẩn và điều kiện của Kiểm soát viên",
     "chuong": "V",
+    "muc": null,
     "page": 74,
     "intro": [],
     "khoans": [
@@ -9191,6 +9359,7 @@
     "dieu": "170",
     "tieu_de": "Quyền và nghĩa vụ của Ban kiểm soát",
     "chuong": "V",
+    "muc": null,
     "page": 75,
     "intro": [],
     "khoans": [
@@ -9304,6 +9473,7 @@
     "dieu": "171",
     "tieu_de": "Quyền được cung cấp thông tin của Ban kiểm soát",
     "chuong": "V",
+    "muc": null,
     "page": 76,
     "intro": [],
     "khoans": [
@@ -9343,6 +9513,7 @@
     "dieu": "172",
     "tieu_de": "Tiền lương, thù lao, thưởng và lợi ích khác của Kiểm soát viên",
     "chuong": "V",
+    "muc": null,
     "page": 76,
     "intro": [
       "Trường hợp Điều lệ công ty không có quy định khác thì tiền lương, thù lao, thưởng và lợi ích khác của Kiểm soát viên",
@@ -9384,6 +9555,7 @@
     "dieu": "173",
     "tieu_de": "Trách nhiệm của Kiểm soát viên",
     "chuong": "V",
+    "muc": null,
     "page": 76,
     "intro": [],
     "khoans": [
@@ -9443,6 +9615,7 @@
     "dieu": "174",
     "tieu_de": "Miễn nhiệm, bãi nhiệm Kiểm soát viên",
     "chuong": "V",
+    "muc": null,
     "page": 76,
     "intro": [],
     "khoans": [
@@ -9475,6 +9648,7 @@
     "dieu": "175",
     "tieu_de": "Trình báo cáo hằng năm",
     "chuong": "V",
+    "muc": null,
     "page": 77,
     "intro": [],
     "khoans": [
@@ -9525,6 +9699,7 @@
     "dieu": "176",
     "tieu_de": "Công khai thông tin",
     "chuong": "V",
+    "muc": null,
     "page": 77,
     "intro": [],
     "khoans": [
@@ -9583,6 +9758,7 @@
     "dieu": "177",
     "tieu_de": "Công ty hợp danh",
     "chuong": "VI",
+    "muc": null,
     "page": 78,
     "intro": [],
     "khoans": [
@@ -9620,6 +9796,7 @@
     "dieu": "178",
     "tieu_de": "Thực hiện góp vốn và cấp giấy chứng nhận phần vốn góp",
     "chuong": "VI",
+    "muc": null,
     "page": 78,
     "intro": [],
     "khoans": [
@@ -9679,6 +9856,7 @@
     "dieu": "179",
     "tieu_de": "Tài sản của công ty hợp danh",
     "chuong": "VI",
+    "muc": null,
     "page": 78,
     "intro": [
       "Tài sản của công ty hợp danh bao gồm:"
@@ -9721,6 +9899,7 @@
     "dieu": "180",
     "tieu_de": "Hạn chế quyền đối với thành viên hợp danh",
     "chuong": "VI",
+    "muc": null,
     "page": 78,
     "intro": [],
     "khoans": [
@@ -9756,6 +9935,7 @@
     "dieu": "181",
     "tieu_de": "Quyền và nghĩa vụ của thành viên hợp danh",
     "chuong": "VI",
+    "muc": null,
     "page": 79,
     "intro": [],
     "khoans": [
@@ -9815,6 +9995,7 @@
     "dieu": "182",
     "tieu_de": "Hội đồng thành viên",
     "chuong": "VI",
+    "muc": null,
     "page": 80,
     "intro": [],
     "khoans": [
@@ -9876,6 +10057,7 @@
     "dieu": "183",
     "tieu_de": "Triệu tập họp Hội đồng thành viên",
     "chuong": "VI",
+    "muc": null,
     "page": 80,
     "intro": [],
     "khoans": [
@@ -9923,6 +10105,7 @@
     "dieu": "184",
     "tieu_de": "Điều hành kinh doanh của công ty hợp danh",
     "chuong": "VI",
+    "muc": null,
     "page": 81,
     "intro": [],
     "khoans": [
@@ -9978,6 +10161,7 @@
     "dieu": "185",
     "tieu_de": "Chấm dứt tư cách thành viên hợp danh",
     "chuong": "VI",
+    "muc": null,
     "page": 81,
     "intro": [],
     "khoans": [
@@ -10049,6 +10233,7 @@
     "dieu": "186",
     "tieu_de": "Tiếp nhận thành viên mới",
     "chuong": "VI",
+    "muc": null,
     "page": 82,
     "intro": [],
     "khoans": [
@@ -10084,6 +10269,7 @@
     "dieu": "187",
     "tieu_de": "Quyền và nghĩa vụ của thành viên góp vốn",
     "chuong": "VI",
+    "muc": null,
     "page": 82,
     "intro": [],
     "khoans": [
@@ -10129,6 +10315,7 @@
     "dieu": "188",
     "tieu_de": "Doanh nghiệp tư nhân",
     "chuong": "VII",
+    "muc": null,
     "page": 83,
     "intro": [],
     "khoans": [
@@ -10171,6 +10358,7 @@
     "dieu": "189",
     "tieu_de": "Vốn đầu tư của chủ doanh nghiệp tư nhân",
     "chuong": "VII",
+    "muc": null,
     "page": 83,
     "intro": [],
     "khoans": [
@@ -10209,6 +10397,7 @@
     "dieu": "190",
     "tieu_de": "Quản lý doanh nghiệp tư nhân",
     "chuong": "VII",
+    "muc": null,
     "page": 83,
     "intro": [],
     "khoans": [
@@ -10246,6 +10435,7 @@
     "dieu": "191",
     "tieu_de": "Cho thuê doanh nghiệp tư nhân",
     "chuong": "VII",
+    "muc": null,
     "page": 83,
     "intro": [
       "Chủ doanh nghiệp tư nhân có quyền cho thuê toàn bộ doanh nghiệp tư nhân của mình nhưng phải thông báo bằng văn",
@@ -10263,6 +10453,7 @@
     "dieu": "192",
     "tieu_de": "Bán doanh nghiệp tư nhân",
     "chuong": "VII",
+    "muc": null,
     "page": 83,
     "intro": [],
     "khoans": [
@@ -10304,6 +10495,7 @@
     "dieu": "193",
     "tieu_de": "Thực hiện quyền của chủ doanh nghiệp tư nhân trong một số trường hợp đặc biệt",
     "chuong": "VII",
+    "muc": null,
     "page": 83,
     "intro": [],
     "khoans": [
@@ -10358,6 +10550,7 @@
     "dieu": "194",
     "tieu_de": "Tập đoàn kinh tế, tổng công ty",
     "chuong": "VIII",
+    "muc": null,
     "page": 84,
     "intro": [],
     "khoans": [
@@ -10387,6 +10580,7 @@
     "dieu": "195",
     "tieu_de": "Công ty mẹ, công ty con",
     "chuong": "VIII",
+    "muc": null,
     "page": 84,
     "intro": [],
     "khoans": [
@@ -10432,6 +10626,7 @@
     "dieu": "196",
     "tieu_de": "Quyền, nghĩa vụ và trách nhiệm của công ty mẹ đối với công ty con",
     "chuong": "VIII",
+    "muc": null,
     "page": 84,
     "intro": [],
     "khoans": [
@@ -10496,6 +10691,7 @@
     "dieu": "197",
     "tieu_de": "Báo cáo tài chính của công ty mẹ, công ty con",
     "chuong": "VIII",
+    "muc": null,
     "page": 85,
     "intro": [],
     "khoans": [
@@ -10566,6 +10762,7 @@
     "dieu": "198",
     "tieu_de": "Chia công ty",
     "chuong": "IX",
+    "muc": null,
     "page": 85,
     "intro": [],
     "khoans": [
@@ -10635,6 +10832,7 @@
     "dieu": "199",
     "tieu_de": "Tách công ty",
     "chuong": "IX",
+    "muc": null,
     "page": 86,
     "intro": [],
     "khoans": [
@@ -10690,6 +10888,7 @@
     "dieu": "200",
     "tieu_de": "Hợp nhất công ty",
     "chuong": "IX",
+    "muc": null,
     "page": 86,
     "intro": [],
     "khoans": [
@@ -10755,6 +10954,7 @@
     "dieu": "201",
     "tieu_de": "Sáp nhập công ty",
     "chuong": "IX",
+    "muc": null,
     "page": 87,
     "intro": [],
     "khoans": [
@@ -10814,6 +11014,7 @@
     "dieu": "202",
     "tieu_de": "Chuyển đổi công ty trách nhiệm hữu hạn thành công ty cổ phần",
     "chuong": "IX",
+    "muc": null,
     "page": 87,
     "intro": [],
     "khoans": [
@@ -10863,6 +11064,7 @@
     "dieu": "203",
     "tieu_de": "Chuyển đổi công ty cổ phần thành công ty trách nhiệm hữu hạn một thành viên",
     "chuong": "IX",
+    "muc": null,
     "page": 88,
     "intro": [],
     "khoans": [
@@ -10912,6 +11114,7 @@
     "dieu": "204",
     "tieu_de": "Chuyển đổi công ty cổ phần thành công ty trách nhiệm hữu hạn hai thành viên trở lên",
     "chuong": "IX",
+    "muc": null,
     "page": 88,
     "intro": [],
     "khoans": [
@@ -10957,6 +11160,7 @@
     "dieu": "205",
     "tieu_de": "Chuyển đổi doanh nghiệp tư nhân thành công ty trách nhiệm hữu hạn, công ty cổ phần, công ty hợp danh",
     "chuong": "IX",
+    "muc": null,
     "page": 89,
     "intro": [],
     "khoans": [
@@ -11002,6 +11206,7 @@
     "dieu": "206",
     "tieu_de": "Tạm ngừng, đình chỉ hoạt động, chấm dứt kinh doanh",
     "chuong": "IX",
+    "muc": null,
     "page": 89,
     "intro": [],
     "khoans": [
@@ -11053,6 +11258,7 @@
     "dieu": "207",
     "tieu_de": "Các trường hợp và điều kiện giải thể doanh nghiệp",
     "chuong": "IX",
+    "muc": null,
     "page": 89,
     "intro": [],
     "khoans": [
@@ -11093,6 +11299,7 @@
     "dieu": "208",
     "tieu_de": "Trình tự, thủ tục giải thể doanh nghiệp",
     "chuong": "IX",
+    "muc": null,
     "page": 90,
     "intro": [
       "Việc giải thể doanh nghiệp trong trường hợp quy định tại các điểm a, b và c khoản 1 Điều 207 của Luật này được thực",
@@ -11196,6 +11403,7 @@
     "dieu": "209",
     "tieu_de": "Giải thể doanh nghiệp trong trường hợp bị thu hồi Giấy chứng nhận đăng ký doanh nghiệp hoặc theo quyết định của Tòa án",
     "chuong": "IX",
+    "muc": null,
     "page": 91,
     "intro": [
       "Việc giải thể doanh nghiệp trong trường hợp bị thu hồi Giấy chứng nhận đăng ký doanh nghiệp hoặc theo quyết định của",
@@ -11270,6 +11478,7 @@
     "dieu": "210",
     "tieu_de": "Hồ sơ giải thể doanh nghiệp",
     "chuong": "IX",
+    "muc": null,
     "page": 91,
     "intro": [],
     "khoans": [
@@ -11311,6 +11520,7 @@
     "dieu": "211",
     "tieu_de": "Các hoạt động bị cấm kể từ khi có quyết định giải thể",
     "chuong": "IX",
+    "muc": null,
     "page": 92,
     "intro": [],
     "khoans": [
@@ -11345,6 +11555,7 @@
     "dieu": "212",
     "tieu_de": "Thu hồi Giấy chứng nhận đăng ký doanh nghiệp",
     "chuong": "IX",
+    "muc": null,
     "page": 92,
     "intro": [],
     "khoans": [
@@ -11378,6 +11589,7 @@
     "dieu": "213",
     "tieu_de": "Chấm dứt hoạt động chi nhánh, văn phòng đại diện, địa điểm kinh doanh",
     "chuong": "IX",
+    "muc": null,
     "page": 92,
     "intro": [],
     "khoans": [
@@ -11429,6 +11641,7 @@
     "dieu": "214",
     "tieu_de": "Phá sản doanh nghiệp",
     "chuong": "IX",
+    "muc": null,
     "page": 93,
     "intro": [
       "Việc phá sản doanh nghiệp được thực hiện theo quy định của pháp luật về phục hồi, phá sản.",
@@ -11442,6 +11655,7 @@
     "dieu": "215",
     "tieu_de": "Trách nhiệm các cơ quan quản lý nhà nước",
     "chuong": "X",
+    "muc": null,
     "page": 93,
     "intro": [],
     "khoans": [
@@ -11526,6 +11740,7 @@
     "dieu": "216",
     "tieu_de": "Cơ quan đăng ký kinh doanh",
     "chuong": "X",
+    "muc": null,
     "page": 93,
     "intro": [],
     "khoans": [
@@ -11571,6 +11786,7 @@
     "dieu": "217",
     "tieu_de": "Điều khoản thi hành",
     "chuong": "X",
+    "muc": null,
     "page": 94,
     "intro": [],
     "khoans": [
@@ -11664,6 +11880,7 @@
     "dieu": "218",
     "tieu_de": "Quy định chuyển tiếp",
     "chuong": "X",
+    "muc": null,
     "page": 95,
     "intro": [],
     "khoans": [

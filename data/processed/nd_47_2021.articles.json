@@ -4,6 +4,7 @@
     "dieu": "1",
     "tieu_de": "Phạm vi điều chỉnh và đối tượng áp dụng",
     "chuong": "I",
+    "muc": null,
     "page": 1,
     "intro": [],
     "khoans": [
@@ -38,6 +39,7 @@
     "dieu": "2",
     "tieu_de": "Giải thích từ ngữ",
     "chuong": "I",
+    "muc": null,
     "page": 1,
     "intro": [
       "Trong Nghị định này, các từ ngữ dưới đây được hiểu như sau:"
@@ -107,6 +109,7 @@
     "dieu": "3",
     "tieu_de": "Trách nhiệm của doanh nghiệp xã hội và chủ doanh nghiệp tư nhân, thành viên, cổ đông của doanh nghiệp xã hội.",
     "chuong": "II",
+    "muc": null,
     "page": 1,
     "intro": [],
     "khoans": [
@@ -140,6 +143,7 @@
     "dieu": "4",
     "tieu_de": "Tiếp nhận viện trợ, tài trợ",
     "chuong": "II",
+    "muc": null,
     "page": 2,
     "intro": [],
     "khoans": [
@@ -174,6 +178,7 @@
     "dieu": "5",
     "tieu_de": "Chuyển đổi cơ sở bảo trợ xã hội, quỹ xã hội và quỹ từ thiện thành doanh nghiệp xã hội",
     "chuong": "II",
+    "muc": null,
     "page": 2,
     "intro": [],
     "khoans": [
@@ -212,6 +217,7 @@
     "dieu": "6",
     "tieu_de": "Chia, tách, hợp nhất, sáp nhập, giải thể doanh nghiệp xã hội",
     "chuong": "II",
+    "muc": null,
     "page": 2,
     "intro": [],
     "khoans": [
@@ -250,6 +256,7 @@
     "dieu": "7",
     "tieu_de": "Doanh nghiệp nhà nước và xác định tỷ lệ vốn điều lệ hoặc tổng số cổ phần có quyền biểu quyết do Nhà nước nắm giữ tại doanh nghiệp.",
     "chuong": "III",
+    "muc": null,
     "page": 2,
     "intro": [],
     "khoans": [
@@ -287,6 +294,7 @@
     "dieu": "8",
     "tieu_de": "Ban kiểm soát, Kiểm soát viên tại doanh nghiệp do Nhà nước nắm giữ 100% vốn điều lệ",
     "chuong": "III",
+    "muc": null,
     "page": 3,
     "intro": [],
     "khoans": [
@@ -326,6 +334,7 @@
     "dieu": "9",
     "tieu_de": "Nghĩa vụ của Ban kiểm soát, Kiểm soát viên tại doanh nghiệp do Nhà nước nắm giữ 100% vốn điều lệ.",
     "chuong": "III",
+    "muc": null,
     "page": 3,
     "intro": [
       "Ban Kiểm soát, Kiểm soát viên tại doanh nghiệp do Nhà nước nắm giữ 100% vốn điều lệ thực hiện các nghĩa",
@@ -361,6 +370,7 @@
     "dieu": "10",
     "tieu_de": "Quy chế hoạt động của Ban kiểm soát, Kiểm soát viên",
     "chuong": "III",
+    "muc": null,
     "page": 3,
     "intro": [],
     "khoans": [
@@ -420,6 +430,7 @@
     "dieu": "11",
     "tieu_de": "Cổ phần ưu đãi biểu quyết",
     "chuong": "III",
+    "muc": null,
     "page": 3,
     "intro": [],
     "khoans": [
@@ -456,6 +467,7 @@
     "dieu": "12",
     "tieu_de": "Sở hữu chéo giữa các công ty trong nhóm công ty",
     "chuong": "III",
+    "muc": null,
     "page": 4,
     "intro": [],
     "khoans": [
@@ -508,6 +520,7 @@
     "dieu": "13",
     "tieu_de": "Điều kiện xác định doanh nghiệp quốc phòng, an ninh",
     "chuong": "IV",
+    "muc": null,
     "page": 4,
     "intro": [
       "Doanh nghiệp được xác định là doanh nghiệp quốc phòng, an ninh trong các trường hợp sau:"
@@ -561,6 +574,7 @@
     "dieu": "14",
     "tieu_de": "Quyền và nghĩa vụ của doanh nghiệp quốc phòng, an ninh",
     "chuong": "IV",
+    "muc": null,
     "page": 4,
     "intro": [
       "Doanh nghiệp quốc phòng, an ninh có các quyền và nghĩa vụ quy định tại Điều 9 Luật Doanh nghiệp và các",
@@ -674,6 +688,7 @@
     "dieu": "15",
     "tieu_de": "Cơ cấu tổ chức và chức danh quản lý của doanh nghiệp quốc phòng, an ninh",
     "chuong": "IV",
+    "muc": null,
     "page": 6,
     "intro": [],
     "khoans": [
@@ -720,6 +735,7 @@
     "dieu": "16",
     "tieu_de": "Chính sách đối với doanh nghiệp quốc phòng an ninh và người lao động tại doanh nghiệp quốc phòng, an ninh.",
     "chuong": "IV",
+    "muc": null,
     "page": 6,
     "intro": [],
     "khoans": [
@@ -792,6 +808,7 @@
     "dieu": "17",
     "tieu_de": "Công nhận, công nhận lại doanh nghiệp quốc phòng, an ninh",
     "chuong": "IV",
+    "muc": null,
     "page": 7,
     "intro": [],
     "khoans": [
@@ -899,6 +916,7 @@
     "dieu": "18",
     "tieu_de": "Hồ sơ đề nghị công nhận, công nhận lại doanh nghiệp quốc phòng, an ninh",
     "chuong": "IV",
+    "muc": null,
     "page": 8,
     "intro": [
       "Hồ sơ đề nghị công nhận, công nhận lại doanh nghiệp quốc phòng, an ninh gồm những nội dung sau:"
@@ -991,6 +1009,7 @@
     "dieu": "19",
     "tieu_de": "Giao nhiệm vụ, đặt hàng sản phẩm, dịch vụ quốc phòng, an ninh và kiểm tra, giám sát doanh nghiệp quốc phòng, an ninh.",
     "chuong": "IV",
+    "muc": null,
     "page": 9,
     "intro": [],
     "khoans": [
@@ -1019,7 +1038,6 @@
           "với doanh nghiệp và người lao động tại doanh nghiệp quốc phòng, an ninh quy định tại Nghị định này.",
           "CÔNG BỐ THÔNG TIN CỦA DOANH NGHIỆP NHÀ NƯỚC VÀ CƠ SỞ DỮ LIỆU QUỐC GIA VỀ",
           "DOANH NGHIỆP NHÀ NƯỚC",
-          "Mục 1",
           "CÔNG BỐ THÔNG TIN CỦA DOANH NGHIỆP NHÀ NƯỚC"
         ],
         "notes": [
@@ -1044,6 +1062,7 @@
     "dieu": "20",
     "tieu_de": "Nguyên tắc thực hiện công bố thông tin",
     "chuong": "V",
+    "muc": "1",
     "page": 9,
     "intro": [],
     "khoans": [
@@ -1106,6 +1125,7 @@
     "dieu": "21",
     "tieu_de": "Hình thức và phương tiện công bố thông tin",
     "chuong": "V",
+    "muc": "1",
     "page": 10,
     "intro": [],
     "khoans": [
@@ -1151,6 +1171,7 @@
     "dieu": "22",
     "tieu_de": "Tài khoản công bố thông tin của doanh nghiệp trên Cổng thông tin doanh nghiệp",
     "chuong": "V",
+    "muc": "1",
     "page": 10,
     "intro": [],
     "khoans": [
@@ -1192,6 +1213,7 @@
     "dieu": "23",
     "tieu_de": "Các thông tin công bố định kỳ",
     "chuong": "V",
+    "muc": "1",
     "page": 10,
     "intro": [],
     "khoans": [
@@ -1247,6 +1269,7 @@
     "dieu": "24",
     "tieu_de": "Các thông tin công bố bất thường",
     "chuong": "V",
+    "muc": "1",
     "page": 11,
     "intro": [
       "Doanh nghiệp phải công bố trên trang thông tin điện tử, ấn phẩm (nếu có) và niêm yết công khai tại trụ sở",
@@ -1262,6 +1285,7 @@
     "dieu": "25",
     "tieu_de": "Thực hiện công bố thông tin",
     "chuong": "V",
+    "muc": "1",
     "page": 11,
     "intro": [],
     "khoans": [
@@ -1295,6 +1319,7 @@
     "dieu": "26",
     "tieu_de": "Tạm hoãn công bố thông tin",
     "chuong": "V",
+    "muc": "1",
     "page": 11,
     "intro": [],
     "khoans": [
@@ -1321,7 +1346,6 @@
           "3. Doanh nghiệp phải công bố trên trang thông tin điện tử của doanh nghiệp việc tạm hoãn công bố thông tin,",
           "đồng thời phải thực hiện công bố thông tin ngay sau khi sự kiện bất khả kháng được khắc phục hoặc sau khi",
           "có ý kiến của cơ quan đại diện chủ sở hữu đối với các nội dung cần hạn chế công bố thông tin.",
-          "Mục 2",
           "CƠ SỞ DỮ LIỆU QUỐC GIA VỀ DOANH NGHIỆP NHÀ NƯỚC"
         ],
         "notes": []
@@ -1334,6 +1358,7 @@
     "dieu": "27",
     "tieu_de": "Nguyên tắc xây dựng, cập nhật, quản lý và khai thác Cơ sở dữ liệu quốc gia về doanh nghiệp nhà nước.",
     "chuong": "V",
+    "muc": "2",
     "page": 11,
     "intro": [],
     "khoans": [
@@ -1376,6 +1401,7 @@
     "dieu": "28",
     "tieu_de": "Quản lý, khai thác Cơ sở dữ liệu quốc gia về doanh nghiệp nhà nước",
     "chuong": "V",
+    "muc": "2",
     "page": 12,
     "intro": [],
     "khoans": [
@@ -1413,6 +1439,7 @@
     "dieu": "29",
     "tieu_de": "Kinh phí xây dựng, cập nhật, quản lý và khai thác Cơ sở dữ liệu quốc gia về doanh nghiệp nhà nước.",
     "chuong": "V",
+    "muc": "2",
     "page": 12,
     "intro": [],
     "khoans": [
@@ -1432,7 +1459,6 @@
           "2. Việc quản lý, sử dụng kinh phí để xây dựng, cập nhật, quản lý và khai thác Cơ sở dữ liệu quốc gia về",
           "doanh nghiệp nhà nước thực hiện theo quy định tại Luật Ngân sách nhà nước, pháp luật về đấu thầu, quy",
           "định của nhà tài trợ và các quy định pháp luật có liên quan.",
-          "Mục 3",
           "TRÁCH NHIỆM CÁC TỔ CHỨC LIÊN QUAN VÀ XỬ LÝ VI PHẠM"
         ],
         "notes": []
@@ -1445,6 +1471,7 @@
     "dieu": "30",
     "tieu_de": "Trách nhiệm của doanh nghiệp",
     "chuong": "V",
+    "muc": "3",
     "page": 12,
     "intro": [],
     "khoans": [
@@ -1500,6 +1527,7 @@
     "dieu": "31",
     "tieu_de": "Trách nhiệm của cơ quan đại diện chủ sở hữu",
     "chuong": "V",
+    "muc": "3",
     "page": 12,
     "intro": [],
     "khoans": [
@@ -1538,6 +1566,7 @@
     "dieu": "32",
     "tieu_de": "Trách nhiệm của Bộ Kế hoạch và Đầu tư",
     "chuong": "V",
+    "muc": "3",
     "page": 13,
     "intro": [],
     "khoans": [
@@ -1603,6 +1632,7 @@
     "dieu": "33",
     "tieu_de": "Xử lý vi phạm",
     "chuong": "V",
+    "muc": "3",
     "page": 13,
     "intro": [],
     "khoans": [
@@ -1647,6 +1677,7 @@
     "dieu": "34",
     "tieu_de": "Hiệu lực thi hành và quy định chuyển tiếp",
     "chuong": "V",
+    "muc": null,
     "page": 13,
     "intro": [],
     "khoans": [
@@ -1707,6 +1738,7 @@
     "dieu": "35",
     "tieu_de": "Trách nhiệm thi hành",
     "chuong": "V",
+    "muc": null,
     "page": 14,
     "intro": [],
     "khoans": [

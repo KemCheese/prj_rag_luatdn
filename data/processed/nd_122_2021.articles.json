@@ -4,6 +4,7 @@
     "dieu": "1",
     "tieu_de": "Phạm vi điều chỉnh",
     "chuong": "I",
+    "muc": null,
     "page": 1,
     "intro": [],
     "khoans": [
@@ -45,6 +46,7 @@
     "dieu": "2",
     "tieu_de": "Đối tượng áp dụng",
     "chuong": "I",
+    "muc": null,
     "page": 2,
     "intro": [],
     "khoans": [
@@ -90,6 +92,7 @@
     "dieu": "3",
     "tieu_de": "Hình thức xử phạt và biện pháp khắc phục hậu quả",
     "chuong": "I",
+    "muc": null,
     "page": 2,
     "intro": [],
     "khoans": [
@@ -118,6 +121,7 @@
     "dieu": "4",
     "tieu_de": "Mức phạt tiền",
     "chuong": "I",
+    "muc": null,
     "page": 2,
     "intro": [],
     "khoans": [
@@ -150,6 +154,7 @@
     "dieu": "5",
     "tieu_de": "Thời hiệu và thời điểm xác định thời hiệu xử phạt vi phạm hành chính",
     "chuong": "I",
+    "muc": null,
     "page": 2,
     "intro": [],
     "khoans": [
@@ -182,7 +187,6 @@
           "Đối với hành vi vi phạm đã kết thúc thì thời hiệu được tính từ thời điểm chấm dứt hành vi vi phạm.",
           "HÀNH VI VI PHẠM HÀNH CHÍNH TRONG LĨNH VỰC ĐẦU TƯ, HÌNH THỨC XỬ PHẠT, MỨC XỬ",
           "PHẠT VÀ BIỆN PHÁP KHẮC PHỤC HẬU QUẢ",
-          "Mục 1",
           "HÀNH VI VI PHẠM HÀNH CHÍNH TRONG LĨNH VỰC ĐẦU TƯ CÔNG, HÌNH THỨC XỬ PHẠT,",
           "MỨC XỬ PHẠT VÀ BIỆN PHÁP KHẮC PHỤC HẬU QUẢ"
         ],
@@ -196,6 +200,7 @@
     "dieu": "6",
     "tieu_de": "Vi phạm về Báo cáo đề xuất chủ trương đầu tư, Báo cáo nghiên cứu tiền khả thi, Báo cáo nghiên cứu khả thi",
     "chuong": "II",
+    "muc": "1",
     "page": 3,
     "intro": [],
     "khoans": [
@@ -250,6 +255,7 @@
     "dieu": "7",
     "tieu_de": "Vi phạm về chế độ thông tin, báo cáo trong hoạt động đầu tư công",
     "chuong": "II",
+    "muc": "1",
     "page": 4,
     "intro": [],
     "khoans": [
@@ -281,6 +287,7 @@
     "dieu": "8",
     "tieu_de": "Vi phạm về thiết kế chương trình, dự án đầu tư công",
     "chuong": "II",
+    "muc": "1",
     "page": 4,
     "intro": [],
     "khoans": [
@@ -313,6 +320,7 @@
     "dieu": "9",
     "tieu_de": "Vi phạm về theo dõi, đánh giá, kiểm tra kế hoạch, chương trình, dự án đầu tư công",
     "chuong": "II",
+    "muc": "1",
     "page": 4,
     "intro": [
       "Phạt tiền từ 20.000.000 đồng đến 30.000.000 đồng đối với một trong các hành vi sau:"
@@ -348,6 +356,7 @@
     "dieu": "10",
     "tieu_de": "Vi phạm về báo cáo giám sát, đánh giá đầu tư",
     "chuong": "II",
+    "muc": "1",
     "page": 4,
     "intro": [],
     "khoans": [
@@ -390,6 +399,7 @@
     "dieu": "11",
     "tieu_de": "Vi phạm về sử dụng vốn đầu tư công",
     "chuong": "II",
+    "muc": "1",
     "page": 5,
     "intro": [],
     "khoans": [
@@ -425,6 +435,7 @@
     "dieu": "12",
     "tieu_de": "Vi phạm trong lĩnh vực đầu tư sử dụng vốn đầu tư công có cấu phần xây dựng",
     "chuong": "II",
+    "muc": "1",
     "page": 5,
     "intro": [
       "Đối với các hành vi vi phạm hành chính trong lĩnh vực đầu tư sử dụng vốn đầu tư công có cấu phần xây dựng về khảo",
@@ -440,6 +451,7 @@
     "dieu": "13",
     "tieu_de": "Vi phạm về quản lý thực hiện chương trình, dự án sử dụng vốn Hỗ trợ phát triển chính thức (ODA), vốn vay ưu đãi của nhà tài trợ nước ngoài",
     "chuong": "II",
+    "muc": "1",
     "page": 5,
     "intro": [],
     "khoans": [
@@ -469,6 +481,7 @@
     "dieu": "14",
     "tieu_de": "Vi phạm về chế độ báo cáo và cung cấp thông tin đối với chương trình, dự án sử dụng vốn ODA, vốn vay ưu đãi của các nhà tài trợ nước ngoài",
     "chuong": "II",
+    "muc": "1",
     "page": 5,
     "intro": [],
     "khoans": [
@@ -496,7 +509,6 @@
           "quy định tại khoản 1 Điều này;",
           "b) Buộc cung cấp thông tin, tài liệu chính xác về chương trình, dự án đối với hành vi vi phạm quy định tại khoản 2 Điều",
           "này.",
-          "Mục 2",
           "HÀNH VI VI PHẠM HÀNH CHÍNH TRONG LĨNH VỰC ĐẦU TƯ KINH DOANH TẠI VIỆT NAM,",
           "HÌNH THỨC XỬ PHẠT, MỨC XỬ PHẠT VÀ BIỆN PHÁP KHẮC PHỤC HẬU QUẢ"
         ],
@@ -510,6 +522,7 @@
     "dieu": "15",
     "tieu_de": "Vi phạm về chế độ thông tin, báo cáo hoạt động đầu tư tại Việt Nam",
     "chuong": "II",
+    "muc": "2",
     "page": 5,
     "intro": [],
     "khoans": [
@@ -562,6 +575,7 @@
     "dieu": "16",
     "tieu_de": "Vi phạm về điều kiện đầu tư kinh doanh tại Việt Nam",
     "chuong": "II",
+    "muc": "2",
     "page": 6,
     "intro": [],
     "khoans": [
@@ -607,6 +621,7 @@
     "dieu": "17",
     "tieu_de": "Vi phạm về việc cấp, điều chỉnh Giấy chứng nhận đăng ký đầu tư, Giấy chứng nhận đăng ký hoạt động văn phòng điều hành của nhà đầu tư nước ngoài trong hợp đồng hợp tác kinh doanh (hợp đồng BCC), chấp thuận chủ trương đầu tư, chấp thuận chủ trương đầu tư đồng thời với chấp thuận nhà đầu tư, chấp thuận",
     "chuong": "II",
+    "muc": "2",
     "page": 6,
     "intro": [
       "nhà đầu tư"
@@ -657,6 +672,7 @@
     "dieu": "18",
     "tieu_de": "Vi phạm về ưu đãi đầu tư",
     "chuong": "II",
+    "muc": "2",
     "page": 7,
     "intro": [],
     "khoans": [
@@ -686,6 +702,7 @@
     "dieu": "19",
     "tieu_de": "Vi phạm về thực hiện dự án đầu tư tại Việt Nam",
     "chuong": "II",
+    "muc": "2",
     "page": 7,
     "intro": [],
     "khoans": [
@@ -742,7 +759,6 @@
           "động của dự án đầu tư đối với hành vi vi phạm quy định tại điểm c khoản 2 Điều này;",
           "đ) Buộc thực hiện thủ tục cấp Giấy chứng nhận đăng ký đầu tư, chấp thuận chủ trương đầu tư đồng thời với chấp thuận",
           "nhà đầu tư, chấp thuận nhà đầu tư đối với hành vi vi phạm quy định tại điểm a khoản 3 Điều này.",
-          "Mục 3",
           "HÀNH VI VI PHẠM HÀNH CHÍNH TRONG LĨNH VỰC ĐẦU TƯ KINH DOANH TỪ VIỆT NAM RA",
           "NƯỚC NGOÀI, HÌNH THỨC XỬ PHẠT, MỨC XỬ PHẠT VÀ BIỆN PHÁP KHẮC PHỤC HẬU QUẢ"
         ],
@@ -756,6 +772,7 @@
     "dieu": "20",
     "tieu_de": "Vi phạm chế độ báo cáo hoạt động đầu tư ra nước ngoài",
     "chuong": "II",
+    "muc": "3",
     "page": 8,
     "intro": [],
     "khoans": [
@@ -795,6 +812,7 @@
     "dieu": "21",
     "tieu_de": "Vi phạm về thủ tục đầu tư ra nước ngoài",
     "chuong": "II",
+    "muc": "3",
     "page": 8,
     "intro": [],
     "khoans": [
@@ -872,6 +890,7 @@
     "dieu": "22",
     "tieu_de": "Vi phạm về hoạt động đầu tư ra nước ngoài",
     "chuong": "II",
+    "muc": "3",
     "page": 9,
     "intro": [],
     "khoans": [
@@ -904,7 +923,6 @@
           "phạm quy định tại điểm a khoản 2 Điều này;",
           "b) Buộc chuyển vốn, tài sản hợp pháp và toàn bộ các khoản thu từ việc thanh lý dự án đầu tư về Việt Nam đối với hành",
           "vi vi phạm quy định tại điểm b khoản 2 Điều này.",
-          "Mục 4 HÀNH VI VI PHẠM HÀNH CHÍNH TRONG LĨNH VỰC ĐẦU TƯ THEO PHƯƠNG THỨC ĐỐI",
           "TÁC CÔNG TƯ (PPP), HÌNH THỨC XỬ PHẠT, MỨC XỬ PHẠT VÀ BIỆN PHÁP KHẮC PHỤC HẬU",
           "QUẢ"
         ],
@@ -918,6 +936,7 @@
     "dieu": "23",
     "tieu_de": "Vi phạm về chế độ thông tin, báo cáo trong hoạt động đầu tư PPP",
     "chuong": "II",
+    "muc": "4",
     "page": 10,
     "intro": [],
     "khoans": [
@@ -957,6 +976,7 @@
     "dieu": "24",
     "tieu_de": "Vi phạm đăng tải thông tin về dự án PPP",
     "chuong": "II",
+    "muc": "4",
     "page": 10,
     "intro": [],
     "khoans": [
@@ -995,6 +1015,7 @@
     "dieu": "25",
     "tieu_de": "Vi phạm đối với dự án PPP có cấu phần xây dựng",
     "chuong": "II",
+    "muc": "4",
     "page": 10,
     "intro": [
       "Các hành vi vi phạm liên quan đến công tác khảo sát, thiết kế, giám sát thi công, xây dựng công trình, quản lý chất",
@@ -1010,6 +1031,7 @@
     "dieu": "26",
     "tieu_de": "Vi phạm về Báo cáo nghiên cứu tiền khả thi, Báo cáo nghiên cứu khả thi dự án PPP",
     "chuong": "II",
+    "muc": "4",
     "page": 10,
     "intro": [],
     "khoans": [
@@ -1055,6 +1077,7 @@
     "dieu": "27",
     "tieu_de": "Vi phạm về lựa chọn nhà đầu tư dự án PPP",
     "chuong": "II",
+    "muc": "4",
     "page": 11,
     "intro": [],
     "khoans": [
@@ -1128,6 +1151,7 @@
     "dieu": "28",
     "tieu_de": "Vi phạm khác về lựa chọn nhà đầu tư thực hiện dự án PPP",
     "chuong": "II",
+    "muc": "4",
     "page": 12,
     "intro": [],
     "khoans": [
@@ -1160,6 +1184,7 @@
     "dieu": "29",
     "tieu_de": "Vi phạm về hợp đồng dự án, doanh nghiệp dự án PPP",
     "chuong": "II",
+    "muc": "4",
     "page": 12,
     "intro": [],
     "khoans": [
@@ -1189,6 +1214,7 @@
     "dieu": "30",
     "tieu_de": "Vi phạm về ưu đãi đầu tư trong lĩnh vực PPP",
     "chuong": "II",
+    "muc": "4",
     "page": 12,
     "intro": [],
     "khoans": [
@@ -1218,6 +1244,7 @@
     "dieu": "31",
     "tieu_de": "Vi phạm về thực hiện dự án PPP",
     "chuong": "II",
+    "muc": "4",
     "page": 12,
     "intro": [],
     "khoans": [
@@ -1259,7 +1286,6 @@
           "phạm quy định tại điểm b khoản 3 Điều này.",
           "HÀNH VI VI PHẠM HÀNH CHÍNH TRONG LĨNH VỰC ĐẤU THẦU, HÌNH THỨC XỬ PHẠT, MỨC",
           "XỬ PHẠT VÀ BIỆN PHÁP KHẮC PHỤC HẬU QUẢ",
-          "Mục 1",
           "HÀNH VI VI PHẠM HÀNH CHÍNH TRONG LĨNH VỰC ĐẤU THẦU LỰA CHỌN NHÀ THẦU, HÌNH",
           "THỨC XỬ PHẠT, MỨC XỬ PHẠT VÀ BIỆN PHÁP KHẮC PHỤC HẬU QUẢ"
         ],
@@ -1273,6 +1299,7 @@
     "dieu": "32",
     "tieu_de": "Vi phạm về kế hoạch lựa chọn nhà thầu",
     "chuong": "III",
+    "muc": "1",
     "page": 13,
     "intro": [],
     "khoans": [
@@ -1320,6 +1347,7 @@
     "dieu": "33",
     "tieu_de": "Vi phạm về lập, thẩm định, phê duyệt hồ sơ mời quan tâm, hồ sơ mời sơ tuyển, hồ sơ mời thầu, hồ sơ yêu cầu",
     "chuong": "III",
+    "muc": "1",
     "page": 13,
     "intro": [],
     "khoans": [
@@ -1367,6 +1395,7 @@
     "dieu": "34",
     "tieu_de": "Vi phạm về tổ chức lựa chọn nhà thầu và đánh giá hồ sơ quan tâm, hồ sơ dự sơ tuyển, hồ sơ dự thầu, hồ sơ đề xuất",
     "chuong": "III",
+    "muc": "1",
     "page": 14,
     "intro": [],
     "khoans": [
@@ -1437,6 +1466,7 @@
     "dieu": "35",
     "tieu_de": "Vi phạm về thương thảo hợp đồng, thông báo kết quả lựa chọn nhà thầu và hợp đồng",
     "chuong": "III",
+    "muc": "1",
     "page": 15,
     "intro": [],
     "khoans": [
@@ -1488,6 +1518,7 @@
     "dieu": "36",
     "tieu_de": "Vi phạm về đăng tải thông tin trong đấu thầu",
     "chuong": "III",
+    "muc": "1",
     "page": 15,
     "intro": [],
     "khoans": [
@@ -1524,6 +1555,7 @@
     "dieu": "37",
     "tieu_de": "Vi phạm các điều cấm trong đấu thầu",
     "chuong": "III",
+    "muc": "1",
     "page": 15,
     "intro": [
       "Phạt tiền từ 200.000.000 đồng đến 300.000.000 đồng đối với một trong các hành vi sau mà không phải là tội phạm theo",
@@ -1587,6 +1619,7 @@
     "dieu": "38",
     "tieu_de": "Vi phạm khác về đấu thầu",
     "chuong": "III",
+    "muc": "1",
     "page": 16,
     "intro": [],
     "khoans": [
@@ -1625,7 +1658,6 @@
           "b) Khai thác, sử dụng các thông tin về đấu thầu và các tài liệu kèm theo trên Hệ thống mạng đấu thầu quốc gia dưới bất",
           "kỳ hình thức và phương tiện nào khi chưa được sự cho phép của Bộ Kế hoạch và Đầu tư, Tổ chức vận hành Hệ thống",
           "mạng đấu thầu quốc gia, trừ trường hợp thông tin thuộc danh mục cơ sở dữ liệu mở theo quy định.",
-          "Mục 2",
           "HÀNH VI VI PHẠM HÀNH CHÍNH TRONG LĨNH VỰC ĐẤU THẦU LỰA CHỌN NHÀ ĐẦU TƯ THỰC",
           "HIỆN DỰ ÁN ĐẦU TƯ CÓ SỬ DỤNG ĐẤT, HÌNH THỨC XỬ PHẠT, MỨC XỬ PHẠT VÀ BIỆN PHÁP",
           "KHẮC PHỤC HẬU QUẢ"
@@ -1640,6 +1672,7 @@
     "dieu": "39",
     "tieu_de": "Vi phạm về lập, phê duyệt danh mục dự án đầu tư có sử dụng đất",
     "chuong": "III",
+    "muc": "2",
     "page": 16,
     "intro": [
       "Phạt tiền từ 20.000.000 đồng đến 30.000.000 đồng đối với hành vi lập, phê duyệt danh mục dự án đầu tư có sử dụng đất",
@@ -1653,6 +1686,7 @@
     "dieu": "40",
     "tieu_de": "Vi phạm về hồ sơ mời thầu, hồ sơ yêu cầu",
     "chuong": "III",
+    "muc": "2",
     "page": 16,
     "intro": [],
     "khoans": [
@@ -1685,6 +1719,7 @@
     "dieu": "41",
     "tieu_de": "Vi phạm về tổ chức lựa chọn nhà đầu tư và đánh giá hồ sơ dự thầu, hồ sơ đề xuất",
     "chuong": "III",
+    "muc": "2",
     "page": 17,
     "intro": [],
     "khoans": [
@@ -1756,6 +1791,7 @@
     "dieu": "42",
     "tieu_de": "Vi phạm về hợp đồng lựa chọn nhà đầu tư",
     "chuong": "III",
+    "muc": "2",
     "page": 18,
     "intro": [],
     "khoans": [
@@ -1787,6 +1823,7 @@
     "dieu": "43",
     "tieu_de": "Vi phạm về kê khai hồ sơ đăng ký doanh nghiệp, hồ sơ đăng ký hoạt động của chi nhánh, văn phòng đại diện, địa điểm kinh doanh",
     "chuong": "IV",
+    "muc": null,
     "page": 18,
     "intro": [
       "Phạt tiền từ 30.000.000 đồng đến 70.000.000 đồng đối với hành vi kê khai không trung thực, không chính xác nội dung",
@@ -1810,6 +1847,7 @@
     "dieu": "44",
     "tieu_de": "Vi phạm về thời hạn đăng ký thay đổi nội dung Giấy chứng nhận đăng ký doanh nghiệp, thông báo thay đổi nội dung đăng ký doanh nghiệp, đăng ký hoạt động chi nhánh, văn phòng đại diện, thông báo lập địa",
     "chuong": "IV",
+    "muc": null,
     "page": 18,
     "intro": [
       "điểm kinh doanh, đăng ký thay đổi nội dung đăng ký hoạt động chi nhánh, văn phòng đại diện, địa điểm kinh",
@@ -1955,6 +1993,7 @@
     "dieu": "45",
     "tieu_de": "Vi phạm về công bố nội dung đăng ký doanh nghiệp",
     "chuong": "IV",
+    "muc": null,
     "page": 19,
     "intro": [],
     "khoans": [
@@ -1984,6 +2023,7 @@
     "dieu": "46",
     "tieu_de": "Vi phạm về thành lập doanh nghiệp",
     "chuong": "IV",
+    "muc": null,
     "page": 19,
     "intro": [],
     "khoans": [
@@ -2063,6 +2103,7 @@
     "dieu": "47",
     "tieu_de": "Vi phạm về kê khai vốn điều lệ",
     "chuong": "IV",
+    "muc": null,
     "page": 20,
     "intro": [],
     "khoans": [
@@ -2122,6 +2163,7 @@
     "dieu": "48",
     "tieu_de": "Vi phạm về chế độ báo cáo, cung cấp thông tin, thực hiện yêu cầu của cơ quan đăng ký kinh doanh và cung cấp thông tin chủ sở hữu hưởng lợi của doanh nghiệp cho cơ quan nhà nước có thẩm quyền",
     "chuong": "IV",
+    "muc": null,
     "page": 21,
     "intro": [],
     "khoans": [
@@ -2203,6 +2245,7 @@
     "dieu": "49",
     "tieu_de": "Vi phạm về thông báo thay đổi nội dung đăng ký doanh nghiệp",
     "chuong": "IV",
+    "muc": null,
     "page": 21,
     "intro": [],
     "khoans": [
@@ -2306,6 +2349,7 @@
     "dieu": "50",
     "tieu_de": "Vi phạm các nghĩa vụ thông báo khác",
     "chuong": "IV",
+    "muc": null,
     "page": 23,
     "intro": [],
     "khoans": [
@@ -2368,6 +2412,7 @@
     "dieu": "51",
     "tieu_de": "Vi phạm về người đại diện theo pháp luật và người đại diện theo ủy quyền của doanh nghiệp",
     "chuong": "IV",
+    "muc": null,
     "page": 23,
     "intro": [],
     "khoans": [
@@ -2403,6 +2448,7 @@
     "dieu": "52",
     "tieu_de": "Vi phạm khác liên quan đến tổ chức, quản lý doanh nghiệp",
     "chuong": "IV",
+    "muc": null,
     "page": 24,
     "intro": [],
     "khoans": [
@@ -2487,6 +2533,7 @@
     "dieu": "53",
     "tieu_de": "Vi phạm về Ban kiểm soát",
     "chuong": "IV",
+    "muc": null,
     "page": 25,
     "intro": [],
     "khoans": [
@@ -2528,6 +2575,7 @@
     "dieu": "54",
     "tieu_de": "Vi phạm về thành lập, chấm dứt hoạt động chi nhánh, văn phòng đại diện, địa điểm kinh doanh của doanh nghiệp",
     "chuong": "IV",
+    "muc": null,
     "page": 25,
     "intro": [],
     "khoans": [
@@ -2563,6 +2611,7 @@
     "dieu": "55",
     "tieu_de": "Vi phạm về công ty hợp danh",
     "chuong": "IV",
+    "muc": null,
     "page": 25,
     "intro": [],
     "khoans": [
@@ -2594,6 +2643,7 @@
     "dieu": "56",
     "tieu_de": "Vi phạm về doanh nghiệp tư nhân",
     "chuong": "IV",
+    "muc": null,
     "page": 25,
     "intro": [],
     "khoans": [
@@ -2628,6 +2678,7 @@
     "dieu": "57",
     "tieu_de": "Vi phạm về việc chia, tách, hợp nhất, sáp nhập doanh nghiệp",
     "chuong": "IV",
+    "muc": null,
     "page": 26,
     "intro": [],
     "khoans": [
@@ -2681,6 +2732,7 @@
     "dieu": "58",
     "tieu_de": "Vi phạm về giải thể doanh nghiệp",
     "chuong": "IV",
+    "muc": null,
     "page": 27,
     "intro": [],
     "khoans": [
@@ -2716,6 +2768,7 @@
     "dieu": "59",
     "tieu_de": "Vi phạm đối với doanh nghiệp được tổ chức theo mô hình công ty mẹ, công ty con",
     "chuong": "IV",
+    "muc": null,
     "page": 27,
     "intro": [
       "Phạt tiền từ 50.000.000 đồng đến 70.000.000 đồng đối với một trong các hành vi sau:"
@@ -2751,6 +2804,7 @@
     "dieu": "60",
     "tieu_de": "Vi phạm đối với doanh nghiệp xã hội",
     "chuong": "IV",
+    "muc": null,
     "page": 27,
     "intro": [],
     "khoans": [
@@ -2790,6 +2844,7 @@
     "dieu": "61",
     "tieu_de": "Vi phạm về công bố thông tin doanh nghiệp nhà nước",
     "chuong": "IV",
+    "muc": null,
     "page": 27,
     "intro": [],
     "khoans": [
@@ -2843,6 +2898,7 @@
     "dieu": "62",
     "tieu_de": "Vi phạm về đăng ký hộ kinh doanh",
     "chuong": "IV",
+    "muc": null,
     "page": 28,
     "intro": [],
     "khoans": [
@@ -2888,6 +2944,7 @@
     "dieu": "63",
     "tieu_de": "Vi phạm về chế độ thông tin báo cáo của hộ kinh doanh",
     "chuong": "IV",
+    "muc": null,
     "page": 29,
     "intro": [],
     "khoans": [
@@ -2929,6 +2986,7 @@
     "dieu": "64",
     "tieu_de": "Vi phạm về đăng ký, đăng ký thay đổi nội dung đăng ký hợp tác xã, liên hiệp hợp tác xã",
     "chuong": "IV",
+    "muc": null,
     "page": 29,
     "intro": [],
     "khoans": [
@@ -2971,6 +3029,7 @@
     "dieu": "65",
     "tieu_de": "Vi phạm về hoạt động của hợp tác xã, liên hiệp hợp tác xã",
     "chuong": "IV",
+    "muc": null,
     "page": 29,
     "intro": [],
     "khoans": [
@@ -3039,6 +3098,7 @@
     "dieu": "66",
     "tieu_de": "Vi phạm về thông tin báo cáo của hợp tác xã, liên hiệp hợp tác xã",
     "chuong": "IV",
+    "muc": null,
     "page": 30,
     "intro": [],
     "khoans": [
@@ -3072,6 +3132,7 @@
     "dieu": "67",
     "tieu_de": "Vi phạm về góp vốn vào hợp tác xã, liên hiệp hợp tác xã",
     "chuong": "IV",
+    "muc": null,
     "page": 30,
     "intro": [],
     "khoans": [
@@ -3138,6 +3199,7 @@
     "dieu": "68",
     "tieu_de": "Vi phạm về chia, tách, sáp nhập hợp tác xã, liên hiệp hợp tác xã",
     "chuong": "IV",
+    "muc": null,
     "page": 31,
     "intro": [],
     "khoans": [
@@ -3171,6 +3233,7 @@
     "dieu": "69",
     "tieu_de": "Vi phạm về hoạt động chi nhánh, văn phòng đại diện, địa điểm kinh doanh của hợp tác xã, liên hiệp hợp tác xã",
     "chuong": "IV",
+    "muc": null,
     "page": 31,
     "intro": [],
     "khoans": [
@@ -3210,6 +3273,7 @@
     "dieu": "70",
     "tieu_de": "Vi phạm về chế độ báo cáo và cung cấp thông tin quy hoạch",
     "chuong": "V",
+    "muc": null,
     "page": 32,
     "intro": [],
     "khoans": [
@@ -3266,6 +3330,7 @@
     "dieu": "71",
     "tieu_de": "Vi phạm về lập, điều chỉnh quy hoạch",
     "chuong": "V",
+    "muc": null,
     "page": 32,
     "intro": [],
     "khoans": [
@@ -3294,6 +3359,7 @@
     "dieu": "72",
     "tieu_de": "Vi phạm về thực hiện quy hoạch",
     "chuong": "V",
+    "muc": null,
     "page": 33,
     "intro": [],
     "khoans": [
@@ -3330,6 +3396,7 @@
     "dieu": "73",
     "tieu_de": "Thẩm quyền xử phạt của Thanh tra Kế hoạch và Đầu tư",
     "chuong": "VI",
+    "muc": null,
     "page": 33,
     "intro": [],
     "khoans": [
@@ -3385,6 +3452,7 @@
     "dieu": "74",
     "tieu_de": "Thẩm quyền xử phạt của Ủy ban nhân dân các cấp",
     "chuong": "VI",
+    "muc": null,
     "page": 33,
     "intro": [],
     "khoans": [
@@ -3429,6 +3497,7 @@
     "dieu": "75",
     "tieu_de": "Thẩm quyền xử phạt của cơ quan Thuế",
     "chuong": "VI",
+    "muc": null,
     "page": 34,
     "intro": [],
     "khoans": [
@@ -3490,6 +3559,7 @@
     "dieu": "76",
     "tieu_de": "Thẩm quyền xử phạt của cơ quan Quản lý thị trường",
     "chuong": "VI",
+    "muc": null,
     "page": 34,
     "intro": [],
     "khoans": [
@@ -3542,6 +3612,7 @@
     "dieu": "77",
     "tieu_de": "Phân định thẩm quyền xử phạt",
     "chuong": "VI",
+    "muc": null,
     "page": 35,
     "intro": [],
     "khoans": [
@@ -3600,6 +3671,7 @@
     "dieu": "78",
     "tieu_de": "Xác định thẩm quyền xử phạt",
     "chuong": "VI",
+    "muc": null,
     "page": 35,
     "intro": [
       "Thẩm quyền phạt tiền của các chức danh được quy định tại Điều 73, Điều 74, Điều 75 và Điều 76 của Nghị định này là",
@@ -3614,6 +3686,7 @@
     "dieu": "79",
     "tieu_de": "Thẩm quyền lập biên bản vi phạm hành chính",
     "chuong": "VI",
+    "muc": null,
     "page": 35,
     "intro": [],
     "khoans": [
@@ -3673,6 +3746,7 @@
     "dieu": "80",
     "tieu_de": "Hiệu lực thi hành",
     "chuong": "VII",
+    "muc": null,
     "page": 36,
     "intro": [
       "Nghị định này có hiệu lực từ ngày 01 tháng 01 năm 2022 và thay thế Nghị định số 50/2016/NĐ-CP ngày 01 tháng 6 năm",
@@ -3686,6 +3760,7 @@
     "dieu": "81",
     "tieu_de": "Điều khoản chuyển tiếp",
     "chuong": "VII",
+    "muc": null,
     "page": 36,
     "intro": [],
     "khoans": [
@@ -3716,6 +3791,7 @@
     "dieu": "82",
     "tieu_de": "Trách nhiệm thi hành Các Bộ trưởng, Thủ trưởng cơ quan ngang bộ, Thủ trưởng cơ quan thuộc",
     "chuong": "VII",
+    "muc": null,
     "page": 36,
     "intro": [
       "Chính phủ, Chủ tịch Ủy ban nhân dân tỉnh, thành phố trực thuộc trung ương chịu trách nhiệm thi hành Nghị",

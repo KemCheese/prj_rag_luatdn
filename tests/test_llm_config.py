@@ -3,8 +3,19 @@ import runpy
 from types import SimpleNamespace
 
 import dotenv
+import pytest
 
 import ragdn.llm as llm_mod
+
+
+def _load_llm(monkeypatch, **env):
+    monkeypatch.setattr(dotenv, "load_dotenv", lambda: None)
+    for name in ("LLM_TEMPERATURE", "LLM_TOP_P", "LLM_MAX_TOKENS", "LLM_SEED"):
+        monkeypatch.delenv(name, raising=False)
+    for name, value in env.items():
+        monkeypatch.setenv(name, value)
+    # Namespace riêng giữ cấu hình của các test khác độc lập với test này.
+    return SimpleNamespace(**runpy.run_path(llm_mod.__file__))
 
 
 def _fake_response(content: str, finish_reason: str = "stop", prompt_tokens: int = 123):
@@ -20,11 +31,7 @@ def _fake_response(content: str, finish_reason: str = "stop", prompt_tokens: int
 
 
 def test_call_llm_passes_history_and_Sampling_params(monkeypatch):
-    monkeypatch.setattr(dotenv, "load_dotenv", lambda: None)
-    for name in ("LLM_TEMPERATURE", "LLM_TOP_P", "LLM_MAX_TOKENS", "LLM_SEED"):
-        monkeypatch.delenv(name, raising=False)
-    # Nạp cấu hình mặc định vào namespace riêng để giữ nguyên module của các test khác.
-    llm = SimpleNamespace(**runpy.run_path(llm_mod.__file__))
+    llm = _load_llm(monkeypatch)
     captured = {}
 
     def fake_create(**kwargs):
@@ -44,24 +51,44 @@ def test_call_llm_passes_history_and_Sampling_params(monkeypatch):
         *history,
         {"role": "user", "content": "Hãy sửa lỗi."},
     ]
-    assert captured["temperature"] == 0.15
+    assert captured["temperature"] == 0.05
     assert captured["top_p"] == 0.9
     assert captured["max_tokens"] == 2000
-    assert "seed" not in captured
+    assert captured["seed"] == 42
 
 
-def test_call_llm_passes_seed_when_configured(monkeypatch):
+@pytest.mark.parametrize(("seed", "expected"), [("73", 73), ("0", 0), ("", None)])
+def test_call_llm_passes_seed_when_configured(monkeypatch, seed, expected):
+    llm = _load_llm(monkeypatch, LLM_SEED=seed)
     captured = {}
 
     def fake_create(**kwargs):
         captured.update(kwargs)
         return _fake_response("OK [1].")
 
-    monkeypatch.setattr(llm_mod._client.chat.completions, "create", fake_create)
-    monkeypatch.setattr(llm_mod, "LLM_SEED", "42", raising=False)
-    llm_mod.call_llm("SYS", "USER")
+    monkeypatch.setattr(llm._client.chat.completions, "create", fake_create)
+    llm.call_llm("SYS", "USER")
 
-    assert captured.get("seed") == 42
+    if expected is None:
+        assert "seed" not in captured
+    else:
+        assert captured["seed"] == expected
+
+
+def test_call_llm_respects_sampling_overrides(monkeypatch):
+    llm = _load_llm(monkeypatch, LLM_TEMPERATURE="0", LLM_TOP_P="1", LLM_MAX_TOKENS="512")
+    captured = {}
+
+    def fake_create(**kwargs):
+        captured.update(kwargs)
+        return _fake_response("OK [1].")
+
+    monkeypatch.setattr(llm._client.chat.completions, "create", fake_create)
+    llm.call_llm("SYS", "USER")
+
+    assert captured["temperature"] == 0.0
+    assert captured["top_p"] == 1.0
+    assert captured["max_tokens"] == 512
 
 
 def test_call_llm_trims_dangling_sentence_on_length_finish(monkeypatch):

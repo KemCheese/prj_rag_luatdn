@@ -4,6 +4,7 @@
     "dieu": "1",
     "tieu_de": "Phạm vi điều chỉnh",
     "chuong": "I",
+    "muc": null,
     "page": 1,
     "intro": [
       "Nghị định này quy định về hồ sơ, trình tự, thủ tục đăng ký doanh nghiệp; quy định về đăng ký và hoạt động của hộ kinh",
@@ -20,6 +21,7 @@
     "dieu": "2",
     "tieu_de": "Đối tượng áp dụng",
     "chuong": "I",
+    "muc": null,
     "page": 1,
     "intro": [],
     "khoans": [
@@ -95,6 +97,7 @@
     "dieu": "3",
     "tieu_de": "Giải thích từ ngữ",
     "chuong": "I",
+    "muc": null,
     "page": 2,
     "intro": [
       "Trong Nghị định này, các từ ngữ dưới đây được hiểu như sau:"
@@ -234,6 +237,7 @@
     "dieu": "4",
     "tieu_de": "Nguyên tắc áp dụng giải quyết thủ tục đăng ký doanh nghiệp",
     "chuong": "I",
+    "muc": null,
     "page": 3,
     "intro": [],
     "khoans": [
@@ -348,6 +352,7 @@
     "dieu": "5",
     "tieu_de": "Quyền thành lập doanh nghiệp và nghĩa vụ đăng ký doanh nghiệp",
     "chuong": "I",
+    "muc": null,
     "page": 4,
     "intro": [],
     "khoans": [
@@ -383,6 +388,7 @@
     "dieu": "6",
     "tieu_de": "Giấy chứng nhận đăng ký doanh nghiệp, Giấy chứng nhận đăng ký hoạt động chi nhánh, văn phòng đại diện, Giấy chứng nhận đăng ký địa điểm kinh doanh",
     "chuong": "I",
+    "muc": null,
     "page": 4,
     "intro": [],
     "khoans": [
@@ -421,6 +427,7 @@
     "dieu": "7",
     "tieu_de": "Ghi ngành, nghề kinh doanh của doanh nghiệp",
     "chuong": "I",
+    "muc": null,
     "page": 4,
     "intro": [],
     "khoans": [
@@ -507,6 +514,7 @@
     "dieu": "8",
     "tieu_de": "Mã số doanh nghiệp, mã số đơn vị phụ thuộc của doanh nghiệp, mã số địa điểm kinh doanh",
     "chuong": "I",
+    "muc": null,
     "page": 5,
     "intro": [],
     "khoans": [
@@ -601,6 +609,7 @@
     "dieu": "9",
     "tieu_de": "Số lượng hồ sơ đăng ký doanh nghiệp",
     "chuong": "I",
+    "muc": null,
     "page": 5,
     "intro": [],
     "khoans": [
@@ -628,6 +637,7 @@
     "dieu": "10",
     "tieu_de": "Ngôn ngữ sử dụng trong hồ sơ đăng ký doanh nghiệp",
     "chuong": "I",
+    "muc": null,
     "page": 5,
     "intro": [],
     "khoans": [
@@ -662,6 +672,7 @@
     "dieu": "11",
     "tieu_de": "Kê khai thông tin cá nhân trong thực hiện thủ tục đăng ký doanh nghiệp",
     "chuong": "I",
+    "muc": null,
     "page": 6,
     "intro": [],
     "khoans": [
@@ -747,6 +758,7 @@
     "dieu": "12",
     "tieu_de": "Ủy quyền thực hiện thủ tục đăng ký doanh nghiệp",
     "chuong": "I",
+    "muc": null,
     "page": 7,
     "intro": [
       "Người có thẩm quyền ký văn bản đề nghị đăng ký doanh nghiệp có thể ủy quyền cho tổ chức, cá nhân khác thực hiện",
@@ -823,6 +835,7 @@
     "dieu": "13",
     "tieu_de": "Cấp đăng ký doanh nghiệp theo quy trình dự phòng",
     "chuong": "I",
+    "muc": null,
     "page": 7,
     "intro": [],
     "khoans": [
@@ -872,6 +885,7 @@
     "dieu": "14",
     "tieu_de": "Đăng ký tên doanh nghiệp",
     "chuong": "I",
+    "muc": null,
     "page": 8,
     "intro": [],
     "khoans": [
@@ -923,6 +937,7 @@
     "dieu": "15",
     "tieu_de": "Trách nhiệm, phối hợp xử lý trường hợp tên doanh nghiệp, chi nhánh, văn phòng đại diện, địa điểm kinh doanh của doanh nghiệp xâm phạm quyền sở hữu công nghiệp",
     "chuong": "I",
+    "muc": null,
     "page": 8,
     "intro": [],
     "khoans": [
@@ -1004,6 +1019,7 @@
     "dieu": "16",
     "tieu_de": "Đăng ký tên chi nhánh, văn phòng đại diện, địa điểm kinh doanh",
     "chuong": "I",
+    "muc": null,
     "page": 9,
     "intro": [],
     "khoans": [
@@ -1047,6 +1063,7 @@
     "dieu": "17",
     "tieu_de": "Chủ sở hữu hưởng lợi của doanh nghiệp",
     "chuong": "I",
+    "muc": null,
     "page": 9,
     "intro": [
       "Chủ sở hữu hưởng lợi của một doanh nghiệp có tư cách pháp nhân là một hoặc nhiều cá nhân trực tiếp hoặc gián tiếp sở",
@@ -1125,6 +1142,7 @@
     "dieu": "18",
     "tieu_de": "Kê khai, thông báo thông tin về chủ sở hữu hưởng lợi của doanh nghiệp",
     "chuong": "I",
+    "muc": null,
     "page": 10,
     "intro": [],
     "khoans": [
@@ -1184,6 +1202,7 @@
     "dieu": "19",
     "tieu_de": "Lưu giữ thông tin về chủ sở hữu hưởng lợi của doanh nghiệp",
     "chuong": "I",
+    "muc": null,
     "page": 10,
     "intro": [
       "Doanh nghiệp lưu giữ Danh sách chủ sở hữu hưởng lợi của doanh nghiệp đã kê khai, thông báo với Cơ quan đăng ký",
@@ -1199,6 +1218,7 @@
     "dieu": "20",
     "tieu_de": "Cơ quan đăng ký kinh doanh",
     "chuong": "II",
+    "muc": null,
     "page": 10,
     "intro": [
       "Cơ quan đăng ký kinh doanh được tổ chức ở tỉnh, thành phố trực thuộc trung ương (sau đây gọi chung là cấp tỉnh) và ở",
@@ -1249,6 +1269,7 @@
     "dieu": "21",
     "tieu_de": "Nhiệm vụ, quyền hạn của Cơ quan đăng ký kinh doanh cấp tỉnh",
     "chuong": "II",
+    "muc": null,
     "page": 11,
     "intro": [],
     "khoans": [
@@ -1358,6 +1379,7 @@
     "dieu": "22",
     "tieu_de": "Nhiệm vụ, quyền hạn của Cơ quan đăng ký kinh doanh cấp xã",
     "chuong": "II",
+    "muc": null,
     "page": 12,
     "intro": [],
     "khoans": [
@@ -1442,6 +1464,7 @@
     "dieu": "23",
     "tieu_de": "Trách nhiệm của các cơ quan quản lý nhà nước trong đăng ký doanh nghiệp, đăng ký hộ kinh doanh",
     "chuong": "II",
+    "muc": null,
     "page": 12,
     "intro": [],
     "khoans": [
@@ -1581,6 +1604,7 @@
     "dieu": "24",
     "tieu_de": "Hồ sơ đăng ký doanh nghiệp tư nhân, công ty hợp danh, công ty trách nhiệm hữu hạn, công ty cổ phần",
     "chuong": "III",
+    "muc": null,
     "page": 14,
     "intro": [],
     "khoans": [
@@ -1662,6 +1686,7 @@
     "dieu": "25",
     "tieu_de": "Hồ sơ đăng ký doanh nghiệp đối với các công ty được thành lập trên cơ sở chia, tách, hợp nhất công ty",
     "chuong": "III",
+    "muc": null,
     "page": 15,
     "intro": [],
     "khoans": [
@@ -1714,6 +1739,7 @@
     "dieu": "26",
     "tieu_de": "Hồ sơ đăng ký doanh nghiệp đối với các trường hợp chuyển đổi loại hình doanh nghiệp",
     "chuong": "III",
+    "muc": null,
     "page": 16,
     "intro": [],
     "khoans": [
@@ -1843,6 +1869,7 @@
     "dieu": "27",
     "tieu_de": "Đăng ký thành lập doanh nghiệp trên cơ sở chuyển đổi từ hộ kinh doanh",
     "chuong": "III",
+    "muc": null,
     "page": 18,
     "intro": [],
     "khoans": [
@@ -1900,6 +1927,7 @@
     "dieu": "28",
     "tieu_de": "Hồ sơ, trình tự, thủ tục đăng ký doanh nghiệp đối với doanh nghiệp xã hội",
     "chuong": "III",
+    "muc": null,
     "page": 18,
     "intro": [],
     "khoans": [
@@ -2021,6 +2049,7 @@
     "dieu": "29",
     "tieu_de": "Hồ sơ, trình tự, thủ tục đăng ký doanh nghiệp đối với công ty chứng khoán, công ty quản lý quỹ đầu tư chứng khoán, công ty đầu tư chứng khoán, chi nhánh công ty chứng khoán nước ngoài và chi nhánh công",
     "chuong": "III",
+    "muc": null,
     "page": 20,
     "intro": [
       "ty quản lý quỹ nước ngoài tại Việt Nam"
@@ -2078,6 +2107,7 @@
     "dieu": "30",
     "tieu_de": "Hồ sơ, trình tự, thủ tục đăng ký hoạt động chi nhánh, văn phòng đại diện, thông báo lập địa điểm kinh doanh",
     "chuong": "III",
+    "muc": null,
     "page": 20,
     "intro": [],
     "khoans": [
@@ -2141,6 +2171,7 @@
     "dieu": "31",
     "tieu_de": "Tiếp nhận, xử lý hồ sơ đăng ký doanh nghiệp trên Hệ thống thông tin quốc gia về đăng ký doanh nghiệp theo phương thức nộp hồ sơ trực tiếp tại Cơ quan đăng ký kinh doanh và đăng ký qua dịch vụ bưu chính",
     "chuong": "III",
+    "muc": null,
     "page": 21,
     "intro": [],
     "khoans": [
@@ -2213,6 +2244,7 @@
     "dieu": "32",
     "tieu_de": "Thông báo yêu cầu sửa đổi, bổ sung hồ sơ đăng ký doanh nghiệp",
     "chuong": "III",
+    "muc": null,
     "page": 21,
     "intro": [],
     "khoans": [
@@ -2254,6 +2286,7 @@
     "dieu": "33",
     "tieu_de": "Cấp Giấy chứng nhận đăng ký doanh nghiệp",
     "chuong": "III",
+    "muc": null,
     "page": 22,
     "intro": [],
     "khoans": [
@@ -2292,6 +2325,7 @@
     "dieu": "34",
     "tieu_de": "Thanh toán lệ phí đăng ký doanh nghiệp",
     "chuong": "III",
+    "muc": null,
     "page": 22,
     "intro": [],
     "khoans": [
@@ -2319,6 +2353,7 @@
     "dieu": "35",
     "tieu_de": "Tình trạng pháp lý của doanh nghiệp",
     "chuong": "III",
+    "muc": null,
     "page": 22,
     "intro": [
       "Các tình trạng pháp lý của doanh nghiệp trong Cơ sở dữ liệu quốc gia về đăng ký doanh nghiệp bao gồm:"
@@ -2397,6 +2432,7 @@
     "dieu": "36",
     "tieu_de": "Tình trạng pháp lý của chi nhánh, văn phòng đại diện, địa điểm kinh doanh",
     "chuong": "III",
+    "muc": null,
     "page": 23,
     "intro": [
       "Các tình trạng pháp lý của chi nhánh, văn phòng đại diện, địa điểm kinh doanh của doanh nghiệp trong Cơ sở dữ liệu",
@@ -2474,6 +2510,7 @@
     "dieu": "37",
     "tieu_de": "Đăng ký doanh nghiệp qua mạng thông tin điện tử",
     "chuong": "IV",
+    "muc": null,
     "page": 23,
     "intro": [],
     "khoans": [
@@ -2520,6 +2557,7 @@
     "dieu": "38",
     "tieu_de": "Hồ sơ đăng ký doanh nghiệp qua mạng thông tin điện tử",
     "chuong": "IV",
+    "muc": null,
     "page": 24,
     "intro": [],
     "khoans": [
@@ -2584,6 +2622,7 @@
     "dieu": "39",
     "tieu_de": "Trình tự, thủ tục đăng ký doanh nghiệp qua mạng thông tin điện tử",
     "chuong": "IV",
+    "muc": null,
     "page": 24,
     "intro": [],
     "khoans": [
@@ -2681,6 +2720,7 @@
     "dieu": "40",
     "tieu_de": "Đăng ký thay đổi địa chỉ trụ sở chính của doanh nghiệp",
     "chuong": "V",
+    "muc": null,
     "page": 25,
     "intro": [],
     "khoans": [
@@ -2734,6 +2774,7 @@
     "dieu": "41",
     "tieu_de": "Đăng ký thay đổi tên doanh nghiệp",
     "chuong": "V",
+    "muc": null,
     "page": 26,
     "intro": [],
     "khoans": [
@@ -2777,6 +2818,7 @@
     "dieu": "42",
     "tieu_de": "Đăng ký thay đổi thành viên hợp danh",
     "chuong": "V",
+    "muc": null,
     "page": 26,
     "intro": [],
     "khoans": [
@@ -2811,6 +2853,7 @@
     "dieu": "43",
     "tieu_de": "Đăng ký thay đổi người đại diện theo pháp luật của công ty trách nhiệm hữu hạn, công ty cổ phần",
     "chuong": "V",
+    "muc": null,
     "page": 26,
     "intro": [],
     "khoans": [
@@ -2901,6 +2944,7 @@
     "dieu": "44",
     "tieu_de": "Đăng ký thay đổi vốn điều lệ, phần vốn góp, tỷ lệ phần vốn góp",
     "chuong": "V",
+    "muc": null,
     "page": 27,
     "intro": [],
     "khoans": [
@@ -2984,6 +3028,7 @@
     "dieu": "45",
     "tieu_de": "Đăng ký thay đổi thành viên công ty trách nhiệm hữu hạn hai thành viên trở lên",
     "chuong": "V",
+    "muc": null,
     "page": 28,
     "intro": [],
     "khoans": [
@@ -3139,6 +3184,7 @@
     "dieu": "46",
     "tieu_de": "Đăng ký thay đổi chủ sở hữu công ty trách nhiệm hữu hạn một thành viên",
     "chuong": "V",
+    "muc": null,
     "page": 31,
     "intro": [],
     "khoans": [
@@ -3248,6 +3294,7 @@
     "dieu": "47",
     "tieu_de": "Đăng ký thay đổi chủ doanh nghiệp tư nhân trong trường hợp bán, tặng cho doanh nghiệp, chủ doanh nghiệp chết",
     "chuong": "V",
+    "muc": null,
     "page": 32,
     "intro": [],
     "khoans": [
@@ -3283,6 +3330,7 @@
     "dieu": "48",
     "tieu_de": "Đăng ký thay đổi vốn đầu tư của chủ doanh nghiệp tư nhân",
     "chuong": "V",
+    "muc": null,
     "page": 32,
     "intro": [],
     "khoans": [
@@ -3313,6 +3361,7 @@
     "dieu": "49",
     "tieu_de": "Thông báo thay đổi ngành, nghề kinh doanh",
     "chuong": "V",
+    "muc": null,
     "page": 32,
     "intro": [],
     "khoans": [
@@ -3350,6 +3399,7 @@
     "dieu": "50",
     "tieu_de": "Thông báo thay đổi thông tin cổ đông sáng lập của công ty cổ phần không phải là công ty niêm yết và công ty đăng ký giao dịch chứng khoán",
     "chuong": "V",
+    "muc": null,
     "page": 33,
     "intro": [],
     "khoans": [
@@ -3404,6 +3454,7 @@
     "dieu": "51",
     "tieu_de": "Thông báo thay đổi cổ đông là nhà đầu tư nước ngoài của công ty cổ phần không phải là công ty niêm yết và công ty đăng ký giao dịch chứng khoán",
     "chuong": "V",
+    "muc": null,
     "page": 33,
     "intro": [],
     "khoans": [
@@ -3456,6 +3507,7 @@
     "dieu": "52",
     "tieu_de": "Thông báo thay đổi thông tin về chủ sở hữu hưởng lợi của doanh nghiệp và thông báo thông tin để xác định chủ sở hữu hưởng lợi",
     "chuong": "V",
+    "muc": null,
     "page": 34,
     "intro": [],
     "khoans": [
@@ -3501,6 +3553,7 @@
     "dieu": "53",
     "tieu_de": "Thông báo thay đổi nội dung đăng ký thuế",
     "chuong": "V",
+    "muc": null,
     "page": 34,
     "intro": [],
     "khoans": [
@@ -3533,6 +3586,7 @@
     "dieu": "54",
     "tieu_de": "Thông báo thay đổi thông tin cổ đông là nhà đầu tư nước ngoài, thông báo cho thuê doanh nghiệp tư nhân, thông báo thay đổi người đại diện theo ủy quyền của chủ sở hữu, thành viên công ty trách nhiệm hữu",
     "chuong": "V",
+    "muc": null,
     "page": 35,
     "intro": [
       "hạn là tổ chức, cổ đông là tổ chức nước ngoài"
@@ -3592,6 +3646,7 @@
     "dieu": "55",
     "tieu_de": "Đăng ký thay đổi nội dung đăng ký doanh nghiệp đối với công ty bị tách, công ty nhận sáp nhập",
     "chuong": "V",
+    "muc": null,
     "page": 35,
     "intro": [],
     "khoans": [
@@ -3641,6 +3696,7 @@
     "dieu": "56",
     "tieu_de": "Đăng ký thay đổi nội dung đăng ký hoạt động chi nhánh, văn phòng đại diện, địa điểm kinh doanh",
     "chuong": "V",
+    "muc": null,
     "page": 36,
     "intro": [],
     "khoans": [
@@ -3711,6 +3767,7 @@
     "dieu": "57",
     "tieu_de": "Thông báo cập nhật, bổ sung thông tin trong hồ sơ đăng ký doanh nghiệp",
     "chuong": "V",
+    "muc": null,
     "page": 36,
     "intro": [],
     "khoans": [
@@ -3766,6 +3823,7 @@
     "dieu": "58",
     "tieu_de": "Hồ sơ đăng ký doanh nghiệp trong trường hợp doanh nghiệp thông qua nghị quyết hoặc quyết định theo hình thức lấy ý kiến bằng văn bản",
     "chuong": "V",
+    "muc": null,
     "page": 37,
     "intro": [
       "Trường hợp Hội đồng thành viên công ty trách nhiệm hữu hạn hoặc Đại hội đồng cổ đông, Hội đồng quản trị công ty cổ",
@@ -3782,6 +3840,7 @@
     "dieu": "59",
     "tieu_de": "Các trường hợp Cơ quan đăng ký kinh doanh cấp tỉnh từ chối cấp đăng ký doanh nghiệp",
     "chuong": "V",
+    "muc": null,
     "page": 37,
     "intro": [],
     "khoans": [
@@ -3835,6 +3894,7 @@
     "dieu": "60",
     "tieu_de": "Thông báo tạm ngừng kinh doanh, tiếp tục kinh doanh trước thời hạn đã thông báo đối với doanh nghiệp, chi nhánh, địa điểm kinh doanh; thông báo tạm ngừng hoạt động, tiếp tục hoạt động trước thời hạn đã thông báo đối với văn phòng đại diện",
     "chuong": "VI",
+    "muc": null,
     "page": 38,
     "intro": [],
     "khoans": [
@@ -3967,6 +4027,7 @@
     "dieu": "61",
     "tieu_de": "Tạm ngừng kinh doanh, đình chỉ hoạt động, chấm dứt kinh doanh theo yêu cầu của Cơ quan nhà nước có thẩm quyền",
     "chuong": "VI",
+    "muc": null,
     "page": 39,
     "intro": [],
     "khoans": [
@@ -4019,6 +4080,7 @@
     "dieu": "62",
     "tieu_de": "Cấp lại giấy chứng nhận đăng ký doanh nghiệp, Giấy xác nhận về việc thay đổi nội dung đăng ký doanh nghiệp",
     "chuong": "VI",
+    "muc": null,
     "page": 39,
     "intro": [
       "Trường hợp doanh nghiệp đã được cấp bản giấy Giấy chứng nhận đăng ký doanh nghiệp, Giấy xác nhận về việc thay",
@@ -4037,6 +4099,7 @@
     "dieu": "63",
     "tieu_de": "Xử lý các trường hợp thực hiện không đúng quy định về hồ sơ, trình tự, thủ tục hoặc nội dung kê khai trong hồ sơ không trung thực, không chính xác",
     "chuong": "VI",
+    "muc": null,
     "page": 39,
     "intro": [],
     "khoans": [
@@ -4102,6 +4165,7 @@
     "dieu": "64",
     "tieu_de": "Đăng ký giải thể doanh nghiệp đối với trường hợp quy định tại các điểm a, b và c khoản 1 Điều 207",
     "chuong": "VI",
+    "muc": null,
     "page": 40,
     "intro": [
       "Luật Doanh nghiệp năm 2020 được sửa đổi, bổ sung năm 2025",
@@ -4231,6 +4295,7 @@
     "dieu": "65",
     "tieu_de": "Đăng ký giải thể doanh nghiệp trong trường hợp bị thu hồi Giấy chứng nhận đăng ký doanh nghiệp hoặc theo quyết định của Tòa án",
     "chuong": "VI",
+    "muc": null,
     "page": 42,
     "intro": [],
     "khoans": [
@@ -4285,6 +4350,7 @@
     "dieu": "66",
     "tieu_de": "Đăng ký chấm dứt hoạt động chi nhánh, văn phòng đại diện, địa điểm kinh doanh",
     "chuong": "VI",
+    "muc": null,
     "page": 42,
     "intro": [],
     "khoans": [
@@ -4381,6 +4447,7 @@
     "dieu": "67",
     "tieu_de": "Chấm dứt tồn tại của công ty bị chia, công ty bị hợp nhất, công ty bị sáp nhập",
     "chuong": "VI",
+    "muc": null,
     "page": 43,
     "intro": [],
     "khoans": [
@@ -4435,6 +4502,7 @@
     "dieu": "68",
     "tieu_de": "Xác định nội dung kê khai trong hồ sơ đăng ký doanh nghiệp là giả mạo",
     "chuong": "VI",
+    "muc": null,
     "page": 44,
     "intro": [],
     "khoans": [
@@ -4480,6 +4548,7 @@
     "dieu": "69",
     "tieu_de": "Trình tự, thủ tục thu hồi Giấy chứng nhận đăng ký doanh nghiệp, Giấy xác nhận về việc thay đổi nội dung đăng ký doanh nghiệp, Giấy xác nhận thông báo tạm ngừng kinh doanh, Giấy xác nhận thông báo tiếp",
     "chuong": "VI",
+    "muc": null,
     "page": 44,
     "intro": [
       "tục kinh doanh trước thời hạn đã thông báo, Thông báo doanh nghiệp đang làm thủ tục giải thể, Thông báo",
@@ -4642,6 +4711,7 @@
     "dieu": "70",
     "tieu_de": "Trình tự, thủ tục hủy bỏ quyết định thu hồi và khôi phục Giấy chứng nhận đăng ký doanh nghiệp",
     "chuong": "VI",
+    "muc": null,
     "page": 46,
     "intro": [],
     "khoans": [
@@ -4690,6 +4760,7 @@
     "dieu": "71",
     "tieu_de": "Trình tự, thủ tục thu hồi Giấy chứng nhận đăng ký hoạt động chi nhánh, văn phòng đại diện, Giấy chứng nhận đăng ký địa điểm kinh doanh, Giấy xác nhận thông báo tạm ngừng kinh doanh, tạm ngừng hoạt động, thông báo tiếp tục kinh doanh, tiếp tục hoạt động, Thông báo chi nhánh, văn phòng đại diện, địa điểm",
     "chuong": "VI",
+    "muc": null,
     "page": 46,
     "intro": [
       "kinh doanh đang làm thủ tục chấm dứt hoạt động, Thông báo về việc chi nhánh, văn phòng đại diện, địa điểm",
@@ -4862,6 +4933,7 @@
     "dieu": "72",
     "tieu_de": "Quy trình chuyển tình trạng pháp lý, đình chỉ thủ tục phá sản, hủy quyết định tuyên bố doanh nghiệp phá sản",
     "chuong": "VI",
+    "muc": null,
     "page": 49,
     "intro": [],
     "khoans": [
@@ -4972,6 +5044,7 @@
     "dieu": "73",
     "tieu_de": "Công bố nội dung đăng ký doanh nghiệp",
     "chuong": "VII",
+    "muc": null,
     "page": 50,
     "intro": [],
     "khoans": [
@@ -5007,6 +5080,7 @@
     "dieu": "74",
     "tieu_de": "Cung cấp thông tin đăng ký doanh nghiệp",
     "chuong": "VII",
+    "muc": null,
     "page": 50,
     "intro": [],
     "khoans": [
@@ -5069,6 +5143,7 @@
     "dieu": "75",
     "tieu_de": "Chuyển đổi dữ liệu đăng ký doanh nghiệp",
     "chuong": "VII",
+    "muc": null,
     "page": 50,
     "intro": [],
     "khoans": [
@@ -5100,6 +5175,7 @@
     "dieu": "76",
     "tieu_de": "Chuẩn hóa dữ liệu đăng ký doanh nghiệp",
     "chuong": "VII",
+    "muc": null,
     "page": 51,
     "intro": [],
     "khoans": [
@@ -5153,6 +5229,7 @@
     "dieu": "77",
     "tieu_de": "Hiệu đính thông tin đăng ký doanh nghiệp",
     "chuong": "VII",
+    "muc": null,
     "page": 51,
     "intro": [],
     "khoans": [
@@ -5231,6 +5308,7 @@
     "dieu": "78",
     "tieu_de": "Cập nhật thông tin của doanh nghiệp thành lập và hoạt động theo luật chuyên ngành",
     "chuong": "VII",
+    "muc": null,
     "page": 52,
     "intro": [],
     "khoans": [
@@ -5261,6 +5339,7 @@
     "dieu": "79",
     "tieu_de": "Nguyên tắc thực hiện kết nối, chia sẻ thông tin",
     "chuong": "VII",
+    "muc": null,
     "page": 52,
     "intro": [],
     "khoans": [
@@ -5314,6 +5393,7 @@
     "dieu": "80",
     "tieu_de": "Phạm vi và các loại thông tin được cung cấp, chia sẻ",
     "chuong": "VII",
+    "muc": null,
     "page": 52,
     "intro": [],
     "khoans": [
@@ -5353,6 +5433,7 @@
     "dieu": "81",
     "tieu_de": "Chia sẻ thông tin đăng ký doanh nghiệp cho cơ quan bảo hiểm xã hội và cơ quan được giao thẩm quyền quản lý nhà nước về lao động",
     "chuong": "VII",
+    "muc": null,
     "page": 53,
     "intro": [],
     "khoans": [
@@ -5411,6 +5492,7 @@
     "dieu": "82",
     "tieu_de": "Quyền thành lập hộ kinh doanh",
     "chuong": "VIII",
+    "muc": null,
     "page": 53,
     "intro": [],
     "khoans": [
@@ -5463,6 +5545,7 @@
     "dieu": "83",
     "tieu_de": "Nghĩa vụ đăng ký hộ kinh doanh",
     "chuong": "VIII",
+    "muc": null,
     "page": 54,
     "intro": [],
     "khoans": [
@@ -5498,6 +5581,7 @@
     "dieu": "84",
     "tieu_de": "Quyền và nghĩa vụ của chủ hộ kinh doanh và thành viên hộ gia đình đăng ký hộ kinh doanh",
     "chuong": "VIII",
+    "muc": null,
     "page": 54,
     "intro": [],
     "khoans": [
@@ -5577,6 +5661,7 @@
     "dieu": "85",
     "tieu_de": "Giấy chứng nhận đăng ký hộ kinh doanh",
     "chuong": "VIII",
+    "muc": null,
     "page": 55,
     "intro": [],
     "khoans": [
@@ -5645,6 +5730,7 @@
     "dieu": "86",
     "tieu_de": "Tên hộ kinh doanh",
     "chuong": "VIII",
+    "muc": null,
     "page": 55,
     "intro": [],
     "khoans": [
@@ -5732,6 +5818,7 @@
     "dieu": "87",
     "tieu_de": "Trụ sở và địa điểm kinh doanh của hộ kinh doanh",
     "chuong": "VIII",
+    "muc": null,
     "page": 56,
     "intro": [],
     "khoans": [
@@ -5770,6 +5857,7 @@
     "dieu": "88",
     "tieu_de": "Nguyên tắc áp dụng trong đăng ký hộ kinh doanh",
     "chuong": "VIII",
+    "muc": null,
     "page": 56,
     "intro": [],
     "khoans": [
@@ -5827,6 +5915,7 @@
     "dieu": "89",
     "tieu_de": "Ngành, nghề kinh doanh của hộ kinh doanh",
     "chuong": "VIII",
+    "muc": null,
     "page": 56,
     "intro": [],
     "khoans": [
@@ -5896,6 +5985,7 @@
     "dieu": "90",
     "tieu_de": "Số lượng hồ sơ đăng ký hộ kinh doanh",
     "chuong": "VIII",
+    "muc": null,
     "page": 57,
     "intro": [],
     "khoans": [
@@ -5922,6 +6012,7 @@
     "dieu": "91",
     "tieu_de": "Mã số hộ kinh doanh",
     "chuong": "VIII",
+    "muc": null,
     "page": 57,
     "intro": [],
     "khoans": [
@@ -5970,6 +6061,7 @@
     "dieu": "92",
     "tieu_de": "Kê khai thông tin cá nhân trong thực hiện thủ tục đăng ký hộ kinh doanh",
     "chuong": "VIII",
+    "muc": null,
     "page": 58,
     "intro": [],
     "khoans": [
@@ -6039,6 +6131,7 @@
     "dieu": "93",
     "tieu_de": "ủy quyền thực hiện thủ tục đăng ký hộ kinh doanh",
     "chuong": "VIII",
+    "muc": null,
     "page": 58,
     "intro": [
       "Chủ hộ kinh doanh có thể ủy quyền cho tổ chức, cá nhân khác thực hiện thủ tục đăng ký hộ kinh doanh theo quy định",
@@ -6111,6 +6204,7 @@
     "dieu": "94",
     "tieu_de": "Phương thức đăng ký hộ kinh doanh",
     "chuong": "VIII",
+    "muc": null,
     "page": 59,
     "intro": [
       "Chủ hộ kinh doanh hoặc người được ủy quyền đăng ký hộ kinh doanh với Cơ quan đăng ký kinh doanh cấp xã theo một",
@@ -6146,6 +6240,7 @@
     "dieu": "95",
     "tieu_de": "Tiếp nhận, xử lý hồ sơ đăng ký hộ kinh doanh trên Hệ thống thông tin về đăng ký hộ kinh doanh theo phương thức đăng ký trực tiếp và đăng ký qua dịch vụ bưu chính",
     "chuong": "VIII",
+    "muc": null,
     "page": 59,
     "intro": [],
     "khoans": [
@@ -6209,6 +6304,7 @@
     "dieu": "96",
     "tieu_de": "Cấp đăng ký hộ kinh doanh theo quy trình dự phòng",
     "chuong": "VIII",
+    "muc": null,
     "page": 60,
     "intro": [],
     "khoans": [
@@ -6259,6 +6355,7 @@
     "dieu": "97",
     "tieu_de": "Thanh toán lệ phí đăng ký kinh doanh",
     "chuong": "VIII",
+    "muc": null,
     "page": 60,
     "intro": [],
     "khoans": [
@@ -6305,6 +6402,7 @@
     "dieu": "98",
     "tieu_de": "Tình trạng pháp lý của hộ kinh doanh",
     "chuong": "VIII",
+    "muc": null,
     "page": 60,
     "intro": [
       "Các tình trạng pháp lý của hộ kinh doanh trong Cơ sở dữ liệu về đăng ký hộ kinh doanh bao gồm:"
@@ -6372,6 +6470,7 @@
     "dieu": "99",
     "tieu_de": "Hồ sơ, trình tự, thủ tục đăng ký thành lập hộ kinh doanh",
     "chuong": "VIII",
+    "muc": null,
     "page": 61,
     "intro": [],
     "khoans": [
@@ -6415,6 +6514,7 @@
     "dieu": "100",
     "tieu_de": "Hồ sơ, trình tự, thủ tục đăng ký thay đổi nội dung đăng ký hộ kinh doanh",
     "chuong": "VIII",
+    "muc": null,
     "page": 61,
     "intro": [],
     "khoans": [
@@ -6510,6 +6610,7 @@
     "dieu": "101",
     "tieu_de": "Đăng ký cập nhật, bổ sung thông tin trong hồ sơ đăng ký hộ kinh doanh",
     "chuong": "VIII",
+    "muc": null,
     "page": 62,
     "intro": [],
     "khoans": [
@@ -6555,6 +6656,7 @@
     "dieu": "102",
     "tieu_de": "Các trường hợp Cơ quan đăng ký kinh doanh cấp xã từ chối cấp đăng ký hộ kinh doanh",
     "chuong": "VIII",
+    "muc": null,
     "page": 62,
     "intro": [],
     "khoans": [
@@ -6604,6 +6706,7 @@
     "dieu": "103",
     "tieu_de": "Hồ sơ, trình tự, thủ tục đăng ký tạm ngừng kinh doanh, tiếp tục kinh doanh trước thời hạn đã đăng ký của hộ kinh doanh",
     "chuong": "VIII",
+    "muc": null,
     "page": 63,
     "intro": [],
     "khoans": [
@@ -6672,6 +6775,7 @@
     "dieu": "104",
     "tieu_de": "Hồ sơ, trình tự, thủ tục đăng ký chấm dứt hoạt động hộ kinh doanh",
     "chuong": "VIII",
+    "muc": null,
     "page": 63,
     "intro": [],
     "khoans": [
@@ -6743,6 +6847,7 @@
     "dieu": "105",
     "tieu_de": "Các trường hợp thu hồi Giấy chứng nhận đăng ký hộ kinh doanh",
     "chuong": "VIII",
+    "muc": null,
     "page": 64,
     "intro": [
       "Cơ quan đăng ký kinh doanh cấp xã quyết định thu hồi Giấy chứng nhận đăng ký hộ kinh doanh trong các trường hợp",
@@ -6801,6 +6906,7 @@
     "dieu": "106",
     "tieu_de": "Xác định nội dung kê khai trong hồ sơ đăng ký hộ kinh doanh là giả mạo",
     "chuong": "VIII",
+    "muc": null,
     "page": 65,
     "intro": [],
     "khoans": [
@@ -6841,6 +6947,7 @@
     "dieu": "107",
     "tieu_de": "Trình tự, thủ tục thu hồi Giấy chứng nhận đăng ký hộ kinh doanh",
     "chuong": "VIII",
+    "muc": null,
     "page": 65,
     "intro": [],
     "khoans": [
@@ -6972,6 +7079,7 @@
     "dieu": "108",
     "tieu_de": "Khôi phục Giấy chứng nhận đăng ký hộ kinh doanh sau khi hộ kinh doanh bị ra quyết định thu hồi",
     "chuong": "VIII",
+    "muc": null,
     "page": 66,
     "intro": [],
     "khoans": [
@@ -7018,6 +7126,7 @@
     "dieu": "109",
     "tieu_de": "Xử lý các trường hợp thực hiện không đúng quy định hồ sơ, trình tự, thủ tục hoặc thông tin trong hồ sơ là không trung thực, không chính xác",
     "chuong": "VIII",
+    "muc": null,
     "page": 67,
     "intro": [],
     "khoans": [
@@ -7073,6 +7182,7 @@
     "dieu": "110",
     "tieu_de": "Cấp lại Giấy chứng nhận đăng ký hộ kinh doanh",
     "chuong": "VIII",
+    "muc": null,
     "page": 67,
     "intro": [
       "Trường hợp hộ kinh doanh đã được cấp bản giấy Giấy chứng nhận đăng ký hộ kinh doanh có nhu cầu được cấp lại Giấy",
@@ -7089,6 +7199,7 @@
     "dieu": "111",
     "tieu_de": "Đăng ký hộ kinh doanh qua mạng thông tin điện tử",
     "chuong": "VIII",
+    "muc": null,
     "page": 68,
     "intro": [],
     "khoans": [
@@ -7134,6 +7245,7 @@
     "dieu": "112",
     "tieu_de": "Hồ sơ đăng ký hộ kinh doanh qua mạng thông tin điện tử",
     "chuong": "VIII",
+    "muc": null,
     "page": 68,
     "intro": [],
     "khoans": [
@@ -7214,6 +7326,7 @@
     "dieu": "113",
     "tieu_de": "Trình tự, thủ tục đăng ký hộ kinh doanh qua mạng thông tin điện tử",
     "chuong": "VIII",
+    "muc": null,
     "page": 69,
     "intro": [],
     "khoans": [
@@ -7308,6 +7421,7 @@
     "dieu": "114",
     "tieu_de": "Chuẩn hóa dữ liệu đăng ký hộ kinh doanh",
     "chuong": "VIII",
+    "muc": null,
     "page": 70,
     "intro": [],
     "khoans": [
@@ -7340,6 +7454,7 @@
     "dieu": "115",
     "tieu_de": "Bổ sung, hiệu đính thông tin đăng ký hộ kinh doanh",
     "chuong": "VIII",
+    "muc": null,
     "page": 70,
     "intro": [],
     "khoans": [
@@ -7395,6 +7510,7 @@
     "dieu": "116",
     "tieu_de": "Cung cấp thông tin đăng ký hộ kinh doanh",
     "chuong": "VIII",
+    "muc": null,
     "page": 70,
     "intro": [
       "Tổ chức, cá nhân có thể tra cứu thông tin đăng ký hộ kinh doanh miễn phí trên Cổng thông tin quốc gia về đăng ký",
@@ -7410,6 +7526,7 @@
     "dieu": "117",
     "tieu_de": "Xử lý hồ sơ tiếp nhận trước ngày Nghị định này có hiệu lực thi hành",
     "chuong": "IX",
+    "muc": null,
     "page": 70,
     "intro": [
       "Trường hợp hồ sơ đăng ký doanh nghiệp, hồ sơ đăng ký hộ kinh doanh đã được tiếp nhận và chưa được Cơ quan đăng",
@@ -7424,6 +7541,7 @@
     "dieu": "118",
     "tieu_de": "Quy định chuyển tiếp đối với các doanh nghiệp hoạt động theo Giấy chứng nhận đăng ký kinh doanh hoặc Giấy chứng nhận đăng ký kinh doanh và đăng ký thuế",
     "chuong": "IX",
+    "muc": null,
     "page": 70,
     "intro": [
       "Doanh nghiệp đã được cấp Giấy chứng nhận đăng ký kinh doanh hoặc Giấy chứng nhận đăng ký kinh doanh và đăng ký",
@@ -7480,6 +7598,7 @@
     "dieu": "119",
     "tieu_de": "Quy định chuyển tiếp đối với các doanh nghiệp hoạt động theo Giấy phép đầu tư, Giấy chứng nhận đầu tư (đồng thời là Giấy chứng nhận đăng ký kinh doanh) hoặc giấy tờ có giá trị pháp lý tương đương",
     "chuong": "IX",
+    "muc": null,
     "page": 71,
     "intro": [],
     "khoans": [
@@ -7585,6 +7704,7 @@
     "dieu": "120",
     "tieu_de": "Quy định chuyển tiếp đối với giấy chứng nhận đăng ký doanh nghiệp, giấy chứng nhận đăng ký hoạt động đã cấp cho tổ chức tín dụng, chi nhánh ngân hàng nước ngoài, văn phòng đại diện của tổ chức tín dụng nước ngoài, tổ chức nước ngoài khác có hoạt động ngân hàng (văn phòng đại diện nước ngoài), chi",
     "chuong": "IX",
+    "muc": null,
     "page": 72,
     "intro": [
       "nhánh, văn phòng đại diện, địa điểm kinh doanh của tổ chức tín dụng"
@@ -7629,6 +7749,7 @@
     "dieu": "121",
     "tieu_de": "Quy định chuyển tiếp đối với trường hợp Giấy chứng nhận đăng ký kinh doanh, Giấy chứng nhận đăng ký kinh doanh và đăng ký thuế, Giấy chứng nhận đăng ký doanh nghiệp, Giấy chứng nhận đăng ký hoạt động chi nhánh, văn phòng đại diện, Giấy chứng nhận đăng ký địa điểm kinh doanh đã được cấp có sử dụng",
     "chuong": "IX",
+    "muc": null,
     "page": 73,
     "intro": [
       "thông tin từ chứng minh nhân dân, căn cước công dân",
@@ -7652,6 +7773,7 @@
     "dieu": "122",
     "tieu_de": "Quy định chuyển tiếp về việc sử dụng tài khoản đăng ký kinh doanh để thực hiện thủ tục đăng ký doanh nghiệp qua mạng thông tin điện tử",
     "chuong": "IX",
+    "muc": null,
     "page": 73,
     "intro": [
       "Tài khoản đăng ký kinh doanh được sử dụng để ký xác thực hồ sơ đăng ký doanh nghiệp qua mạng thông tin điện tử",
@@ -7665,6 +7787,7 @@
     "dieu": "123",
     "tieu_de": "Quy định chuyển tiếp về đăng ký hộ kinh doanh",
     "chuong": "IX",
+    "muc": null,
     "page": 73,
     "intro": [],
     "khoans": [
@@ -7756,6 +7879,7 @@
     "dieu": "124",
     "tieu_de": "Điều khoản thi hành",
     "chuong": "IX",
+    "muc": null,
     "page": 74,
     "intro": [],
     "khoans": [

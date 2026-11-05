@@ -13,10 +13,10 @@ log = logging.getLogger(__name__)
 
 LLM_TIMEOUT = float(os.getenv("LLM_TIMEOUT", "200"))
 LLM_MAX_RETRIES = int(os.getenv("LLM_MAX_RETRIES", "1"))
-LLM_TEMPERATURE = float(os.getenv("LLM_TEMPERATURE", "0.15"))
+LLM_TEMPERATURE = float(os.getenv("LLM_TEMPERATURE", "0.05"))
 LLM_TOP_P = float(os.getenv("LLM_TOP_P", "0.9"))
 LLM_MAX_TOKENS = int(os.getenv("LLM_MAX_TOKENS", "2000"))
-LLM_SEED = os.getenv("LLM_SEED") 
+LLM_SEED = os.getenv("LLM_SEED", "42")
 
 _client = OpenAI(
     base_url=os.getenv("LLM_BASE_URL", "http://localhost:11434/v1"),
