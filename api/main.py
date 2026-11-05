@@ -1,9 +1,11 @@
 # api/main.py
+import logging
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
+from openai import APIConnectionError, APIError, APITimeoutError
 from pydantic import BaseModel, Field
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
@@ -11,7 +13,7 @@ from slowapi.util import get_remote_address
 
 from ragdn.pipeline import RAG  # load chunks, index, embedder, reranker, manifest
 
-from openai import APITimeoutError, APIConnectionError
+log = logging.getLogger(__name__)
 limiter = Limiter(key_func=get_remote_address)
 
 @asynccontextmanager
@@ -45,6 +47,9 @@ def chat(request: Request, q: Q):
         raise HTTPException(503, "Dịch vụ LLM quá thời gian, vui lòng thử lại.")
     except APIConnectionError:
         raise HTTPException(503, "Không thể kết nối tới dịch vụ LLM, vui lòng kiểm tra lại.")
+    except APIError as exc:
+        log.warning("LLM request failed: type=%s, status=%s", type(exc).__name__, getattr(exc, "status_code", None))
+        raise HTTPException(503, "Dịch vụ LLM đang lỗi hoặc chưa sẵn sàng, vui lòng thử lại sau.") from exc
     return {
         "answer": r["answer"], "refused": r["refused"], "disclaimer": r.get("disclaimer"),
         "sources": [{"chunk_id": c["chunk_id"], "ten_vb": c["ten_vb"], "dieu": c["dieu"],
@@ -72,6 +77,7 @@ def index():
             .msg { padding: 14px 18px; border-radius: 8px; max-width: 88%; line-height: 1.6; font-size: 15px; word-break: break-word; }
             .user { background: #2563eb; align-self: flex-end; color: white; }
             .bot { background: #334155; align-self: flex-start; border: 1px solid #475569; width: 100%; max-width: 92%; }
+            .disclaimer { margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid #64748b; color: #cbd5e1; font-size: 13px; }
             
             /* Thẻ trích dẫn bấm được trong câu trả lời */
             .cite-link {
@@ -273,7 +279,23 @@ def index():
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({ question: text })
                     });
-                    const data = await res.json();
+                    const data = await res.json().catch(() => null);
+                    if (!res.ok) {
+                        let message = "Máy chủ không thể xử lý yêu cầu, vui lòng thử lại sau.";
+                        if (res.status === 429) {
+                            message = "Bạn đã gửi quá nhiều yêu cầu, vui lòng chờ rồi thử lại.";
+                        } else if (res.status === 422) {
+                            message = "Câu hỏi không hợp lệ, vui lòng nhập từ 3 đến 500 ký tự.";
+                        } else if (typeof data?.detail === "string" && data.detail.trim()) {
+                            message = data.detail;
+                        }
+                        botDiv.innerText = message;
+                        return;
+                    }
+                    if (!data || typeof data.answer !== "string" || !data.answer.trim()) {
+                        botDiv.innerText = "Phản hồi từ máy chủ không hợp lệ, vui lòng thử lại.";
+                        return;
+                    }
                     
                     msgCounter++;
                     const currentMsgId = "msg-" + msgCounter;
@@ -283,7 +305,11 @@ def index():
                         return `<span class="cite-link" onclick="focusSource('${currentMsgId}', ${n})" title="Nhấp để xem nguồn [${n}]">[${n}]</span>`;
                     });
 
-                    let html = `<div>${answerHtml}</div>`;
+                    let html = "";
+                    if (typeof data.disclaimer === "string" && data.disclaimer) {
+                        html += `<div class="disclaimer">${escapeHtml(data.disclaimer)}</div>`;
+                    }
+                    html += `<div>${answerHtml}</div>`;
 
                     if (data.sources && data.sources.length) {
                         let sourcesHtml = `<div class="sources-container"><div class="sources-title">📚 Nguồn trích dẫn (${data.sources.length}):</div>`;
@@ -313,11 +339,12 @@ def index():
                         html += sourcesHtml;
                     }
                     botDiv.innerHTML = html;
-                } catch(e) {
-                    botDiv.innerText = "Lỗi kết nối tới máy chủ local: " + e;
+                } catch {
+                    botDiv.innerText = "Không thể kết nối tới máy chủ local, vui lòng thử lại.";
+                } finally {
+                    inp.disabled = false; btn.disabled = false; inp.focus();
+                    msgs.scrollTop = msgs.scrollHeight;
                 }
-                inp.disabled = false; btn.disabled = false; inp.focus();
-                msgs.scrollTop = msgs.scrollHeight;
             }
         </script>
     </body>

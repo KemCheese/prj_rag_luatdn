@@ -2,6 +2,7 @@
 import sys
 
 from dotenv import load_dotenv
+from openai import APIError
 
 from ragdn.pipeline import RAG
 
@@ -17,11 +18,16 @@ def main():
     rag = RAG.load()
 
     print(f"[2] Đang xử lý câu hỏi: '{question}'...")
-    res = rag.answer(question)
+    try:
+        res = rag.answer(question)
+    except APIError:
+        print("Dịch vụ LLM đang lỗi hoặc chưa sẵn sàng, vui lòng kiểm tra kết nối và thử lại.", file=sys.stderr)
+        raise SystemExit(1) from None
 
     print("\n" + "=" * 50)
     print("CÂU TRẢ LỜI:")
     print("=" * 50)
+    print(res["disclaimer"])
     print(res["answer"])
     print("\n" + "=" * 50)
     print("NGUỒN TRÍCH DẪN:")
