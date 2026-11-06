@@ -1,11 +1,37 @@
 # tests/test_generate_fallback.py
+from concurrent.futures import ThreadPoolExecutor
+from copy import deepcopy
+from pathlib import Path
+import sys
 from types import SimpleNamespace
+from types import MappingProxyType
+from unittest.mock import Mock
+
+ROOT = Path(__file__).resolve().parents[1]
+SRC = ROOT / "src"
+for _p in (str(ROOT), str(SRC)):
+    if _p not in sys.path:
+        sys.path.insert(0, _p)
 
 import httpx
 import pytest
 from openai import APITimeoutError
 
 import ragdn.generate as gen
+import ragdn.pipeline as pipeline_module
+from ragdn.pipeline import RAG
+from ragdn.query_config import QueryConfig
+from ragdn.query_models import (
+    EvidenceRecord,
+    IssueAssessment,
+    IssueRecord,
+    IssueScope,
+    MissingInformation,
+    ProcessingReport,
+    QuestionPlan,
+    SourceSpan,
+)
+from ragdn.query_pipeline import ContextView, QueryResult, ReaderContext, build_mapper_prompt
 
 
 CHUNKS = [
@@ -404,10 +430,381 @@ def test_cited_first_attempt_all_sentences_flawed_never_capitulates_to_refusal(m
     assert len(res["sources"]) == 2
 
 
-if __name__ == "__main__":
-    import sys
-    import pytest
+def test_rag_retrieve_and_answer_share_single_request_local_orchestration(monkeypatch):
+    retrieve_calls = []
 
-    sys.exit(pytest.main([__file__, "-v"]))
+    def _retrieve(q):
+        retrieve_calls.append(q)
+        return {"hits": [0], "max_score": 0.92, "low_confidence": False, "flag": None, "loai_hinh": None}
+
+    dummy = SimpleNamespace(chunks=[dict(CHUNKS[0])], retrieve=_retrieve)
+    rag = RAG(manifest={"documents": []}, retriever=dummy)
+    _script_llm(monkeypatch, ["Theo khoản 1 Điều 4 Luật Doanh nghiệp, bản sao là giấy tờ được sao từ sổ gốc [1]."] * 8)
+
+    ret = rag.retrieve("Bản sao là gì?", mode="legacy")
+    assert ret["hits"] == [0]
+    assert ret["processing"]["mode"] == "legacy"
+    assert len(ret["context_views"]) == 1
+    assert len(ret["context_spans"]) == 1
+
+    retrieve_calls.clear()
+    ans = rag.answer("Bản sao là gì?", mode="legacy")
+    assert retrieve_calls == ["Bản sao là gì?"]
+    assert ans["refused"] is False
+    assert ans["partial"] is False
+    assert ans["partial_reasons"] == []
+    assert ans["processing"]["mode"] == "legacy"
+
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        f1 = pool.submit(rag.answer, "Câu hỏi A?", mode="legacy")
+        f2 = pool.submit(rag.answer, "Câu hỏi B?", variant="A")
+        r1, r2 = f1.result(), f2.result()
+    assert r1["processing"]["trace_id"] != r2["processing"]["trace_id"]
+
+
+def test_context_view_synchronizes_reader_and_validator_while_returning_unmutated_parent_sources(monkeypatch):
+    parent = dict(CHUNKS[0])
+    clause1_text = "Luật Doanh nghiệp | Chương I | Điều 4. Giải thích từ ngữ\n1. Bản sao là giấy tờ được sao từ sổ gốc."
+    start = parent["text"].index(clause1_text)
+    end = start + len(clause1_text)
+    view = ContextView(
+        parent_chunk_id=parent["chunk_id"],
+        citation_index=1,
+        spans=(SourceSpan(start=start, end=end, quote=clause1_text),),
+        text=clause1_text,
+        whole_parent=False,
+    )
+    qres = QueryResult(
+        original_question="Bản sao là gì?",
+        retrieval={"hits": [0], "max_score": 0.95, "low_confidence": False, "flag": "query_pipeline", "loai_hinh": None},
+        sources=(parent,),
+        context_views=(view,),
+        plan=None,
+        evidence=(),
+        processing=ProcessingReport(mode="direct", route_reason="direct_simple", status="not_assessed"),
+        diagnostics={},
+    )
+    # Bản 1 dùng số 20 và Điều 88 chỉ có ở Khoản 5 (ngoài ContextView Khoản 1) -> phải bị bắt lỗi, sửa ở Bản 2
+    bad_first = "Theo khoản 1 Điều 4 Luật Doanh nghiệp, bản sao chiếm 20 phần trăm theo Điều 88 [1]."
+    good_second = "Theo khoản 1 Điều 4 Luật Doanh nghiệp, bản sao là giấy tờ được sao từ sổ gốc [1]."
+    calls = _script_llm(monkeypatch, [bad_first, good_second])
+
+    res = gen.generate_answer("Bản sao là gì?", _make_retriever(), query_result=qres)
+    assert len(calls) == 2
+    assert "20 phần trăm" not in calls[0]["user"]
+    assert res["answer"] == good_second
+    # Nguồn trả về cho người dùng vẫn giữ nguyên văn bản parent gốc chưa bị cắt
+    assert res["sources"][0]["text"] == CHUNKS[0]["text"]
+    assert res["sources"][0]["khoan"] == ["1", "5"]
+
+
+def test_enhanced_mode_gates_reader_to_supported_and_conditional_issues_and_handles_no_supported_issue(monkeypatch):
+    p0 = dict(CHUNKS[0])
+    p1 = dict(CHUNKS[1])
+    plan = QuestionPlan(
+        original_question="Bản sao và tạm ngừng kinh doanh?",
+        facts=[],
+        issues=[
+            IssueRecord(issue_id="i1", title="Khái niệm bản sao", main_query="bản sao là gì", scope=IssueScope()),
+            IssueRecord(issue_id="i2", title="Tạm ngừng kinh doanh", main_query="tạm ngừng kinh doanh", scope=IssueScope()),
+        ],
+    )
+    # Trường hợp 1: không có issue nào supported/conditional -> trả INSUFFICIENT_BASIS, không gọi call_llm
+    no_sup_report = ProcessingReport(
+        mode="enhanced",
+        route_reason="multi_issue_question",
+        status="insufficient",
+        issues=[
+            IssueAssessment(issue_id="i1", status="insufficient"),
+            IssueAssessment(
+                issue_id="i2",
+                status="ambiguous",
+                missing_information=[MissingInformation(description="Thiếu loại hình doanh nghiệp", scope_unresolved=True)],
+            ),
+        ],
+        missing_information=[MissingInformation(description="Thiếu loại hình doanh nghiệp", scope_unresolved=True)],
+        partial_reasons=["evidence_missing", "ambiguous_scope"],
+    )
+    qres_none = QueryResult(
+        original_question="Bản sao và tạm ngừng kinh doanh?",
+        retrieval={"hits": [0, 1], "max_score": 0.85, "low_confidence": False, "flag": "query_pipeline", "loai_hinh": None},
+        sources=(p0, p1),
+        context_views=(),
+        plan=plan,
+        evidence=(),
+        processing=no_sup_report,
+        diagnostics={},
+    )
+    calls = _script_llm(monkeypatch, ["Không được gọi"])
+    res_none = gen.generate_answer("Bản sao và tạm ngừng kinh doanh?", _make_retriever(), query_result=qres_none)
+    assert len(calls) == 0
+    assert gen.INSUFFICIENT_BASIS in res_none["answer"]
+    assert "Thiếu loại hình doanh nghiệp" in res_none["answer"]
+    assert res_none["refused"] is False
+    assert res_none["partial"] is False
+    assert set(res_none["partial_reasons"]) == {"evidence_missing", "ambiguous_scope"}
+
+    # Trường hợp 2: i1 supported (trên p0), i2 insufficient (trên p1) -> reader chỉ nhận p0 và <pham_vi_tra_loi>
+    ev_i1 = EvidenceRecord(
+        evidence_id="e1",
+        issue_id="i1",
+        parent_chunk_id=p0["chunk_id"],
+        doc_id=p0["doc_id"],
+        dieu=p0["dieu"],
+        source_spans=[SourceSpan(start=0, end=len(p0["text"]), quote=p0["text"])],
+    )
+    ev_i2 = EvidenceRecord(
+        evidence_id="e2",
+        issue_id="i2",
+        parent_chunk_id=p1["chunk_id"],
+        doc_id=p1["doc_id"],
+        dieu=p1["dieu"],
+        source_spans=[SourceSpan(start=0, end=len(p1["text"]), quote=p1["text"])],
+    )
+    part_report = ProcessingReport(
+        mode="enhanced",
+        route_reason="multi_issue_question",
+        status="partial",
+        issues=[
+            IssueAssessment(issue_id="i1", status="supported", evidence_ids=["e1"]),
+            IssueAssessment(issue_id="i2", status="insufficient"),
+        ],
+        partial_reasons=["evidence_missing"],
+    )
+    qres_part = QueryResult(
+        original_question="Bản sao và tạm ngừng kinh doanh?",
+        retrieval={"hits": [0, 1], "max_score": 0.85, "low_confidence": False, "flag": "query_pipeline", "loai_hinh": None},
+        sources=(p0, p1),
+        context_views=(),
+        plan=plan,
+        evidence=(ev_i1, ev_i2),
+        processing=part_report,
+        diagnostics={},
+    )
+    calls = _script_llm(monkeypatch, ["Theo khoản 1 Điều 4 Luật Doanh nghiệp, bản sao là giấy tờ được sao từ sổ gốc [1]."])
+    res_part = gen.generate_answer("Bản sao và tạm ngừng kinh doanh?", _make_retriever(), query_result=qres_part)
+    assert len(calls) == 1
+    assert "Điều 206" not in calls[0]["user"]
+    assert "<pham_vi_tra_loi>" in calls[0]["user"]
+    assert res_part["partial"] is True
+    assert res_part["partial_reasons"] == ["evidence_missing"]
+    assert len(res_part["sources"]) == 1 and res_part["sources"][0]["chunk_id"] == p0["chunk_id"]
+
+
+def test_full_generation_and_repair_prompts_checked_against_reader_context_and_logging_is_content_free(monkeypatch, caplog):
+    # 1. Repair context budget exhausted -> bỏ qua gọi LLM lần 2, cứu bản 1 và ghi cảnh báo
+    first_mixed = (
+        "Theo khoản 1 Điều 4 Luật Doanh nghiệp, bản sao là giấy tờ được sao từ sổ gốc [1]. "
+        "Thời hạn giải quyết là 999 ngày làm việc [1]."
+    )
+    calls = _script_llm(monkeypatch, [first_mixed, "Không được gọi lần 2"])
+    # Chọn context_tokens đủ cho lần 1 (~850 từ + reserve 2512) nhưng không đủ cho (user + first + repair)
+    ctx = ReaderContext(context_tokens=3420, token_counter=lambda s: len(s.split()), tokenizer_verified=True)
+    cfg = QueryConfig(context_tokens=3420)
+    with caplog.at_level("WARNING"):
+        res = gen.generate_answer("Bản sao là gì?", _make_retriever(), config=cfg, context=ctx)
+    assert len(calls) == 1
+    assert res["partial"] is True
+    assert "generation_repair_context_exhausted" in res["processing"]["warnings"]
+    assert "999 ngày" not in caplog.text
+
+    # 2. Repair APIError không log nội dung thô từ upstream exception
+    caplog.clear()
+    _script_llm(
+        monkeypatch,
+        [
+            first_mixed,
+            APITimeoutError(request=httpx.Request("POST", "http://secret-internal-host.local/v1/chat?token=TOPSECRET")),
+        ],
+    )
+    with caplog.at_level("WARNING"):
+        res2 = gen.generate_answer("Bản sao là gì?", _make_retriever())
+    assert res2["partial"] is True
+    assert "TOPSECRET" not in caplog.text
+    assert "secret-internal-host" not in caplog.text
+
+
+def _whole_view(parent, index=1):
+    return ContextView(parent["chunk_id"], index,
+                       (SourceSpan(start=0, end=len(parent["text"]), quote=parent["text"]),), parent["text"], True)
+
+
+def test_rag_answer_keeps_filtered_second_parent_views_metadata_and_repair_citations(monkeypatch):
+    parents = deepcopy(CHUNKS)
+    parents[1]["extra"] = MappingProxyType({"nested": ("kept",)})
+    frozen = tuple(MappingProxyType(parent) for parent in parents)
+    evidence = EvidenceRecord(evidence_id="e2", issue_id="i2", parent_chunk_id=parents[1]["chunk_id"],
+                              doc_id=parents[1]["doc_id"], dieu="206", source_spans=list(_whole_view(parents[1]).spans))
+    plan = QuestionPlan(original_question="Khái niệm và thời hạn?", facts=[], issues=[
+        IssueRecord(issue_id="i1", title="Khái niệm", main_query="khái niệm"),
+        IssueRecord(issue_id="i2", title="Thời hạn", main_query="thời hạn"),
+    ])
+    qres = QueryResult(plan.original_question, {"hits": [0, 1], "low_confidence": False}, frozen,
+                       tuple(_whole_view(parent, index) for index, parent in enumerate(parents, 1)), plan, (evidence,),
+                       ProcessingReport(mode="enhanced", route_reason="multi_issue", status="partial", issues=[
+                           IssueAssessment(issue_id="i1", status="insufficient"),
+                           IssueAssessment(issue_id="i2", status="supported", evidence_ids=["e2"]),
+                       ], partial_reasons=["evidence_missing"]), {"variant": "D"})
+    orchestrate = Mock(return_value=qres)
+    monkeypatch.setattr(pipeline_module, "run_query_pipeline", orchestrate)
+    retriever = SimpleNamespace(chunks=parents, candidate_batch=Mock(), retrieve=Mock(side_effect=AssertionError("double retrieval")))
+    ctx = ReaderContext(100000)
+    rag = RAG({"documents": []}, retriever, reader_context=ctx)
+    first = "Theo Điều 4 Luật Doanh nghiệp, bản sao lấy từ sổ gốc [1]."
+    second = "Theo khoản 1 Điều 206 Luật Doanh nghiệp, doanh nghiệp phải thông báo trước 03 ngày làm việc [1]."
+    calls = _script_llm(monkeypatch, [first, second])
+    original_validator = gen.find_issues
+    validated_views = []
+
+    def validate(answer, sources, *args):
+        validated_views.append([(source["chunk_id"], source["text"]) for source in sources])
+        return original_validator(answer, sources, *args)
+
+    monkeypatch.setattr(gen, "find_issues", validate)
+    result = rag.answer(plan.original_question)
+    orchestrate.assert_called_once()
+    retriever.retrieve.assert_not_called()
+    assert len(calls) == 2 and result["answer"] == second
+    assert "Điều 4." not in calls[0]["user"] and "Điều 206." in calls[0]["user"]
+    assert calls[1]["history"][0]["content"] == calls[0]["user"]
+    assert all(sources == [(parents[1]["chunk_id"], parents[1]["text"])] for sources in validated_views)
+    assert result["sources"][0]["extra"] == {"nested": ["kept"]}
+    proc = result["processing"]
+    assert proc["context_views"][0]["parent_chunk_id"] == parents[1]["chunk_id"]
+    assert proc["context_views"][0]["citation_index"] == 1 and len(proc["context_views"]) == 1
+    assert {span["parent_chunk_id"] for span in proc["context_spans"]} == {parents[1]["chunk_id"]}
+    assert proc["issues"][1]["title"] == "Thời hạn"
+    metrics = proc["reader_context"]
+    assert metrics["reader_calls"] == 2 and metrics["context_tokens"] == 100000
+    assert metrics["method"] == "conservative_utf8_bytes"
+    assert metrics["prompt_tokens"]["reader"] == sum(ctx.count(calls[0][key]) for key in ("system", "user"))
+    assert metrics["prompt_tokens"]["repair"] == sum(ctx.count(text) for text in
+        (calls[1]["system"], calls[0]["user"], first, calls[1]["user"]))
+    assert result["diagnostics"] == {"variant": "D"}
+
+
+def test_generation_context_overflow_never_retrieves_or_claims_a_legacy_result(monkeypatch):
+    large = deepcopy(CHUNKS[0])
+    large["text"] = "Nội dung rất dài. " * 5000
+    small = deepcopy(CHUNKS[1])
+    retriever = SimpleNamespace(chunks=[large, small], retrieve=Mock(side_effect=AssertionError("generation must not retrieve")))
+    qres = QueryResult("Thời hạn?", {"hits": [0], "low_confidence": False}, (large,), (_whole_view(large),), None, (),
+                       ProcessingReport(mode="direct", route_reason="single_explicit_lookup"), {})
+    calls = _script_llm(monkeypatch, [])
+    ctx = ReaderContext(4000, token_counter=lambda text: len(text.split()), tokenizer_verified=True)
+    result = gen.generate_answer("Thời hạn?", retriever, query_result=qres, context=ctx, config=QueryConfig(context_tokens=4000))
+    retriever.retrieve.assert_not_called()
+    assert calls == [] and result["processing"]["mode"] == "direct"
+    assert result["processing"]["status"] == "not_assessed" and result["partial"] is False
+    assert result["processing"]["evidence"] == []
+    assert result["processing"]["context_spans"] == [] and result["processing"]["context_views"] == []
+    assert "context_budget_exhausted" in result["processing"]["warnings"]
+    assert result["sources"] == [large] and large["text"] == "Nội dung rất dài. " * 5000
+    assert result["processing"]["reader_context"]["reader_calls"] == 0
+    assert result["answer"] == gen.UNVERIFIED
+
+
+def test_enhanced_mapper_fits_but_complete_reader_prompt_overflows_without_retrieval(monkeypatch):
+    parent = deepcopy(CHUNKS[0])
+    question = "Bản sao?"
+    plan = QuestionPlan(original_question=question, facts=[], issues=[IssueRecord(issue_id="i1", title="Bản sao", main_query="bản sao")])
+    evidence = EvidenceRecord(evidence_id="e1", issue_id="i1", parent_chunk_id=parent["chunk_id"], doc_id=parent["doc_id"],
+                              dieu="4", source_spans=list(_whole_view(parent).spans))
+    qres = QueryResult(question, {"hits": [0], "low_confidence": False}, (parent,), (_whole_view(parent),), plan, (evidence,),
+                       ProcessingReport(mode="enhanced", route_reason="planned", status="supported",
+                                        issues=[IssueAssessment(issue_id="i1", status="supported", evidence_ids=["e1"])]), {})
+    mapper_system, mapper_user = build_mapper_prompt(plan, [{"group_id": "g1", "parent_chunk_id": parent["chunk_id"],
+                                                          "units": [{"unit_id": "u1", "text": parent["text"]}]}])
+    counter = lambda text: len(text.split())
+    limit = counter(mapper_system) + counter(mapper_user) + 2000 + 512
+    ctx = ReaderContext(limit, token_counter=counter, tokenizer_verified=True)
+    cfg = QueryConfig(context_tokens=limit)
+    ctx.check(mapper_system, mapper_user, cfg)
+    retriever = SimpleNamespace(chunks=[parent], retrieve=Mock(side_effect=AssertionError("second retrieval")))
+    calls = _script_llm(monkeypatch, [])
+    result = gen.generate_answer(question, retriever, query_result=qres, context=ctx, config=cfg)
+    retriever.retrieve.assert_not_called()
+    assert calls == [] and result["answer"] == gen.UNVERIFIED
+    proc = result["processing"]
+    assert proc["mode"] == "enhanced" and proc["status"] == "not_assessed"
+    assert proc["route_reason"] == "reader_context_budget_exhausted"
+    assert proc["issues"][0]["status"] == "not_processed" and proc["issues"][0]["evidence_ids"] == []
+    assert proc["context_views"] == [] and proc["context_spans"] == [] and proc["evidence"] == []
+    assert proc["budget"]["not_processed"] == ["i1"]
+    assert proc["reader_context"]["reader_calls"] == 0 and proc["reader_context"]["prompt_tokens"] == {}
+    assert result["sources"] == [parent] and result["partial"] is False
+
+
+def test_unknown_context_fallback_keeps_one_legacy_retrieval_and_not_assessed(monkeypatch):
+    retriever = SimpleNamespace(chunks=deepcopy(CHUNKS),
+                                candidate_batch=Mock(side_effect=AssertionError("must not query without context")),
+                                retrieve=Mock(return_value={"hits": [0], "low_confidence": False}))
+    _script_llm(monkeypatch, ["Theo Điều 4 Luật Doanh nghiệp, bản sao là giấy tờ lấy từ sổ gốc [1]."])
+    result = RAG({"documents": []}, retriever, reader_context=ReaderContext()).answer("Bản sao là gì?")
+    retriever.retrieve.assert_called_once_with("Bản sao là gì?")
+    retriever.candidate_batch.assert_not_called()
+    assert result["processing"]["mode"] == "baseline_fallback"
+    assert result["processing"]["status"] == "not_assessed"
+    assert result["processing"]["reader_context"]["reader_calls"] == 1
+    assert "context_budget_unknown" in result["processing"]["warnings"]
+
+
+def test_partial_view_never_imports_parent_only_notes_or_reference_metadata():
+    parent = deepcopy(CHUNKS[0])
+    parent["refs"].append("999")
+    quote = parent["text"].split("\n5.")[0]
+    view = ContextView(parent["chunk_id"], 1, (SourceSpan(start=0, end=len(quote), quote=quote),), quote, False)
+    selected = gen.build_view_chunk(parent, view)
+    assert selected["sua_doi"] == [] and selected["refs"] == [] and selected["khoan"] == ["1"]
+    assert "76/2025" not in gen.build_context([selected])
+    assert gen.find_issues("Năm 2025, áp dụng Điều 999 [1].", [selected], "Nội dung?")
+    assert parent["sua_doi"] == CHUNKS[0]["sua_doi"] and parent["refs"] == ["88", "999"]
+    whole = gen.build_view_chunk(parent, _whole_view(parent))
+    assert "999" not in whole["refs"] and "88" in whole["refs"]
+
+
+@pytest.mark.parametrize("bad_view", [
+    ContextView("wrong-id", 1, (SourceSpan(start=0, end=1, quote="x"),), "x", False),
+    ContextView(CHUNKS[0]["chunk_id"], 1, (SourceSpan(start=0, end=1, quote="x"),), "x", False),
+])
+def test_invalid_context_identity_or_span_propagates_without_reader(monkeypatch, bad_view):
+    calls = _script_llm(monkeypatch, [])
+    with pytest.raises(ValueError, match="reader_context_view"):
+        gen.generate_answer("Bản sao?", _make_retriever(), retrieval={"hits": [0], "low_confidence": False}, context_views=[bad_view])
+    assert calls == []
+
+
+def test_supported_claim_without_evidence_is_not_sent_to_reader(monkeypatch):
+    parent = deepcopy(CHUNKS[0])
+    qres = QueryResult("Bản sao?", {"hits": [0], "low_confidence": False}, (parent,), (_whole_view(parent),), None, (),
+                       ProcessingReport(mode="enhanced", route_reason="planned", status="supported",
+                                        issues=[IssueAssessment(issue_id="i1", status="supported", evidence_ids=["absent"])]), {})
+    calls = _script_llm(monkeypatch, [])
+    result = gen.generate_answer("Bản sao?", _make_retriever(), query_result=qres)
+    assert calls == [] and gen.INSUFFICIENT_BASIS in result["answer"]
+    assert result["processing"]["status"] == "insufficient"
+    assert result["processing"]["issues"][0]["status"] == "uncertain"
+
+
+def test_generation_pruning_changes_supported_processing_to_partial(monkeypatch):
+    parent = deepcopy(CHUNKS[0])
+    evidence = EvidenceRecord(evidence_id="e1", issue_id="i1", parent_chunk_id=parent["chunk_id"], doc_id=parent["doc_id"],
+                              dieu="4", source_spans=list(_whole_view(parent).spans))
+    qres = QueryResult("Bản sao?", {"hits": [0], "low_confidence": False}, (parent,), (_whole_view(parent),), None, (evidence,),
+                       ProcessingReport(mode="enhanced", route_reason="planned", status="supported",
+                                        issues=[IssueAssessment(issue_id="i1", status="supported", evidence_ids=["e1"])]), {})
+    answer = "Theo Điều 4 Luật Doanh nghiệp, bản sao là giấy tờ lấy từ sổ gốc [1]. Theo Điều 999 phạt 888 triệu [1]."
+    _script_llm(monkeypatch, [answer, answer])
+    result = gen.generate_answer("Bản sao?", _make_retriever(), query_result=qres)
+    assert result["partial"] is True and result["processing"]["status"] == "partial"
+    assert "generation_pruned" in result["partial_reasons"] and "generation_pruned" in result["processing"]["partial_reasons"]
+
+
+def main() -> int:
+    return int(pytest.main([__file__, *sys.argv[1:]]))
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
 
 

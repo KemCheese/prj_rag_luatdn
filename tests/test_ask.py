@@ -1,3 +1,11 @@
+from pathlib import Path
+import sys
+
+ROOT = Path(__file__).resolve().parents[1]
+for path in (ROOT, ROOT / "src"):
+    if str(path) not in sys.path:
+        sys.path.insert(0, str(path))
+
 from types import SimpleNamespace
 from unittest.mock import Mock
 
@@ -69,3 +77,57 @@ def test_cli_missing_question_keeps_usage_error(rag, monkeypatch, capsys):
     assert exc.value.code == 1
     assert "Cách dùng:" in capsys.readouterr().out
     rag.answer.assert_not_called()
+
+
+def test_cli_mode_processing_and_debug_stay_after_sources_and_hide_payloads(rag, monkeypatch, capsys):
+    monkeypatch.setattr(ask.sys, "argv", ["scripts/ask.py", "private-question", "--mode", "adaptive", "--debug-retrieval"])
+    rag.answer.return_value = {"answer": "Câu trả lời.", "disclaimer": DISCLAIMER, "sources": [], "partial": True,
+                               "processing": {"mode": "enhanced", "status": "partial", "budget": {"completion_calls": 2},
+                                              "missing_information": [{"description": "Thiếu Điều lệ"}]},
+                               "diagnostics": {"variant": "D", "prompt_tokens": {"planner": 42},
+                                               "prompt": "private-prompt", "question": "private-question"}}
+    ask.main()
+    output = capsys.readouterr()
+    rag.answer.assert_called_once_with("private-question", mode="adaptive")
+    assert output.out.index("NGUỒN TRÍCH DẪN:") < output.out.index("PHẠM VI TRẢ LỜI:") < output.out.index("CHẨN ĐOÁN TRUY XUẤT:")
+    assert "Thiếu Điều lệ" in output.out and '"completion_calls": 2' in output.out
+    assert "private-question" not in output.out and "private-prompt" not in output.out
+    assert output.err == ""
+
+
+@pytest.mark.parametrize("mode_args", [[], ["--mode", "adaptive"]])
+def test_cli_oversized_adaptive_falls_back_without_truncation(rag, monkeypatch, capsys, mode_args):
+    question = "x" * 2001
+    monkeypatch.setattr(ask.sys, "argv", ["scripts/ask.py", question, *mode_args])
+    rag.answer.return_value = {"answer": "Câu trả lời.", "disclaimer": DISCLAIMER, "sources": []}
+    ask.main()
+    output = capsys.readouterr()
+    rag.answer.assert_called_once_with(question, mode="legacy")
+    assert "vượt 2000" in output.err
+    assert "baseline_fallback" in output.out and "not_assessed" in output.out
+    assert question not in output.out
+
+
+def test_cli_explicit_legacy_accepts_long_question_without_adaptive_warning(rag, monkeypatch, capsys):
+    question = "x" * 2001
+    monkeypatch.setattr(ask.sys, "argv", ["scripts/ask.py", question, "--mode", "legacy"])
+    rag.answer.return_value = {"answer": "Câu trả lời.", "disclaimer": DISCLAIMER, "sources": []}
+    ask.main()
+    assert capsys.readouterr().err == ""
+    rag.answer.assert_called_once_with(question, mode="legacy")
+
+
+def test_cli_test_entrypoint_forwards_cli(monkeypatch):
+    calls = []
+    monkeypatch.setattr(sys, "argv", [__file__, "-q"])
+    monkeypatch.setattr(pytest, "main", lambda args: calls.append(args) or 7)
+    assert main() == 7
+    assert calls == [[__file__, "-q"]]
+
+
+def main() -> int:
+    return int(pytest.main([__file__, *sys.argv[1:]]))
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

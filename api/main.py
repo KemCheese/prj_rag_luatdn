@@ -27,7 +27,7 @@ app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 app.add_middleware(CORSMiddleware, allow_origins=["http://localhost:7860"], allow_methods=["*"], allow_headers=["*"])
 
 class Q(BaseModel):
-    question: str = Field(min_length=3, max_length=500)
+    question: str = Field(min_length=3, max_length=2000)
 
 @app.get("/health")
 def health(request: Request):
@@ -50,11 +50,46 @@ def chat(request: Request, q: Q):
     except APIError as exc:
         log.warning("LLM request failed: type=%s, status=%s", type(exc).__name__, getattr(exc, "status_code", None))
         raise HTTPException(503, "Dịch vụ LLM đang lỗi hoặc chưa sẵn sàng, vui lòng thử lại sau.") from exc
+    partial = bool(r.get("partial", False))
+    partial_reasons = list(r.get("partial_reasons", ["generation_pruned"] if partial else []))
+    default_proc = {
+        "mode": "legacy",
+        "route_reason": "direct_legacy",
+        "status": "not_assessed",
+        "issues": [],
+        "missing_information": [],
+        "warnings": [],
+        "partial_reasons": partial_reasons,
+        "budget": {
+            "completion_calls": 0,
+            "initial_queries": 0,
+            "supplementary_queries": 0,
+            "initial_rerank_pairs": 0,
+            "supplementary_rerank_pairs": 0,
+            "supplementary_rounds": 0,
+            "elapsed_seconds": 0.0,
+            "not_processed": [],
+        },
+        "trace_id": None,
+        "evidence": [],
+        "context_views": [],
+        "context_spans": [],
+    }
+    processing = r.get("processing") or default_proc
+    context_spans = processing.get("context_spans", [])
     return {
-        "answer": r["answer"], "refused": r["refused"], "disclaimer": r.get("disclaimer"),
+        "answer": r["answer"],
+        "refused": r["refused"],
+        "partial": partial,
+        "partial_reasons": partial_reasons,
+        "processing": processing,
+        "disclaimer": r.get("disclaimer"),
         "sources": [{"chunk_id": c["chunk_id"], "ten_vb": c["ten_vb"], "dieu": c["dieu"],
                      "khoan": c["khoan"], "page": c["page"], "hieu_luc": c["hieu_luc"],
-                     "sua_doi": c["sua_doi"], "text": c["text"]} for c in r["sources"]],
+                     "sua_doi": c["sua_doi"], "text": c["text"], "doc_id": c.get("doc_id"),
+                     "evidence_spans": [{"start": span["start"], "end": span["end"], "quote": span["quote"]}
+                                        for span in context_spans if span.get("parent_chunk_id") == c["chunk_id"]]}
+                    for c in r["sources"]],
         "corpus_version": request.app.state.rag.manifest["corpus_version"],
     }
 
@@ -78,6 +113,8 @@ def index():
             .user { background: #2563eb; align-self: flex-end; color: white; }
             .bot { background: #334155; align-self: flex-start; border: 1px solid #475569; width: 100%; max-width: 92%; }
             .disclaimer { margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid #64748b; color: #cbd5e1; font-size: 13px; }
+            .processing-box { margin-top: 12px; padding: 10px; border: 1px solid #64748b; border-radius: 6px; color: #e2e8f0; font-size: 13px; }
+            .processing-box ul { margin: 6px 0 0; padding-left: 20px; }
             
             /* Thẻ trích dẫn bấm được trong câu trả lời */
             .cite-link {
@@ -213,7 +250,7 @@ def index():
                 <div class="msg bot">Xin chào! Tôi có thể hỗ trợ bạn tra cứu các quy định về Luật Doanh nghiệp hiện hành. Hãy đặt câu hỏi cho tôi!</div>
             </div>
             <div class="input-box">
-                <input type="text" id="q" placeholder="Ví dụ: Không đăng ký thay đổi nội dung đăng ký doanh nghiệp đúng hạn bị phạt bao nhiêu tiền?" onkeypress="if(event.key==='Enter') send()">
+                <input type="text" id="q" maxlength="2000" placeholder="Ví dụ: Không đăng ký thay đổi nội dung đăng ký doanh nghiệp đúng hạn bị phạt bao nhiêu tiền?" onkeypress="if(event.key==='Enter') send()">
                 <button id="btn" onclick="send()">Gửi</button>
             </div>
         </div>
@@ -228,6 +265,49 @@ def index():
                     .replace(/>/g, "&gt;")
                     .replace(/"/g, "&quot;")
                     .replace(/'/g, "&#039;");
+            }
+
+            function renderProcessing(data) {
+                const p = data.processing;
+                if (!p || typeof p !== "object") {
+                    return data.partial ? `<div class="processing-box">Câu trả lời mới giải quyết một phần yêu cầu.</div>` : "";
+                }
+                const labels = {
+                    supported: "Có đoạn nguồn đối chiếu cho các vấn đề đã xử lý.",
+                    partial: "Câu trả lời mới giải quyết một phần yêu cầu.",
+                    insufficient: "Chưa đủ căn cứ hoặc thông tin để kết luận.",
+                    not_assessed: "Kết quả chưa được đánh giá đầy đủ theo từng vấn đề.",
+                    conditional: "Chỉ có thể trình bày có điều kiện.",
+                    ambiguous: "Cần làm rõ phạm vi áp dụng.",
+                    uncertain: "Còn nội dung chưa được đối chiếu đầy đủ.",
+                    not_processed: "Chưa xử lý trong giới hạn lượt tra cứu."
+                };
+                let body = escapeHtml(labels[p.status] || "Thông tin về phạm vi trả lời.");
+                const items = [];
+                if (data.partial && p.status !== "partial") items.push("Câu trả lời mới giải quyết một phần yêu cầu.");
+                const reasonLabels = {
+                    generation_pruned: "Một số ý chưa đối chiếu được với nguồn đã được lược bỏ.",
+                    evidence_missing: "Còn vấn đề chưa đủ căn cứ.",
+                    information_missing: "Còn thiếu dữ kiện để áp dụng quy định.",
+                    ambiguous_scope: "Cần làm rõ phạm vi áp dụng.",
+                    budget_exhausted: "Còn nội dung chưa xử lý trong giới hạn lượt tra cứu."
+                };
+                const reasons = Array.isArray(data.partial_reasons) ? data.partial_reasons : p.partial_reasons;
+                if (Array.isArray(reasons)) reasons.forEach(reason => {
+                    if (typeof reason === "string") items.push(escapeHtml(reasonLabels[reason] || reason));
+                });
+                if (Array.isArray(p.issues)) p.issues.forEach(issue => {
+                    if (!issue || typeof issue !== "object") return;
+                    items.push(`${escapeHtml(issue.title || "Vấn đề")}: ${escapeHtml(labels[issue.status] || issue.status || "")}`);
+                });
+                if (Array.isArray(p.missing_information)) p.missing_information.forEach(info => {
+                    if (info && typeof info.description === "string") items.push(`Cần làm rõ: ${escapeHtml(info.description)}`);
+                });
+                if (Array.isArray(p.warnings)) p.warnings.forEach(warning => {
+                    if (typeof warning === "string") items.push(`Lưu ý: ${escapeHtml(warning)}`);
+                });
+                if (items.length) body += `<ul>${items.map(item => `<li>${item}</li>`).join("")}</ul>`;
+                return `<div class="processing-box">${body}</div>`;
             }
 
             function toggleSource(msgId, idx) {
@@ -285,7 +365,7 @@ def index():
                         if (res.status === 429) {
                             message = "Bạn đã gửi quá nhiều yêu cầu, vui lòng chờ rồi thử lại.";
                         } else if (res.status === 422) {
-                            message = "Câu hỏi không hợp lệ, vui lòng nhập từ 3 đến 500 ký tự.";
+                            message = "Câu hỏi không hợp lệ, vui lòng nhập từ 3 đến 2000 ký tự.";
                         } else if (typeof data?.detail === "string" && data.detail.trim()) {
                             message = data.detail;
                         }
@@ -310,13 +390,15 @@ def index():
                         html += `<div class="disclaimer">${escapeHtml(data.disclaimer)}</div>`;
                     }
                     html += `<div>${answerHtml}</div>`;
+                    html += renderProcessing(data);
 
-                    if (data.sources && data.sources.length) {
+                    if (Array.isArray(data.sources) && data.sources.length) {
                         let sourcesHtml = `<div class="sources-container"><div class="sources-title">📚 Nguồn trích dẫn (${data.sources.length}):</div>`;
                         data.sources.forEach((s, i) => {
+                            if (!s || typeof s !== "object") return;
                             const n = i + 1;
-                            const khoanText = (s.khoan && s.khoan.length) ? `<span class="source-khoan">(Khoản ${escapeHtml(s.khoan.join(', '))})</span>` : "";
-                            const pageText = s.page ? `<span class="source-page">— Trang ${s.page}</span>` : "";
+                            const khoanText = (Array.isArray(s.khoan) && s.khoan.length) ? `<span class="source-khoan">(Khoản ${escapeHtml(s.khoan.join(', '))})</span>` : "";
+                            const pageText = s.page ? `<span class="source-page">— Trang ${escapeHtml(String(s.page))}</span>` : "";
                             const repealedText = (s.hieu_luc === false) ? `<div class="source-alert">⚠️ ĐIỀU NÀY ĐÃ BỊ BÃI BỎ</div>` : "";
                             
                             sourcesHtml += `

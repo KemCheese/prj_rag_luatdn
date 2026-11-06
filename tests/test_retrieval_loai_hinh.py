@@ -1,3 +1,11 @@
+from pathlib import Path
+import sys
+
+ROOT = Path(__file__).resolve().parents[1]
+for path in (ROOT, ROOT / "src"):
+    if str(path) not in sys.path:
+        sys.path.insert(0, str(path))
+
 from types import SimpleNamespace
 from unittest.mock import Mock
 
@@ -171,10 +179,23 @@ def test_pipeline_forwards_type_without_changing_existing_fields():
     retriever = _retriever(["tnhh_mtv", "ctcp"], [0.8, 0.9])
     rag = RAG({}, retriever)
 
-    assert rag.retrieve("TNHH MTV có quyền gì?") == {
+    result = rag.retrieve("TNHH MTV có quyền gì?")
+    expected = {
         "hits": [0, 1],
         "max_score": 0.9,
         "low_confidence": False,
         "flag": None,
         "loai_hinh": "tnhh_mtv",
     }
+    assert {key: result[key] for key in expected} == expected
+    assert isinstance(result["hits"], list)
+    assert result["processing"]["status"] == "not_assessed"
+    assert len(result["sources"]) == 2 and len(result["context_spans"]) == 2
+
+
+def main() -> int:
+    return int(pytest.main([__file__, *sys.argv[1:]]))
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

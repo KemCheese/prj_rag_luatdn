@@ -1,7 +1,14 @@
+from pathlib import Path
+import sys
+
+ROOT = Path(__file__).resolve().parents[1]
+for path in (ROOT, ROOT / "src"):
+    if str(path) not in sys.path:
+        sys.path.insert(0, str(path))
+
 import json
 import shutil
 import subprocess
-from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import Mock
 
@@ -96,13 +103,17 @@ def test_chat_keeps_answer_disclaimer_and_sources_separate(client, answer, refus
     response = http.post("/chat", json={"question": "Câu hỏi hợp lệ?"})
 
     assert response.status_code == 200
-    assert response.json() == {
+    body = response.json()
+    assert {key: body[key] for key in ("answer", "refused", "disclaimer", "sources", "corpus_version")} == {
         "answer": answer, "refused": refused, "disclaimer": DISCLAIMER,
-        "sources": [SOURCE], "corpus_version": "test-version",
+        "sources": [{**SOURCE, "doc_id": None, "evidence_spans": []}], "corpus_version": "test-version",
     }
+    assert body["partial"] is False and body["partial_reasons"] == []
+    assert body["processing"]["status"] == "not_assessed"
+    assert body["processing"]["mode"] == "legacy"
 
 
-@pytest.mark.parametrize("question", ["ab", "x" * 501])
+@pytest.mark.parametrize("question", ["ab", "x" * 2001])
 def test_chat_validation_rejects_invalid_lengths_before_inference(client, question):
     http, rag = client
 
@@ -152,7 +163,7 @@ def run_web_chat():
 @pytest.mark.parametrize("case, message", [
     ({"status": 503, "data": {"detail": "Dịch vụ LLM chưa sẵn sàng."}}, "Dịch vụ LLM chưa sẵn sàng."),
     ({"status": 429, "data": {"error": "Rate limit exceeded"}}, "quá nhiều"),
-    ({"status": 422, "data": {"detail": [{"msg": "too short"}]}}, "3 đến 500"),
+    ({"status": 422, "data": {"detail": [{"msg": "too short"}]}}, "3 đến 2000"),
     ({"status": 500, "invalidJson": True}, "không thể xử lý"),
     ({"status": 503, "data": None}, "không thể xử lý"),
     ({"status": 503, "data": {"detail": {"internal": "private"}}}, "không thể xử lý"),
@@ -206,3 +217,64 @@ def test_web_malformed_success_is_not_rendered_as_empty_answer(run_web_chat, dat
 
     assert "không hợp lệ" in result["text"]
     assert result["inputEnabled"] and result["buttonEnabled"]
+
+
+@pytest.mark.parametrize("length", [501, 2000])
+def test_chat_accepts_expanded_question_length_without_truncation(client, length):
+    http, rag = client
+    question = "x" * length
+    assert http.post("/chat", json={"question": question}).status_code == 200
+    rag.answer.assert_called_once_with(question)
+
+
+def test_chat_preserves_processing_partial_and_exact_parent_evidence_spans(client):
+    http, rag = client
+    span = {"parent_chunk_id": SOURCE["chunk_id"], "doc_id": "d", "dieu": "4", "start": 0, "end": 5, "quote": "Nguồn"}
+    processing = {"mode": "enhanced", "status": "partial", "issues": [{"issue_id": "i1", "status": "conditional"}],
+                  "missing_information": [{"description": "Cần xác định Điều lệ"}],
+                  "warnings": [], "context_spans": [span], "partial_reasons": ["information_missing"]}
+    rag.answer.return_value.update(partial=True, partial_reasons=["information_missing"], processing=processing)
+    body = http.post("/chat", json={"question": "Câu hỏi hợp lệ?", "variant": "B", "mode": "legacy"}).json()
+    assert body["processing"] == processing
+    assert body["partial"] is True and body["partial_reasons"] == ["information_missing"]
+    assert body["sources"][0]["text"] == SOURCE["text"]
+    assert body["sources"][0]["evidence_spans"] == [{key: span[key] for key in ("start", "end", "quote")}]
+    rag.answer.assert_called_once_with("Câu hỏi hợp lệ?")
+
+
+def test_web_processing_and_every_source_metadata_value_are_escaped(run_web_chat):
+    payload = '<img src=x onerror="alert(1)">'
+    data = {"answer": "Nội dung [1].", "disclaimer": DISCLAIMER, "partial": True,
+            "processing": {"status": "partial", "issues": [{"issue_id": payload, "title": payload, "status": "conditional"}],
+                           "missing_information": [{"description": payload}], "warnings": [payload]},
+            "sources": [{**SOURCE, "ten_vb": payload, "page": payload, "khoan": [payload]}]}
+    result = run_web_chat(data=data)
+    assert 'class="processing-box"' in result["html"]
+    assert "một phần" in result["html"] and "có điều kiện" in result["html"]
+    assert payload not in result["html"]
+    assert "&lt;img" in result["html"]
+    assert result["inputEnabled"] and result["buttonEnabled"]
+
+
+def test_web_generation_pruning_remains_visible_when_coverage_was_not_assessed(run_web_chat):
+    result = run_web_chat(data={"answer": "Nội dung còn giữ lại.", "partial": True,
+                               "partial_reasons": ["generation_pruned"],
+                               "processing": {"status": "not_assessed", "mode": "baseline_fallback"}, "sources": []})
+    assert "một phần" in result["html"] and "lược bỏ" in result["html"]
+    assert "chưa được đánh giá" in result["html"]
+
+
+def test_api_test_entrypoint_forwards_cli(monkeypatch):
+    calls = []
+    monkeypatch.setattr(sys, "argv", [__file__, "-q", "-p", "no:cacheprovider"])
+    monkeypatch.setattr(pytest, "main", lambda args: calls.append(args) or 7)
+    assert main() == 7
+    assert calls == [[__file__, "-q", "-p", "no:cacheprovider"]]
+
+
+def main() -> int:
+    return int(pytest.main([__file__, *sys.argv[1:]]))
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

@@ -1,4 +1,12 @@
+from pathlib import Path
+import sys
 from types import SimpleNamespace
+
+ROOT = Path(__file__).resolve().parents[1]
+SRC = ROOT / "src"
+for _p in (str(ROOT), str(SRC)):
+    if _p not in sys.path:
+        sys.path.insert(0, _p)
 
 import pytest
 
@@ -6,6 +14,16 @@ import ragdn.generate as gen
 from ragdn.loai_hinh import LABELS
 from ragdn.manifest import load_manifest
 from ragdn.config import MANIFEST_PATH
+from ragdn.query_models import (
+    EvidenceRecord,
+    IssueAssessment,
+    IssueRecord,
+    IssueScope,
+    ProcessingReport,
+    QuestionPlan,
+    SourceSpan,
+)
+from ragdn.query_pipeline import QueryResult
 
 
 def _source(dieu="59", loai_hinh="tnhh_2tv", *, doc_id="luat_dn_2020", notes=None):
@@ -279,3 +297,63 @@ def test_salvage_drops_only_wrong_type_sentences():
     text, count = gen.salvage(answer, sources, q_lh="tnhh_2tv")
     assert count == 1
     assert text == "Nội dung Điều 59 [1]."
+
+
+def test_multi_issue_distinct_company_types_do_not_impose_whole_question_company_type(monkeypatch):
+    s_tnhh = {**_source("59", "tnhh_2tv"), "chunk_id": "luat_dn_2020:d59:p0"}
+    s_ctcp = {**_source("148", "ctcp"), "chunk_id": "luat_dn_2020:d148:p0"}
+    plan = QuestionPlan(
+        original_question="So sánh TNHH 2TV và CTCP?",
+        facts=[],
+        issues=[
+            IssueRecord(issue_id="i1", title="Quy định TNHH 2TV", main_query="tnhh 2tv", scope=IssueScope(company_types=["tnhh_2tv"])),
+            IssueRecord(issue_id="i2", title="Quy định CTCP", main_query="ctcp", scope=IssueScope(company_types=["ctcp"])),
+        ],
+    )
+    ev1 = EvidenceRecord(
+        evidence_id="e1",
+        issue_id="i1",
+        parent_chunk_id=s_tnhh["chunk_id"],
+        doc_id=s_tnhh["doc_id"],
+        dieu=s_tnhh["dieu"],
+        source_spans=[SourceSpan(start=0, end=len(s_tnhh["text"]), quote=s_tnhh["text"])],
+    )
+    ev2 = EvidenceRecord(
+        evidence_id="e2",
+        issue_id="i2",
+        parent_chunk_id=s_ctcp["chunk_id"],
+        doc_id=s_ctcp["doc_id"],
+        dieu=s_ctcp["dieu"],
+        source_spans=[SourceSpan(start=0, end=len(s_ctcp["text"]), quote=s_ctcp["text"])],
+    )
+    qres = QueryResult(
+        original_question="So sánh TNHH 2TV và CTCP?",
+        retrieval={"hits": [0, 1], "max_score": 0.9, "low_confidence": False, "flag": "query_pipeline", "loai_hinh": "tnhh_2tv"},
+        sources=(s_tnhh, s_ctcp),
+        context_views=(),
+        plan=plan,
+        evidence=(ev1, ev2),
+        processing=ProcessingReport(
+            mode="enhanced",
+            route_reason="multi_issue_question",
+            status="supported",
+            issues=[
+                IssueAssessment(issue_id="i1", status="supported", evidence_ids=["e1"]),
+                IssueAssessment(issue_id="i2", status="supported", evidence_ids=["e2"]),
+            ],
+        ),
+        diagnostics={},
+    )
+    ans_both = "Theo Điều 59 Luật Doanh nghiệp, nội dung quy định [1].\nTheo Điều 148 Luật Doanh nghiệp, nội dung quy định [2]."
+    monkeypatch.setattr(gen, "call_llm", lambda system, user, **kw: ans_both)
+    res = gen.generate_answer("So sánh TNHH 2TV và CTCP?", _retriever([s_tnhh, s_ctcp]), query_result=qres)
+    assert res["partial"] is False
+    assert "Điều 59" in res["answer"] and "Điều 148" in res["answer"]
+
+
+def main() -> int:
+    return int(pytest.main([__file__, *sys.argv[1:]]))
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
