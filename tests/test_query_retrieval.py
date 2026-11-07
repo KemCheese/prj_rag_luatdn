@@ -7,6 +7,7 @@ sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "src"))
 
 from copy import deepcopy
+import logging
 import re
 from types import SimpleNamespace
 from unittest.mock import Mock
@@ -27,7 +28,7 @@ class Tokenizer:
         self.specials = specials
 
     def __call__(self, text, pair=None, *, add_special_tokens=False,
-                 truncation=False, return_offsets_mapping=False):
+                 truncation=False, return_offsets_mapping=False, verbose=True):
         assert truncation is False
         spans = [(match.start(), match.end()) for match in re.finditer(r"\S+", text)]
         ids = list(range(len(spans)))
@@ -200,6 +201,47 @@ def test_long_parent_end_exact_offsets_and_overlapping_windows():
         assert view.text == parent["text"][view.start:view.end]
         assert view.token_count <= 384
     assert all(left.end > right.start for left, right in zip(result, result[1:]))
+
+
+def test_only_full_offset_scans_suppress_length_warning_without_truncation(caplog):
+    class RecordingTokenizer(Tokenizer):
+        def __init__(self):
+            super().__init__()
+            self.calls = []
+
+        def __call__(self, text, pair=None, **kwargs):
+            self.calls.append(dict(kwargs))
+            result = super().__call__(text, pair, **kwargs)
+            if len(result["input_ids"]) > 512 and kwargs.get("verbose", True):
+                logging.getLogger("offset_scan_test").warning("sequence longer than 512")
+            return result
+
+    tokenizer = RecordingTokenizer()
+    text = " ".join(f"token{index}" for index in range(569))
+    original = chunk(0, text=text)
+    measured = encoded(tokenizer, text, offsets=True)
+    assert len(measured["input_ids"]) == 569
+    assert measured["offset_mapping"][-1][1] == len(text)
+    assert tokenizer.calls[-1] == {"add_special_tokens": False, "truncation": False,
+                                  "return_offsets_mapping": True, "verbose": False}
+    windows = build_source_windows(original, tokenizer)
+    assert windows[0].start == 0 and windows[-1].end == len(text)
+    assert all(window.text == text[window.start:window.end] and window.token_count <= 384
+               for window in windows)
+    assert all(left.end > right.start for left, right in zip(windows, windows[1:]))
+    assert len(encoded(tokenizer, prepare_query(tokenizer, text))["input_ids"]) == 96
+    assert original["text"] == text and not caplog.records
+
+    instance = retriever([original])
+    instance.rerank_pool(pool_candidates([batch(instance, query=text)]), tokenizer=tokenizer)
+    sent = instance.reranker.predict.call_args.args[0]
+    assert sent and all(pair_token_count(tokenizer, *pair) <= 512 for pair in sent)
+    assert not caplog.records
+    pair_token_count(tokenizer, text, "extra")
+    assert "verbose" not in tokenizer.calls[-1] and caplog.records
+    caplog.clear()
+    encoded(tokenizer, text)
+    assert "verbose" not in tokenizer.calls[-1] and caplog.records
 
 
 def test_query_budget_uses_offsets_without_mutating_original():

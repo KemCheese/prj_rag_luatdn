@@ -45,7 +45,7 @@ class FakeTokenizer:
         self.specials = specials
 
     def __call__(self, text, pair=None, *, add_special_tokens=False,
-                 truncation=False, return_offsets_mapping=False):
+                 truncation=False, return_offsets_mapping=False, verbose=True):
         assert truncation is False
         spans = [(match.start(), match.end()) for match in re.finditer(r"\S+", text)]
         ids = list(range(len(spans)))

@@ -49,6 +49,9 @@ def encoded(tokenizer, text: str, *, offsets: bool = False, pair: str | None = N
     kwargs = {"add_special_tokens": pair is not None, "truncation": False}
     if offsets:
         kwargs["return_offsets_mapping"] = True
+        # Full-text offset scans intentionally precede window/query limits;
+        # they do not send this untruncated sequence to the model.
+        kwargs["verbose"] = False
     try:
         result = tokenizer(text, pair, **kwargs) if pair is not None else tokenizer(text, **kwargs)
     except (TypeError, NotImplementedError) as error:

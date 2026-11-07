@@ -10,6 +10,7 @@ for _path in (ROOT, ROOT / "src"):
         sys.path.insert(0, str(_path))
 
 from copy import deepcopy
+from io import StringIO
 import json
 import subprocess
 from types import SimpleNamespace
@@ -47,7 +48,7 @@ class _DummyTokenizer:
         self.specials = specials
 
     def __call__(self, text, pair=None, *, add_special_tokens=False,
-                 truncation=False, return_offsets_mapping=False):
+                 truncation=False, return_offsets_mapping=False, verbose=True):
         import re as _re
         assert truncation is False
         spans = [(m.start(), m.end()) for m in _re.finditer(r"\S+", text)]
@@ -293,7 +294,7 @@ def test_run_directory_collision_and_protected_file_refusal(tmp_path):
         create_run_directory(ROOT / "eval" / "golden_check.jsonl")
 
 
-def test_compare_abcd_shares_budgets_reuses_planner_and_keeps_legacy_vs_draft_metrics_distinct():
+def test_compare_abcd_shares_budgets_reuses_planner_and_keeps_legacy_vs_draft_metrics_distinct(capsys):
     chunks, manifest, retriever, smoke, golden, question = _synthetic_fixture()
     planner_calls = []
 
@@ -366,6 +367,15 @@ def test_compare_abcd_shares_budgets_reuses_planner_and_keeps_legacy_vs_draft_me
     serialized = json.dumps(report, ensure_ascii=False)
     assert question not in serialized
     assert "65% vốn điều lệ" not in serialized
+    output = capsys.readouterr()
+    progress = [line for line in output.err.splitlines() if line.startswith("[progress]")]
+    assert output.out == "" and len(progress) == 8
+    for index, branch in enumerate(("A", "B", "C", "D")):
+        before, after = progress[index * 2:index * 2 + 2]
+        assert f"suite=compare mode={'legacy' if branch == 'A' else 'adaptive'} variant={branch}" in before
+        assert 'case_id="Q015" 1/1 execution=started' in before
+        assert f"variant={branch}" in after and "execution=completed" in after
+    assert question not in output.err and "65% vốn điều lệ" not in output.err
 
 
 def test_smoke_and_golden_execution_with_answer_operational_metrics_and_privacy():
@@ -546,7 +556,11 @@ def test_explicit_main_suite_writes_exclusive_report_and_loads_cache_only(monkey
     assert result["status"] == "completed"
     assert result["evaluation"]["legacy_article_retrieval"]["buckets"]["ALL"]["status"] == "assessed"
     assert {name: runner.os.environ.get(name) for name in before} == before
-    assert json.loads(capsys.readouterr().out)["status"] == "completed"
+    output = capsys.readouterr()
+    assert json.loads(output.out)["status"] == "completed"
+    progress = [line for line in output.err.splitlines() if line.startswith("[progress]")]
+    assert [line.split("stage=", 1)[1].split()[0] for line in progress] == [
+        "preflight", "preflight", "model_load", "model_load", "case", "case"]
 
 
 def test_expected_service_failure_keeps_content_free_failure_report(monkeypatch, tmp_path, capsys):
@@ -560,7 +574,11 @@ def test_expected_service_failure_keeps_content_free_failure_report(monkeypatch,
     assert rc == 1
     report = json.loads((output / "failed/report.json").read_text(encoding="utf-8"))
     assert report["status"] == "failed" and report["error_type"] == "OSError"
-    assert "private question" not in json.dumps(report) + capsys.readouterr().out
+    output = capsys.readouterr()
+    assert "private question" not in json.dumps(report) + output.out + output.err
+    case_progress = [line for line in output.err.splitlines() if "stage=case" in line]
+    assert len(case_progress) == 2
+    assert "execution=started" in case_progress[0] and "execution=stopped" in case_progress[1]
 
 
 @pytest.mark.parametrize("method,expected", [("conservative_utf8_bytes", 120), ("verified_reader_tokenizer", None)])
@@ -608,6 +626,65 @@ def test_legacy_rerank_pairs_count_actual_predict_calls_without_mutating_shared_
     again = execute_golden_suite(golden[:1], chunks, retriever, mode="legacy",
                                 context_tokens=32768, manifest=manifest)
     assert again["case_observations"]["Q015"]["rerank_pairs"] == 2
+
+
+@pytest.mark.parametrize("suite", ["smoke", "golden"])
+def test_case_progress_is_flushed_to_stderr_and_finishes_after_answer(monkeypatch, capsys, suite):
+    chunks, manifest, retriever, smoke, golden, question = _synthetic_fixture()
+    second = deepcopy(smoke["cases"][0])
+    second["case_id"] = "S002"
+    smoke["cases"].append(second)
+
+    class ProgressStream(StringIO):
+        def __init__(self):
+            super().__init__()
+            self.flushed = []
+        def flush(self):
+            self.flushed.append(self.getvalue())
+
+    stream = ProgressStream()
+    monkeypatch.setattr(runner.sys, "stderr", stream)
+    answers = []
+    def answer(_question, *, query_result, mode):
+        # The case cannot be reported completed while generation is pending.
+        assert "execution=started" in stream.getvalue().splitlines()[-1]
+        answers.append(_question)
+        return {"answer": "private_answer", "sources": list(query_result.sources)}
+
+    options = dict(mode="legacy", with_answer=True, context_tokens=32768,
+                   manifest=manifest, answer_runner=answer)
+    if suite == "smoke":
+        report = execute_smoke_suite(smoke, chunks, retriever, golden_rows=golden, **options)
+        expected_ids = ["Q015", "S002"]
+    else:
+        report = execute_golden_suite(golden, chunks, retriever, **options)
+        expected_ids = ["Q015", "R001"]
+    lines = stream.getvalue().splitlines()
+    assert len(lines) == 4 and len(answers) == 2
+    assert len(report["case_observations"]) == 2
+    for index, case_id in enumerate(expected_ids, 1):
+        before, after = lines[(index - 1) * 2:index * 2]
+        assert f'suite={suite} mode=legacy case_id="{case_id}" {index}/2' in before
+        assert "execution=started elapsed=0.0s" in before
+        assert "execution=completed elapsed=" in after
+        assert all(any(snapshot.endswith(line + "\n") for snapshot in stream.flushed)
+                   for line in (before, after))
+    assert question not in stream.getvalue() and "65% vốn điều lệ" not in stream.getvalue()
+    assert "private_answer" not in stream.getvalue() and "passed" not in stream.getvalue()
+    assert capsys.readouterr().out == ""
+
+
+def test_case_progress_escapes_control_characters_and_does_not_swallow_errors(capsys):
+    with pytest.raises(OSError):
+        with runner._progress_step(stage="case", suite="smoke", mode="adaptive",
+                                   case_id="Q015\nspoof", index=1, total=24):
+            raise OSError("private upstream body")
+    output = capsys.readouterr()
+    assert output.out == ""
+    assert len(output.err.splitlines()) == 2
+    assert 'case_id="Q015\\nspoof" 1/24' in output.err
+    assert "execution=stopped" in output.err and "execution=completed" not in output.err
+    assert "private upstream body" not in output.err
 
 
 def main():

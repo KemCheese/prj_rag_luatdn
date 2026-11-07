@@ -736,6 +736,31 @@ def _run_branch_case(
     )
 
 
+@contextmanager
+def _progress_step(*, stage: str, suite: str, mode: str | None = None,
+                   variant: str | None = None, case_id: str | None = None,
+                   index: int | None = None, total: int | None = None):
+    """Flush execution progress to stderr; completion is not a quality verdict."""
+    fields = [f"stage={stage}", f"suite={suite}"]
+    if mode is not None:
+        fields.append(f"mode={mode}")
+    if variant is not None:
+        fields.append(f"variant={variant}")
+    if case_id is not None:
+        fields.extend((f"case_id={json.dumps(case_id, ensure_ascii=True)}", f"{index}/{total}"))
+    prefix = "[progress] " + " ".join(fields)
+    started = time.monotonic()
+    print(f"{prefix} execution=started elapsed=0.0s", file=sys.stderr, flush=True)
+    completed = False
+    try:
+        yield
+        completed = True
+    finally:
+        state = "completed" if completed else "stopped"
+        elapsed = max(0.0, time.monotonic() - started)
+        print(f"{prefix} execution={state} elapsed={elapsed:.1f}s", file=sys.stderr, flush=True)
+
+
 def execute_smoke_suite(
     smoke_artifact: Mapping[str, Any],
     chunks: Sequence[Mapping[str, Any]],
@@ -763,33 +788,36 @@ def execute_smoke_suite(
 
     observations: dict[str, dict[str, Any]] = {}
     retrieved_by_id: dict[str, list[str]] = {}
-    for case in smoke_artifact.get("cases", []):
-        cid = str(case["case_id"])
-        question = str(case["question"])
-        captured: dict[str, Any] = {}
-        started = time.monotonic()
-        qres = _run_branch_case(
-            question, retriever, branch=branch, config=base_cfg, context_tokens=eff_ctx,
-            manifest=manifest, client=client, model=model, pipeline_runner=pipeline_runner,
-            execution_metrics=captured,
-        )
-        captured.setdefault("stage_seconds", {})["retrieval_total"] = time.monotonic() - started
-        ans_payload: Mapping[str, Any] | None = None
-        if with_answer:
+    cases = smoke_artifact.get("cases", [])
+    for case_index, case in enumerate(cases, 1):
+        with _progress_step(stage="case", suite="smoke", mode=mode,
+                            case_id=str(case["case_id"]), index=case_index, total=len(cases)):
+            cid = str(case["case_id"])
+            question = str(case["question"])
+            captured: dict[str, Any] = {}
             started = time.monotonic()
-            eff_ans_runner = answer_runner or _default_answer_runner(
-                retriever, manifest, config=base_cfg, context_tokens=eff_ctx,
+            qres = _run_branch_case(
+                question, retriever, branch=branch, config=base_cfg, context_tokens=eff_ctx,
+                manifest=manifest, client=client, model=model, pipeline_runner=pipeline_runner,
+                execution_metrics=captured,
             )
-            ans_payload = eff_ans_runner(question, query_result=qres, mode=mode)
-            captured["stage_seconds"]["answer_total"] = time.monotonic() - started
-        judgments = (answer_judgments_by_id or {}).get(cid)
-        obs = observation_from_query_result(
-            qres, chunks, is_legacy_branch=(branch == "A"),
-            answer_payload=ans_payload, answer_judgments=judgments,
-            execution_metrics=captured,
-        )
-        observations[cid] = obs
-        retrieved_by_id[cid] = obs["retrieved_articles"]
+            captured.setdefault("stage_seconds", {})["retrieval_total"] = time.monotonic() - started
+            ans_payload: Mapping[str, Any] | None = None
+            if with_answer:
+                started = time.monotonic()
+                eff_ans_runner = answer_runner or _default_answer_runner(
+                    retriever, manifest, config=base_cfg, context_tokens=eff_ctx,
+                )
+                ans_payload = eff_ans_runner(question, query_result=qres, mode=mode)
+                captured["stage_seconds"]["answer_total"] = time.monotonic() - started
+            judgments = (answer_judgments_by_id or {}).get(cid)
+            obs = observation_from_query_result(
+                qres, chunks, is_legacy_branch=(branch == "A"),
+                answer_payload=ans_payload, answer_judgments=judgments,
+                execution_metrics=captured,
+            )
+            observations[cid] = obs
+            retrieved_by_id[cid] = obs["retrieved_articles"]
 
     suite_eval = evaluate_suite(smoke_artifact, observations, chunks, k=k)
     approved_subset, label_mismatches = _approved_smoke_labels(smoke_artifact, golden_rows, retrieved_by_id)
@@ -842,31 +870,33 @@ def execute_golden_suite(
 
     observations: dict[str, dict[str, Any]] = {}
     retrieved_by_id: dict[str, list[str]] = {}
-    for row in golden_rows:
-        cid = str(row["id"])
-        question = str(row["question"])
-        captured: dict[str, Any] = {}
-        started = time.monotonic()
-        qres = _run_branch_case(
-            question, retriever, branch=branch, config=base_cfg, context_tokens=eff_ctx,
-            manifest=manifest, client=client, model=model, pipeline_runner=pipeline_runner,
-            execution_metrics=captured,
-        )
-        captured.setdefault("stage_seconds", {})["retrieval_total"] = time.monotonic() - started
-        ans_payload: Mapping[str, Any] | None = None
-        if with_answer:
+    for case_index, row in enumerate(golden_rows, 1):
+        with _progress_step(stage="case", suite="golden", mode=mode,
+                            case_id=str(row["id"]), index=case_index, total=len(golden_rows)):
+            cid = str(row["id"])
+            question = str(row["question"])
+            captured: dict[str, Any] = {}
             started = time.monotonic()
-            eff_ans_runner = answer_runner or _default_answer_runner(
-                retriever, manifest, config=base_cfg, context_tokens=eff_ctx,
+            qres = _run_branch_case(
+                question, retriever, branch=branch, config=base_cfg, context_tokens=eff_ctx,
+                manifest=manifest, client=client, model=model, pipeline_runner=pipeline_runner,
+                execution_metrics=captured,
             )
-            ans_payload = eff_ans_runner(question, query_result=qres, mode=mode)
-            captured["stage_seconds"]["answer_total"] = time.monotonic() - started
-        obs = observation_from_query_result(
-            qres, chunks, is_legacy_branch=(branch == "A"), answer_payload=ans_payload,
-            execution_metrics=captured,
-        )
-        observations[cid] = obs
-        retrieved_by_id[cid] = obs["retrieved_articles"]
+            captured.setdefault("stage_seconds", {})["retrieval_total"] = time.monotonic() - started
+            ans_payload: Mapping[str, Any] | None = None
+            if with_answer:
+                started = time.monotonic()
+                eff_ans_runner = answer_runner or _default_answer_runner(
+                    retriever, manifest, config=base_cfg, context_tokens=eff_ctx,
+                )
+                ans_payload = eff_ans_runner(question, query_result=qres, mode=mode)
+                captured["stage_seconds"]["answer_total"] = time.monotonic() - started
+            obs = observation_from_query_result(
+                qres, chunks, is_legacy_branch=(branch == "A"), answer_payload=ans_payload,
+                execution_metrics=captured,
+            )
+            observations[cid] = obs
+            retrieved_by_id[cid] = obs["retrieved_articles"]
 
     return {
         "suite": "golden",
@@ -912,40 +942,44 @@ def execute_compare_suite(
         observations: dict[str, dict[str, Any]] = {}
         retrieved_by_id: dict[str, list[str]] = {}
         branch_judgments = (answer_judgments_by_branch or {}).get(branch) or {}
-        for case in smoke_artifact.get("cases", []):
-            cid = str(case["case_id"])
-            question = str(case["question"])
-            cached = recorded_plans.get(cid) if (branch == "D" and reuse_planner) else None
-            if branch == "D" and cached is not None:
-                reused_in_d.append(cid)
-            captured: dict[str, Any] = {}
-            started = time.monotonic()
-            qres = _run_branch_case(
-                question, retriever, branch=branch, config=shared_cfg, context_tokens=eff_ctx,
-                manifest=manifest, client=client, model=model, cached_plan=cached,
-                pipeline_runner=pipeline_runner,
-                execution_metrics=captured,
-            )
-            captured.setdefault("stage_seconds", {})["retrieval_total"] = time.monotonic() - started
-            if branch == "C" and getattr(qres, "plan", None) is not None:
-                recorded_plans[cid] = qres.plan
-            ans_payload: Mapping[str, Any] | None = None
-            if with_answer:
+        cases = smoke_artifact.get("cases", [])
+        for case_index, case in enumerate(cases, 1):
+            with _progress_step(stage="case", suite="compare", variant=branch,
+                                mode="legacy" if branch == "A" else "adaptive",
+                                case_id=str(case["case_id"]), index=case_index, total=len(cases)):
+                cid = str(case["case_id"])
+                question = str(case["question"])
+                cached = recorded_plans.get(cid) if (branch == "D" and reuse_planner) else None
+                if branch == "D" and cached is not None:
+                    reused_in_d.append(cid)
+                captured: dict[str, Any] = {}
                 started = time.monotonic()
-                eff_ans_runner = answer_runner or _default_answer_runner(
-                    retriever, manifest, config=shared_cfg, context_tokens=eff_ctx,
+                qres = _run_branch_case(
+                    question, retriever, branch=branch, config=shared_cfg, context_tokens=eff_ctx,
+                    manifest=manifest, client=client, model=model, cached_plan=cached,
+                    pipeline_runner=pipeline_runner,
+                    execution_metrics=captured,
                 )
-                ans_payload = eff_ans_runner(
-                    question, query_result=qres, mode="legacy" if branch == "A" else "adaptive",
+                captured.setdefault("stage_seconds", {})["retrieval_total"] = time.monotonic() - started
+                if branch == "C" and getattr(qres, "plan", None) is not None:
+                    recorded_plans[cid] = qres.plan
+                ans_payload: Mapping[str, Any] | None = None
+                if with_answer:
+                    started = time.monotonic()
+                    eff_ans_runner = answer_runner or _default_answer_runner(
+                        retriever, manifest, config=shared_cfg, context_tokens=eff_ctx,
+                    )
+                    ans_payload = eff_ans_runner(
+                        question, query_result=qres, mode="legacy" if branch == "A" else "adaptive",
+                    )
+                    captured["stage_seconds"]["answer_total"] = time.monotonic() - started
+                obs = observation_from_query_result(
+                    qres, chunks, is_legacy_branch=(branch == "A"),
+                    answer_payload=ans_payload, answer_judgments=branch_judgments.get(cid),
+                    execution_metrics=captured,
                 )
-                captured["stage_seconds"]["answer_total"] = time.monotonic() - started
-            obs = observation_from_query_result(
-                qres, chunks, is_legacy_branch=(branch == "A"),
-                answer_payload=ans_payload, answer_judgments=branch_judgments.get(cid),
-                execution_metrics=captured,
-            )
-            observations[cid] = obs
-            retrieved_by_id[cid] = obs["retrieved_articles"]
+                observations[cid] = obs
+                retrieved_by_id[cid] = obs["retrieved_articles"]
 
         approved_subset, label_mismatches = _approved_smoke_labels(smoke_artifact, golden_rows, retrieved_by_id)
         branches_report[branch] = {
@@ -1036,12 +1070,13 @@ def _default_answer_runner(
 
 
 def _execute_requested_suite(args, preflight, *, environ, rag_factory, pipeline_runner, answer_runner):
-    if rag_factory is None:
-        with _cache_only_model_loading():
-            from ragdn.pipeline import RAG
-            rag_instance = RAG.load()
-    else:
-        rag_instance = rag_factory()
+    with _progress_step(stage="model_load", suite=args.suite, mode=args.mode):
+        if rag_factory is None:
+            with _cache_only_model_loading():
+                from ragdn.pipeline import RAG
+                rag_instance = RAG.load()
+        else:
+            rag_instance = rag_factory()
     chunks = list(rag_instance.retriever.chunks)
     if (len(chunks) != preflight["corpus"]["chunk_count"] or
             corpus_semantic_hash(chunks) != preflight["corpus"]["corpus_sha256"]):
@@ -1123,13 +1158,14 @@ def main(
             return 2
 
     require_ctx = True if args.suite is None else (args.suite == "compare" or args.mode == "adaptive")
-    preflight = run_preflight(
-        environ=environ,
-        spec_finder=spec_finder,
-        ps_fetcher=ps_fetcher,
-        probe_ollama=not args.no_ollama_ps,
-        require_context=require_ctx,
-    )
+    with _progress_step(stage="preflight", suite=args.suite or "preflight", mode=args.mode):
+        preflight = run_preflight(
+            environ=environ,
+            spec_finder=spec_finder,
+            ps_fetcher=ps_fetcher,
+            probe_ollama=not args.no_ollama_ps,
+            require_context=require_ctx,
+        )
     if args.preflight and args.suite is None:
         print(json.dumps(preflight, ensure_ascii=False))
         return 0 if preflight["status"] == "ready" else 1
