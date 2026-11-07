@@ -125,6 +125,16 @@ def test_cli_test_entrypoint_forwards_cli(monkeypatch):
     assert calls == [[__file__, "-q"]]
 
 
+def test_cli_technical_failure_labels_sources_as_related_not_verified(rag, capsys):
+    rag.answer.return_value = {"answer": "Lượt xử lý chưa hoàn tất.", "disclaimer": DISCLAIMER,
+                               "sources": [{"chunk_id": "s1", "ten_vb": "Luật Doanh nghiệp", "dieu": "58"}],
+                               "processing": {"mode": "baseline_fallback", "status": "not_assessed", "source_use": "related_not_verified"}}
+    ask.main()
+    output = capsys.readouterr().out
+    assert "NGUỒN LIÊN QUAN (CHƯA XÁC MINH LÀ CĂN CỨ TRẢ LỜI):" in output
+    assert "NGUỒN TRÍCH DẪN:" not in output
+
+
 def main() -> int:
     return int(pytest.main([__file__, *sys.argv[1:]]))
 

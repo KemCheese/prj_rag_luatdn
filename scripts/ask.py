@@ -47,7 +47,8 @@ def main():
     print(res["disclaimer"])
     print(res["answer"])
     print("\n" + "=" * 50)
-    print("NGUỒN TRÍCH DẪN:")
+    print("NGUỒN LIÊN QUAN (CHƯA XÁC MINH LÀ CĂN CỨ TRẢ LỜI):" if
+          (res.get("processing") or {}).get("source_use") == "related_not_verified" else "NGUỒN TRÍCH DẪN:")
     for s in res["sources"]:
         print(f"- {s['chunk_id']} | {s['ten_vb']}, Điều {s['dieu']}")
 

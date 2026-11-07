@@ -9,6 +9,7 @@ from collections import OrderedDict, deque
 from collections.abc import Callable, Mapping
 from copy import deepcopy
 from dataclasses import dataclass, replace
+from datetime import date
 import json
 import re
 import time
@@ -37,6 +38,7 @@ __all__ = [
     "ReaderContext",
     "article_id",
     "build_mapper_prompt",
+    "build_lookup_excerpt",
     "run_query_pipeline",
 ]
 
@@ -300,6 +302,90 @@ def _check_config(config: QueryConfig) -> None:
         raise QueryPipelineError("query_config_exceeds_supported_caps")
 
 
+def _lookup_source_error(references, sources, documents) -> str | None:
+    """Check all matching loaded parent parts, not semantic relevance or legal truth."""
+    pairs = {(reference.doc_id, article_id(reference.dieu)) for reference in references}
+    grouped = {pair: [] for pair in pairs}
+    for parent in sources:
+        pair = (parent.get("doc_id"), article_id(parent.get("dieu", "")))
+        if pair not in grouped:
+            return "lookup_document_article_mismatch"
+        grouped[pair].append(parent)
+        meta = documents.get(parent["doc_id"], {})
+        names = {fold(meta[key]) for key in ("ten_vb", "ten_ngan") if meta.get(key)}
+        if parent.get("ten_vb") and names and fold(parent["ten_vb"]) not in names:
+            return "lookup_document_metadata_mismatch"
+        if any(parent.get(key) is not None and meta.get(key) is not None and parent[key] != meta[key]
+               for key in ("vai_tro", "sua_doi_cho", "ngay_hieu_luc")):
+            return "lookup_document_metadata_mismatch"
+        role = meta.get("vai_tro", parent.get("vai_tro"))
+        target = meta.get("sua_doi_cho", parent.get("sua_doi_cho"))
+        if role not in {"chinh", "sua_doi"} or (role == "chinh" and target):
+            return "lookup_document_role_invalid"
+        if role == "sua_doi" and (not target or target == parent["doc_id"]
+                                  or target not in documents or documents[target].get("vai_tro", "chinh") != "chinh"):
+            return "lookup_amendment_target_unverified"
+        if parent.get("hieu_luc") is not True or meta.get("trang_thai", parent.get("trang_thai", "con_hieu_luc")) != "con_hieu_luc":
+            return "lookup_source_not_current"
+        effective = meta.get("ngay_hieu_luc", parent.get("ngay_hieu_luc"))
+        if effective:
+            try:
+                if date.fromisoformat(effective) > date.today():
+                    return "lookup_effectivity_unverified"
+            except ValueError:
+                return "lookup_effectivity_unverified"
+        if not _substantive(parent.get("text", "")):
+            return "lookup_source_not_substantive"
+        header = re.search(r"(?:^|\|)\s*(?:điều|dieu)\s+(\d+(?:[a-zđ])?)\b", article(parent["text"].splitlines()[0]))
+        if header and header.group(1) != article_id(parent["dieu"]):
+            return "lookup_document_article_mismatch"
+    for (doc_id, dieu), parts in grouped.items():
+        if not parts:
+            return "lookup_parent_parts_missing"
+        ordinals = [re.fullmatch(re.escape(str(doc_id)) + r":d" + re.escape(str(parent["dieu"])) + r":p(\d+)", parent["chunk_id"])
+                    for parent in parts]
+        if any(ordinals) and (not all(ordinals) or sorted(int(match.group(1)) for match in ordinals if match) != list(range(len(parts)))):
+            return "lookup_parent_parts_incomplete"
+        for reference in references:
+            if (reference.doc_id, article_id(reference.dieu)) != (doc_id, dieu):
+                continue
+            clause_texts = []
+            if reference.khoan is not None:
+                for parent in parts:
+                    body = article(parent["text"])
+                    markers = list(re.finditer(r"(?m)^\s*(\d+(?:[a-zđ])?)\.\s+", body))
+                    clause_texts.extend(body[marker.start():markers[index + 1].start() if index + 1 < len(markers) else len(body)]
+                                        for index, marker in enumerate(markers) if marker.group(1) == article_id(reference.khoan))
+                if len(clause_texts) != 1:
+                    return "lookup_clause_unverified"
+            else:
+                clause_texts = [article(parent["text"]) for parent in parts]
+            if reference.diem is not None and sum(len(re.findall(r"(?m)^\s*" + re.escape(article_id(reference.diem)) + r"\)\s+", text))
+                                                   for text in clause_texts) != 1:
+                return "lookup_point_unverified"
+    return None
+
+
+def build_lookup_excerpt(sources, views) -> str:
+    """Format verified full source spans verbatim; this is not an LLM answer."""
+    if not sources or len(sources) != len(views):
+        raise QueryPipelineError("lookup_excerpt_span_mismatch")
+    seen = set()
+    blocks = ["Trích nguyên văn các phần nội dung được yêu cầu trong dữ liệu đã nạp. "
+              "Đây không phải kết luận về việc áp dụng pháp luật."]
+    for index, (parent, view) in enumerate(zip(sources, views), 1):
+        identifier, text = parent["chunk_id"], parent["text"]
+        if (identifier in seen or view.parent_chunk_id != identifier or view.citation_index != index
+                or not view.whole_parent or len(view.spans) != 1
+                or view.spans[0].start != 0 or view.spans[0].end != len(text)
+                or view.spans[0].quote != text or view.text != text):
+            raise QueryPipelineError("lookup_excerpt_span_mismatch")
+        seen.add(identifier)
+        fence = "`" * max(3, max((len(match.group()) + 1 for match in re.finditer(r"`+", text)), default=0))
+        blocks.append(f"[{index}] {parent.get('ten_vb') or parent['doc_id']}, Điều {parent['dieu']}\n{fence}text\n{text}\n{fence}")
+    return "\n\n".join(blocks)
+
+
 def run_query_pipeline(
     question: str, retriever, *, config: QueryConfig | None = None,
     context: ReaderContext | None = None, manifest=None, client=None, model: str | None = None,
@@ -314,12 +400,16 @@ def run_query_pipeline(
     if variant not in {"B", "C", "D"}:
         raise ValueError("unknown internal query variant")
     config = config or QueryConfig()
+    # Older RAG callers use an empty mapping for an empty document catalog.
+    if isinstance(manifest, Mapping) and not manifest:
+        manifest = []
     budget = RequestBudget(config=config, started_at=clock())
     context = context or ReaderContext(config.context_tokens)
     parents = {parent["chunk_id"]: parent for parent in retriever.chunks}
     if len(parents) != len(retriever.chunks):
         raise ValueError("parent chunk IDs must be unique")
     legacy = legacy_result
+    related_indices: list[int] = []
     trace_id = uuid.uuid4().hex
     diagnostics: dict[str, Any] = {
         "trace_id": trace_id, "variant": variant, "context_tokens": context.context_tokens,
@@ -329,11 +419,18 @@ def run_query_pipeline(
     def fallback(reason: str, *, mode: str = "baseline_fallback") -> QueryResult:
         nonlocal legacy
         if legacy is None:
-            legacy = retriever.retrieve(question)
+            if reason == "stage_deadline_exhausted" or clock() - budget.started_at >= config.stage_timeout:
+                # No fresh embedding/rerank/reader work after a failed deadline.
+                legacy = {"hits": related_indices[:min(config.max_active_parents, config.max_evidence_groups)],
+                          "max_score": 0.0, "low_confidence": not related_indices,
+                          "flag": "processing_failure", "loai_hinh": None}
+                diagnostics["fallback_source_basis"] = "already_nominated_parents"
+            else:
+                legacy = retriever.retrieve(question)
         selected = [retriever.chunks[index] for index in legacy["hits"] if retriever.chunks[index].get("text")]
         sources = tuple(_freeze(deepcopy(parent)) for parent in selected)
         views = tuple(ContextView(parent["chunk_id"], index, (SourceSpan(start=0, end=len(parent["text"]), quote=parent["text"]),),
-                                  parent["text"], True) for index, parent in enumerate(selected, 1))
+                                  parent["text"], True) for index, parent in enumerate(selected, 1)) if mode == "legacy" else ()
         diagnostics["stage_seconds"] = dict(budget.stage_seconds)
         report = ProcessingReport(mode=mode, route_reason=reason, status="not_assessed",
                                   warnings=[] if mode == "legacy" else [reason],
@@ -347,62 +444,55 @@ def run_query_pipeline(
         budget.check_stage(now=clock())
         if not question.strip() or len(question) > 2000:
             raise QueryPipelineError("question_outside_adaptive_limit")
+        references = resolve_article_references(question, manifest=manifest)
+        decision = route_question(question, references=references, max_issues=config.max_issues)
+        docs_meta = document_metadata(manifest)
+        if variant == "D" and decision.mode == "direct":
+            budget.record_query(now=clock())  # One exact article lookup, not a semantic/model query.
+            pairs = {(ref.doc_id, article_id(ref.dieu)) for ref in references}
+            related_indices = [index for index, parent in enumerate(retriever.chunks)
+                               if (parent["doc_id"], article_id(parent["dieu"])) in pairs]
+            direct_parents = [retriever.chunks[index] for index in related_indices]
+            limit = min(config.max_active_parents, config.max_evidence_groups, 12)
+            reason = _lookup_source_error(references, direct_parents, docs_meta)
+            if len(direct_parents) > limit:
+                reason = "lookup_source_budget_exhausted"
+            sources = tuple(_freeze(deepcopy(parent)) for parent in direct_parents[:limit])
+            views = tuple(ContextView(parent["chunk_id"], index,
+                                      (SourceSpan(start=0, end=len(parent["text"]), quote=parent["text"]),), parent["text"], True)
+                          for index, parent in enumerate(sources, 1) if parent.get("text"))
+            if reason is None:
+                excerpt = build_lookup_excerpt(sources, views)
+                try:
+                    diagnostics["context_estimates"] = {"lookup_excerpt": context.check("", excerpt, config)}
+                except QueryPipelineError as error:
+                    reason = error.reason
+            budget.check_stage(now=clock())
+            complete = reason is None
+            if not complete:
+                views = ()
+            diagnostics.update(lookup_pairs=sorted(pairs), lookup_source_basis="all_matching_loaded_parent_parts",
+                               lookup_required_parent_count=len(direct_parents),
+                               lookup_excluded_parent_ids=[parent["chunk_id"] for parent in direct_parents[limit:]],
+                               direct_delivery="verbatim_source_excerpt" if complete else "unprocessed_lookup",
+                               selected_source_ids=[source["chunk_id"] for source in sources],
+                               related_only=not complete, stage_seconds=dict(budget.stage_seconds))
+            diagnostics["seen_spans"] = {view.parent_chunk_id: [(span.start, span.end) for span in view.spans] for view in views}
+            budget_reason = reason in {"lookup_source_budget_exhausted", "context_budget_unknown", "context_budget_exhausted"}
+            issue_status = "not_processed" if budget_reason else "uncertain"
+            issues = [] if complete else [IssueAssessment(issue_id=f"lookup{index}", status=issue_status, reasons=[reason])
+                                           for index, _ in enumerate(references, 1)]
+            if budget_reason:
+                budget.not_processed.extend(issue.issue_id for issue in issues)
+            report = ProcessingReport(mode="direct", route_reason=decision.route_reason if complete else reason,
+                       status="not_assessed", issues=issues, warnings=[] if complete else [reason],
+                       partial_reasons=["budget_exhausted"] if budget_reason else [],
+                       budget=budget.snapshot(now=clock()), trace_id=trace_id)
+            retrieval = {"hits": related_indices[:limit], "max_score": 0.0, "low_confidence": not sources,
+                         "flag": "structured_direct" if complete else "unprocessed_lookup", "loai_hinh": None}
+            return QueryResult(question, _freeze(retrieval), sources, views, None, (), report, _freeze(diagnostics), complete)
         if context.context_tokens is None:
             raise QueryPipelineError("context_budget_unknown")
-        references = resolve_article_references(question, manifest=manifest)
-        decision = route_question(question, references=references)
-        docs_meta = document_metadata(manifest)
-        # A direct lookup skips planning only if every requested parent part is current, substantive and fits.
-        direct_parents = []
-        if variant == "D" and decision.mode == "direct" and len(references) == 1:
-            ref = references[0]
-            pairs = {(ref.doc_id, article_id(ref.dieu))}
-            direct_parents = [parent for parent in retriever.chunks if (parent["doc_id"], article_id(parent["dieu"])) in pairs]
-            direct_valid = bool(direct_parents) and len(direct_parents) <= min(config.max_active_parents, 12, config.max_evidence_groups)
-            for parent in direct_parents:
-                meta = docs_meta.get(parent["doc_id"], {})
-                role = meta.get("vai_tro", parent.get("vai_tro"))
-                status_meta = meta.get("trang_thai", parent.get("trang_thai", "con_hieu_luc"))
-                if (parent.get("hieu_luc") is not True or status_meta != "con_hieu_luc"
-                        or role not in {"chinh", "sua_doi"} or not _substantive(parent.get("text", ""))):
-                    direct_valid = False
-                    diagnostics["warnings"].append("direct_requires_validation")
-                    break
-            if direct_valid and ref.khoan is not None:
-                if not any(re.search(r"(?m)^\s*" + re.escape(article_id(ref.khoan)) + r"\.\s", article_id(p["text"])) for p in direct_parents):
-                    direct_valid = False
-                    diagnostics["warnings"].append("direct_requires_validation")
-            if direct_valid and ref.diem is not None:
-                if not any(re.search(r"(?m)^\s*" + re.escape(article_id(ref.diem)) + r"\)\s", article_id(p["text"])) for p in direct_parents):
-                    direct_valid = False
-                    diagnostics["warnings"].append("direct_requires_validation")
-            if direct_valid:
-                direct_user = json.dumps({"question": question, "sources": direct_parents}, ensure_ascii=False)
-                try:
-                    direct_used = context.check("Return the complete requested lookup from these sources.", direct_user, config)
-                except QueryPipelineError as error:
-                    if error.reason != "context_budget_exhausted":
-                        raise
-                    direct_valid = False
-            if direct_valid:
-                from ragdn.source_windows import SourceUnit, SourceWindow, WindowGroup
-                groups = []
-                for parent in direct_parents:
-                    text, identifier = parent["text"], parent["chunk_id"]
-                    unit = SourceUnit(identifier + ":whole", 0, len(text), text)
-                    window = SourceWindow(identifier + "@whole", identifier, 0, len(text), text, 0)
-                    groups.append(SuppliedGroup(WindowGroup(identifier + ":whole", identifier, (unit,), (window.window_id,)), (window,), ("i1",)))
-                budget.record_query(now=clock())
-                sources, views = _final_views(groups, parents)
-                diagnostics["prompt_tokens"]["direct"] = direct_used
-                diagnostics["stage_seconds"] = dict(budget.stage_seconds)
-                diagnostics["selected_source_ids"] = [s["chunk_id"] for s in sources]
-                diagnostics["seen_spans"] = {view.parent_chunk_id: [(span.start, span.end) for span in view.spans] for view in views}
-                report = ProcessingReport(mode="direct", route_reason=decision.route_reason, status="not_assessed",
-                                          budget=budget.snapshot(now=clock()), trace_id=trace_id)
-                retrieval = {"hits": [retriever.chunks.index(parent) for parent in direct_parents], "max_score": 0.0,
-                             "low_confidence": False, "flag": "structured_direct", "loai_hinh": None}
-                return QueryResult(question, _freeze(retrieval), sources, views, None, (), report, _freeze(diagnostics), True)
         if variant == "B":
             plan = _synthetic_plan(question, references)
         elif cached_plan is not None:
@@ -422,6 +512,7 @@ def run_query_pipeline(
         original_batch = retriever.candidate_batch(question, query_id="q0", issue_id=first_issue_id,
                            original_question=question, references=references, per_channel=config.candidates_per_channel,
                            per_query=config.parents_per_query)
+        related_indices = list(dict.fromkeys(candidate.chunk_index for candidate in original_batch.candidates))
 
         def fanout(batch, owners):
             return [replace(batch, issue_id=owner, candidates=tuple(replace(candidate, issue_id=owner)
@@ -459,6 +550,7 @@ def run_query_pipeline(
                             per_query=config.parents_per_query, **type_kwargs(query.scope, selected_facts))
                 batches.extend(fanout(batch, query.issue_ids))
         pool = pool_candidates(batches, max_parents=config.max_active_parents)
+        related_indices = [parent.chunk_index for parent in pool.parents]
         if pool.excluded_parent_ids:
             diagnostics["warnings"].append("active_parent_budget_exhausted")
 

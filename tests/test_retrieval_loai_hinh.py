@@ -190,7 +190,7 @@ def test_pipeline_forwards_type_without_changing_existing_fields():
     assert {key: result[key] for key in expected} == expected
     assert isinstance(result["hits"], list)
     assert result["processing"]["status"] == "not_assessed"
-    assert len(result["sources"]) == 2 and len(result["context_spans"]) == 2
+    assert len(result["sources"]) == 2 and result["context_spans"] == []
 
 
 def main() -> int:

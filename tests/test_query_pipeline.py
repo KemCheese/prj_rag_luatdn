@@ -177,7 +177,7 @@ def test_reader_context_validation_unknown_and_oversize_prompt_fallback():
     assert oversize_res.processing.route_reason == "context_budget_exhausted"
 
 
-def test_direct_whole_article_fastpath_and_oversize_or_unvalidated_enhancement():
+def test_direct_whole_article_fastpath_and_truthful_oversize_or_unverified_lookup():
     c0 = make_chunk(0, dieu="58", text="1. Hội đồng thành viên gồm tất cả thành viên công ty là cá nhân.")
     c1 = make_chunk(1, dieu="58", text="2. Cuộc họp Hội đồng thành viên được triệu tập theo yêu cầu.")
     ret = make_retriever([c0, c1])
@@ -195,7 +195,7 @@ def test_direct_whole_article_fastpath_and_oversize_or_unvalidated_enhancement()
 
     tight_ctx = ReaderContext(
         context_tokens=2600,
-        token_counter=lambda s: 100 if "Return the complete requested lookup" in s else 10,
+        token_counter=lambda s: 100 if "Trích nguyên văn" in s else 10,
         tokenizer_verified=True,
     )
     client = FakeClient([
@@ -210,9 +210,10 @@ def test_direct_whole_article_fastpath_and_oversize_or_unvalidated_enhancement()
     ])
     enhanced = run_query_pipeline(q, ret, context=tight_ctx, manifest=MANIFEST, client=client)
     assert enhanced.direct_complete is False
-    assert enhanced.processing.mode == ProcessingMode.ENHANCED
-    assert enhanced.processing.route_reason == "direct_scope_exceeds_context"
-    assert enhanced.processing.budget.completion_calls == 2
+    assert enhanced.processing.mode == ProcessingMode.DIRECT
+    assert enhanced.processing.route_reason == "context_budget_exhausted"
+    assert enhanced.processing.budget.completion_calls == 0
+    assert client.calls == []
 
     repealed_ret = make_retriever([make_chunk(0, dieu="58", hieu_luc=False)])
     client_rep = FakeClient([
@@ -222,8 +223,9 @@ def test_direct_whole_article_fastpath_and_oversize_or_unvalidated_enhancement()
     ])
     rep_res = run_query_pipeline(q, repealed_ret, context=ctx, manifest=MANIFEST, client=client_rep)
     assert rep_res.direct_complete is False
-    assert rep_res.processing.mode == ProcessingMode.ENHANCED
-    assert "direct_requires_validation" in rep_res.processing.warnings
+    assert rep_res.processing.mode == ProcessingMode.DIRECT
+    assert "lookup_source_not_current" in rep_res.processing.warnings
+    assert client_rep.calls == []
 
 
 def test_initial_and_supplementary_accounting_and_accepted_issue_preservation():
@@ -454,7 +456,7 @@ def test_mapper_or_recheck_failure_discards_coverage_and_reuses_legacy_once():
     deadline_res = run_query_pipeline(q, ret, context=ctx, manifest=MANIFEST, clock=lambda: next(ticks, 601.0))
     assert deadline_res.processing.mode == ProcessingMode.BASELINE_FALLBACK
     assert deadline_res.processing.route_reason == "stage_deadline_exhausted"
-    ret.retrieve.assert_called_once_with(q)
+    ret.retrieve.assert_not_called()
 
     broken_ctx = ReaderContext(context_tokens=32768, token_counter=lambda s: 1 / 0, tokenizer_verified=True)
     with pytest.raises(ZeroDivisionError):

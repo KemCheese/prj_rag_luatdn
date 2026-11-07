@@ -73,8 +73,12 @@ class PartialReason(StrEnum):
 
 class FactProposal(Contract):
     fact_id: str = Field(min_length=1)
-    quote: str = Field(min_length=1)
-    subject: str | None = None
+    quote: str = Field(min_length=1, description="Exact unique contiguous substring of the question, not article contents or a paraphrase.")
+    subject: str | None = Field(
+        default=None,
+        description="Actual person or organization named literally inside this fact quote; null if absent. "
+                    "Articles and document titles are not actors. Never extend the quote to invent a subject.",
+    )
     relation: str | None = None
     is_unknown: bool = False
 
@@ -91,9 +95,24 @@ class FactRecord(FactProposal):
 
 
 class IssueScope(Contract):
-    subjects: list[str] = Field(default_factory=list)
-    company_types: list[str] = Field(default_factory=list)
-    doc_ids: list[str] = Field(default_factory=list)
+    subjects: list[str] = Field(
+        default_factory=list,
+        description="Literal actor names grounded in this issue's facts, never articles or document titles. "
+                    "Use [] when no actual actor is known, never null.",
+    )
+    company_types: list[str] = Field(
+        default_factory=list,
+        description="Explicit fact-backed codes only: tnhh_2tv (TNHH hai/2 or nhieu thanh vien, TNHH 2TV); "
+                    "tnhh_mtv (TNHH mot/1 thanh vien, TNHH MTV); ctcp (cong ty co phan); "
+                    "dnnn (doanh nghiep nha nuoc); dntn (doanh nghiep tu nhan); "
+                    "hop_danh (cong ty hop danh); nhom_cty (nhom cong ty/tap doan kinh te). "
+                    "Unknown: [], never null.",
+    )
+    doc_ids: list[str] = Field(
+        default_factory=list,
+        description="Canonical document IDs only when supplied or known from the input. "
+                    "Do not invent an ID namespace from a document title. Unknown: [], never null.",
+    )
     time_quote: str | None = None
 
 
@@ -114,7 +133,11 @@ class PlannerOutput(Contract):
     facts: list[FactProposal]
     issues: list[PlannerIssue] = Field(min_length=1)
     reference_quotes: list[str] = Field(default_factory=list)
-    unprocessed_parts: list[str] = Field(default_factory=list)
+    unprocessed_parts: list[str] = Field(
+        default_factory=list,
+        description="Exact unique question substrings describing requested tasks actually omitted from issues. "
+                    "Use [] if all tasks are represented; not stray words, document titles or already handled references. Never null.",
+    )
 
 
 class NotProcessedIssue(Contract):

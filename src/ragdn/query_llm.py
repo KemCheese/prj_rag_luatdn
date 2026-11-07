@@ -45,7 +45,10 @@ def structured_completion(
         "max_tokens": config.output_tokens,
         "temperature": llm.LLM_TEMPERATURE,
         "top_p": llm.LLM_TOP_P,
-        "response_format": {"type": "json_object"},
+        "response_format": {
+            "type": "json_schema",
+            "json_schema": {"name": schema.__name__, "schema": schema.model_json_schema()},
+        },
     }
     if llm.LLM_SEED:
         kwargs["seed"] = int(llm.LLM_SEED)

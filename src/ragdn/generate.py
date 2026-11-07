@@ -16,7 +16,7 @@ from ragdn.loai_hinh import LABELS, is_conflict
 from ragdn.manifest import load_manifest
 from ragdn.query_config import QueryConfig
 from ragdn.query_models import BudgetSnapshot, ProcessingReport, QueryPipelineError, SourceSpan
-from ragdn.query_pipeline import ContextView, QueryResult, ReaderContext
+from ragdn.query_pipeline import ContextView, QueryResult, ReaderContext, _lookup_source_error, build_lookup_excerpt
 
 log = logging.getLogger(__name__)
 
@@ -25,6 +25,11 @@ UNVERIFIED = "Tôi chưa thể trả lời chắc chắn. Vui lòng xem các đo
 INSUFFICIENT_BASIS = (
     "Chưa đủ căn cứ pháp lý hoặc thông tin xác thực trong các đoạn nguồn đã đối chiếu "
     "để kết luận cho câu hỏi này."
+)
+PROCESSING_FAILURE = (
+    "Hệ thống chưa hoàn tất lượt xử lý nên chưa thể kết luận cho yêu cầu này; "
+    "điều đó không có nghĩa là các văn bản đã nạp không có quy định. "
+    "Các nguồn bên dưới chỉ là nguồn liên quan để tham khảo, chưa phải câu trả lời đã được đối chiếu."
 )
 PRUNED_NOTE = "_(Một số ý chưa đối chiếu được với nguồn đã được lược bỏ.)_"
 DISCLAIMER = (
@@ -584,6 +589,44 @@ def _prepare_enhanced_selection(
     return is_assessed_enhanced and not sel_parents, sel_parents, sel_views, q_lh, scope_block
 
 
+def _execution_failure(sources, processing, context) -> dict:
+    """An execution failure is not a conclusion that the corpus lacks a rule."""
+    proc = serialize_processing(processing, evidence=(), context_views=(), sources=sources)
+    proc["status"] = "not_assessed"
+    proc["source_use"] = "related_not_verified"
+    proc["reader_context"] = {"context_tokens": context.context_tokens, "method": context.method,
+                              "prompt_tokens": {}, "reader_calls": 0}
+    return _result(PROCESSING_FAILURE, sources, partial=False,
+                   partial_reasons=list(proc.get("partial_reasons", [])), processing=proc)
+
+
+def _verified_lookup_answer(question, result, config, context, manifest) -> dict:
+    from ragdn.article_references import resolve_article_references
+    from ragdn.evidence import document_metadata
+    from ragdn.query_analysis import route_question
+
+    sources = [copy_source(parent) for parent in result.sources]
+    context = context or ReaderContext(result.diagnostics.get("context_tokens"))
+    proc = serialize_processing(result.processing, evidence=(), context_views=result.context_views, sources=sources)
+    references = resolve_article_references(question, manifest=manifest)
+    decision = route_question(question, references=references, max_issues=config.max_issues)
+    reason = ("lookup_excerpt_identity_mismatch" if result.original_question != question or decision.mode != "direct"
+              else _lookup_source_error(references, sources, document_metadata(manifest)))
+    try:
+        if reason:
+            raise QueryPipelineError(reason)
+        excerpt = build_lookup_excerpt(sources, result.context_views)
+        context.check("", excerpt, config)
+    except QueryPipelineError as error:
+        proc.update(route_reason=error.reason, warnings=list(dict.fromkeys([*proc.get("warnings", []), error.reason])))
+        return _execution_failure(sources, proc, context)
+    proc["direct_lookup"] = {"complete": True, "delivery": "verbatim_source_excerpt",
+                             "scope_basis": "all_matching_loaded_parent_parts"}
+    proc["reader_context"] = {"context_tokens": context.context_tokens, "method": context.method,
+                              "prompt_tokens": {}, "reader_calls": 0}
+    return _result(excerpt, sources, processing=proc)
+
+
 def generate_answer(
     q: str,
     retriever,
@@ -595,12 +638,17 @@ def generate_answer(
     context: ReaderContext | None = None,
     manifest: Mapping[str, Any] | None = None,
 ) -> dict:
-    _ = manifest
     qres = query_result or (retrieval.get("query_result") if isinstance(retrieval, Mapping) else None)
     cfg = config or QueryConfig()
     ctx = context if context is not None else (ReaderContext(config.context_tokens) if config is not None else None)
 
     if qres is not None:
+        if str(qres.processing.mode) == "direct" and qres.direct_complete:
+            return _verified_lookup_answer(q, qres, cfg, ctx, manifest)
+        if str(qres.processing.mode) == "baseline_fallback" or (
+                str(qres.processing.mode) == "direct" and qres.retrieval.get("flag") == "unprocessed_lookup"):
+            return _execution_failure([copy_source(parent) for parent in qres.sources], qres.processing,
+                                      ctx or ReaderContext(qres.diagnostics.get("context_tokens")))
         r = dict(qres.retrieval)
         no_supported, sel_parents, sel_views, q_lh, scope_block = _prepare_enhanced_selection(qres)
         assessed = str(qres.processing.mode) == "enhanced" and str(qres.processing.status) != "not_assessed"
@@ -644,6 +692,10 @@ def generate_answer(
         proc_raw = r.get("processing") if isinstance(r, Mapping) else None
         base_partial = bool(r.get("partial", False)) if isinstance(r, Mapping) else False
         base_reasons = list(r.get("partial_reasons", [])) if isinstance(r, Mapping) else []
+        if isinstance(proc_raw, Mapping) and proc_raw.get("mode") == "baseline_fallback":
+            related = [copy_source(parent) for parent in r["sources"]] if "sources" in r else [
+                copy_source(retriever.chunks[index]) for index in r.get("hits", [])]
+            return _execution_failure(related, proc_raw, ctx or ReaderContext())
         if r.get("low_confidence"):
             return _result(REFUSAL, [], partial=False, partial_reasons=base_reasons, processing=serialize_processing(proc_raw))
         if isinstance(r, Mapping) and "sources" in r:

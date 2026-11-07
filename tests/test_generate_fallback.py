@@ -739,13 +739,14 @@ def test_unknown_context_fallback_keeps_one_legacy_retrieval_and_not_assessed(mo
     retriever = SimpleNamespace(chunks=deepcopy(CHUNKS),
                                 candidate_batch=Mock(side_effect=AssertionError("must not query without context")),
                                 retrieve=Mock(return_value={"hits": [0], "low_confidence": False}))
-    _script_llm(monkeypatch, ["Theo Điều 4 Luật Doanh nghiệp, bản sao là giấy tờ lấy từ sổ gốc [1]."])
+    calls = _script_llm(monkeypatch, [])
     result = RAG({"documents": []}, retriever, reader_context=ReaderContext()).answer("Bản sao là gì?")
     retriever.retrieve.assert_called_once_with("Bản sao là gì?")
     retriever.candidate_batch.assert_not_called()
     assert result["processing"]["mode"] == "baseline_fallback"
     assert result["processing"]["status"] == "not_assessed"
-    assert result["processing"]["reader_context"]["reader_calls"] == 1
+    assert calls == [] and result["answer"] == gen.PROCESSING_FAILURE and result["refused"] is False
+    assert result["processing"]["reader_context"]["reader_calls"] == 0
     assert "context_budget_unknown" in result["processing"]["warnings"]
 
 
